@@ -15,8 +15,8 @@ public class IHM extends Application {
     @Override
     public void start(Stage primaryStage) {
         BorderPane root = new BorderPane();
-        Scene scene = new Scene(root, 300, 300);
-        Frog frog = new Frog(20, 20);
+        Scene scene = new Scene(root, 400, 400);
+        Frog frog = new Frog(20, 20, scene);
 
         EventHandler<KeyEvent> keyListener = e -> {
             if(e.getCode()== KeyCode.UP){
