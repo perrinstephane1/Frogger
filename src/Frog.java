@@ -1,62 +1,48 @@
 import javafx.animation.TranslateTransition;
-import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
-public class Frog extends Application {
-    private double abscisse;
-    private double ordonnee;
+public class Frog{
+    private double X;
+    private double Y;
+    private Circle c;
 
-    public static void main(String[] args) {
-        launch(args);
+    public Frog(double X, double Y) {
+        this.X = X;
+        this.Y = Y;
+        this.c = new Circle(this.X, this.Y, 20);
+        this.c.setFill(Color.RED);
     }
-    @Override
-    public void start(Stage primaryStage) {
-        BorderPane root = new BorderPane();
-        Scene scene = new Scene(root, 300, 300);
 
-        Circle c = new Circle(150, 150, 20);
-        c.setFill(Color.RED);
+    public Circle getC() {
+        return c;
+    }
 
-        TranslateTransition trans_up = new TranslateTransition(Duration.seconds(0.001), c);
+    public void up() {
+        TranslateTransition trans_up = new TranslateTransition(Duration.seconds(0.001), this.getC());
         trans_up.setByY(-10f);
-        TranslateTransition trans_down = new TranslateTransition(Duration.seconds(0.001), c);
-        trans_down.setByY(10f);
-        TranslateTransition trans_R = new TranslateTransition(Duration.seconds(0.001), c);
-        trans_R.setByX(10f);
-        TranslateTransition trans_L = new TranslateTransition(Duration.seconds(0.001), c);
-        trans_L.setByX(-10f);
-
-        EventHandler<KeyEvent> keyListener = new
-                EventHandler<KeyEvent>(){
-                    @Override
-                    public void handle(KeyEvent e) {
-                        if(e.getCode()== KeyCode.UP){
-                            trans_up.play();
-                        }
-                        if(e.getCode()==KeyCode.DOWN){
-                            trans_down.play();
-                        }
-                        if(e.getCode()==KeyCode.RIGHT){
-                            trans_R.play();
-                        }
-                        if(e.getCode()==KeyCode.LEFT){
-                            trans_L.play();
-                        }
-                    }
-                };
-
-        scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
-        root.getChildren().add(c);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        trans_up.play();
     }
+
+    public void down() {
+        TranslateTransition trans_up = new TranslateTransition(Duration.seconds(0.001), this.getC());
+        trans_up.setByY(10f);
+        trans_up.play();
+    }
+
+    public void left() {
+        TranslateTransition trans_up = new TranslateTransition(Duration.seconds(0.001), this.getC());
+        trans_up.setByX(-10f);
+        trans_up.play();
+    }
+
+    public void right() {
+        TranslateTransition trans_up = new TranslateTransition(Duration.seconds(0.001), this.getC());
+        trans_up.setByX(10f);
+        trans_up.play();
+    }
+
+
 }
