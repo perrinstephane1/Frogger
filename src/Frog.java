@@ -17,7 +17,7 @@ public class Frog{
         this.c = new Circle(this.X, this.Y, 20);
         this.c.setFill(Color.RED);
         this.scene = scene;
-    }
+    } // test
 
     public Circle getC() {
         return c;
