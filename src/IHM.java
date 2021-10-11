@@ -19,19 +19,18 @@ public class IHM extends Application {
         Scene scene = new Scene(root, 400, 400);
         scene.setFill(Color.web("#81c483"));
         Frog frog = new Frog(20, 20, scene);
-        Piste piste1 = new Piste("route", true,1,2,2, true );
+        Piste piste1 = new Piste("route", true,1,2,1, true );
         Voiture voiture1 = new Voiture(piste1, scene);
-        int vie = 1;
-
-        while(vie>0){
-            voiture1.move();
-        }
+        Piste piste2 = new Piste("route", true,-1,2,1, true );
+        Voiture voiture2 = new Voiture(piste2, scene);
 
 
 
         EventHandler<KeyEvent> keyListener = e -> {
             if(e.getCode()== KeyCode.UP){
                 frog.up();
+                voiture1.move();
+                voiture2.move();
             }
             if(e.getCode()==KeyCode.DOWN){
                 frog.down();
@@ -46,6 +45,8 @@ public class IHM extends Application {
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
         root.getChildren().add(frog.getImageView());
+        root.getChildren().add(voiture1.getImageView());
+        root.getChildren().add(voiture2.getImageView());
         primaryStage.setScene(scene);
         primaryStage.show();
     }

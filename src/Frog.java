@@ -23,7 +23,7 @@ public class Frog{
         this.scene = scene;
         this.height = this.scene.getHeight()/10;
         try {
-            Image image = new Image(new FileInputStream("D:\\SOIA_2A\\java\\Frogger\\frog.png"));
+            Image image = new Image(new FileInputStream("C:\\Users\\Williams HOARAU\\Desktop\\Travail\\Année 2\\POO\\images pour le projet\\arnaud.png"));
             this.imageView = new ImageView(image);
             this.imageView.setX(0);
             this.imageView.setY(0);

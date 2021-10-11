@@ -29,7 +29,7 @@ public class Truc_mobile {
 
 
     public Truc_mobile(Piste piste, Scene scene) {
-        this.X = 0; //TODO changer le point d apparition
+        this.X = 30; //TODO changer le point d apparition
         this.Y = 30; //TODO en fonction de la piste
         this.vitesse = piste.vitesse;
         this.sens = piste.sens;
@@ -39,25 +39,5 @@ public class Truc_mobile {
         this.height = (this.scene.getHeight()/10)* piste.taille_obstacle;
 
     }
-    public ImageView getImageView() {
-        return this.imageView;
-    }
 
-    public void move() {
-        TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001D), this.getImageView());
-        if (this.sens == 1) {
-            trans.setByX(this.height);
-            trans.play();
-            if (this.X + this.height > this.scene.getWidth()) {
-                this.X = 0; // if the object goes off the scene, its position is re-init
-            }
-        }
-        else{
-            trans.setByX(-this.height);
-            trans.play();
-            if (this.X - this.height < 0) {
-                this.X = this.height; // if the object goes off the scene, its position is re-init
-            }
-        }
-    }
 }
