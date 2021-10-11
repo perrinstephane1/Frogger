@@ -11,27 +11,27 @@ import java.io.FileNotFoundException;
 public class Frog{
     private double X;
     private double Y;
-    private Scene scene;
+//    private Scene scene;
     private ImageView imageView;
-    private double height;
 
-    public Frog(double X, double Y, Scene scene) {
+    private double l_case;
+    private int nb_case;
+
+    public Frog(double X, double Y, double l_case, int nb_case) {
         this.X = X;
         this.Y = Y;
-        this.scene = scene;
-        this.height = this.scene.getHeight()/10;
+        this.l_case = l_case;
+        this.nb_case = nb_case;
         try {
             Image image = new Image(new FileInputStream("D:\\SOIA_2A\\java\\Frogger\\frog.png"));
             this.imageView = new ImageView(image);
-            this.imageView.setX(0);
-            this.imageView.setY(0);
-            imageView.setFitHeight(this.height);
+            this.imageView.setX(this.X);
+            this.imageView.setY(this.Y);
+            imageView.setFitHeight(l_case);
             imageView.setPreserveRatio(true);
         } catch (FileNotFoundException e) {
-            System.out.println("f***");
             System.out.println(e);
         }
-//
     }
 
     public ImageView getImageView() {
@@ -40,38 +40,42 @@ public class Frog{
 
     public void up() {
         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
-        trans.setByY(-this.height);
-        if (this.Y-this.height>0) {
+        trans.setByY(-this.l_case);
+        if (this.Y-this.l_case>=0) {
             trans.play();
-            this.Y -= this.height;
+            this.Y -= this.l_case;
         }
     }
 
     public void down() {
         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
-        trans.setByY(this.height);
-        if (this.scene.getHeight()>this.Y+this.height) { //this.scene.getHeight()>this.Y+20
+        trans.setByY(this.l_case);
+        if (this.l_case*this.nb_case>this.Y+this.l_case) {
             trans.play();
-            this.Y += this.height;
+            this.Y += this.l_case;
         }
     }
 
     public void left() {
         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
-        trans.setByX(-this.height);
-        if (this.X-this.height>0) {
-            this.X -= this.height;
+        trans.setByX(-this.l_case);
+        if (this.X-this.l_case>=0) {
+            this.X -= this.l_case;
             trans.play();
         }
     }
 
     public void right() {
         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
-        trans.setByX(this.height);
-        if (this.X+this.height<this.scene.getWidth()) { //this.X+20>this.scene.getWidth()
-            this.X += this.height;
+        trans.setByX(this.l_case);
+        if (this.X+this.l_case<this.l_case*this.nb_case) {
+            this.X += this.l_case;
             trans.play();
         }
+    }
+
+    public String getCoord(){
+        return this.X+", "+this.Y;
     }
 
 
