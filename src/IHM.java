@@ -19,6 +19,7 @@ public class IHM extends Application {
         Scene scene = new Scene(root, 400, 400);
         scene.setFill(Color.web("#81c483"));
         Frog frog = new Frog(20, 20, scene);
+        Plateau plateau = new Plateau(root);
 
         EventHandler<KeyEvent> keyListener = e -> {
             if(e.getCode()== KeyCode.UP){
@@ -36,7 +37,9 @@ public class IHM extends Application {
         };
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
+        plateau.display();
         root.getChildren().add(frog.getImageView());
+
         primaryStage.setScene(scene);
         primaryStage.show();
     }
