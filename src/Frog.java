@@ -30,7 +30,7 @@ public class Frog{
         } catch (FileNotFoundException e) {
             System.out.println("f***");
             System.out.println(e);
-        };
+        }
 //
     }
 
