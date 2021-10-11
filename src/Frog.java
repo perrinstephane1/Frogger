@@ -1,5 +1,4 @@
 import javafx.animation.TranslateTransition;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
@@ -11,7 +10,6 @@ import java.io.FileNotFoundException;
 public class Frog{
     private double X;
     private double Y;
-//    private Scene scene;
     private ImageView imageView;
 
     private double l_case;

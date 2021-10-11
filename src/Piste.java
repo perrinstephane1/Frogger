@@ -1,10 +1,8 @@
-import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 
 public class Piste {
@@ -31,6 +29,10 @@ public class Piste {
             System.out.println("f***");
             System.out.println(e);
         }
+    }
+
+    public Piste(int ii, Plateau p) {
+        this(ii, p, true, 1, 10, 40);
     }
 
     public ImageView getImageView() {
