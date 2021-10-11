@@ -12,15 +12,15 @@ import java.io.FileNotFoundException;
 public class Voiture extends Truc_mobile {
     private ImageView imageView;
 
-    public Voiture(Piste piste, Scene scene) {
-        super(piste,scene);
+    public Voiture(Piste piste, Scene scene, double l_case) {
+        super(piste,scene, l_case);
 
         try {
-            Image image = new Image(new FileInputStream("C:\\Users\\Williams HOARAU\\Desktop\\Travail\\Année 2\\POO\\images pour le projet\\nenuphar.png"));
+            Image image = new Image(new FileInputStream("moto.png"));
             this.imageView = new ImageView(image);
             this.imageView.setX(this.X);
             this.imageView.setY(this.Y);
-            this.imageView.setFitHeight(this.height);
+            this.imageView.setFitHeight(this.l_case);
             this.imageView.setPreserveRatio(true);
         } catch (FileNotFoundException var7) {
             System.out.println("f***voiture");
@@ -36,26 +36,26 @@ public class Voiture extends Truc_mobile {
         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001D), this.getImageView());
         if (this.sens == 1) {
 
-            if (this.X + this.height > this.scene.getWidth()) {
+            if (this.X + this.l_case > this.scene.getWidth()) {
                 trans.setByX(-this.scene.getWidth());
                 this.X = 0;
                 // if the object goes off the scene, its position is re-init
             }
             else{
-                trans.setByX(this.height);
-                this.X += this.height;
+                trans.setByX(this.l_case);
+                this.X += this.l_case;
             }
             trans.play();
         }
         else{
-            if (this.X - this.height < 0) {
+            if (this.X - this.l_case < 0) {
                 trans.setByX(this.scene.getWidth());
                 this.X = this.scene.getWidth();
                 // if the object goes off the scene, its position is re-init
             }
             else{
-                trans.setByX(-this.height);
-                this.X -= this.height;
+                trans.setByX(-this.l_case);
+                this.X -= this.l_case;
             }
             trans.play();
         }

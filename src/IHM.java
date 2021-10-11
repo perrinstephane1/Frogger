@@ -9,6 +9,8 @@ import javafx.stage.Stage;
 
 
 public class IHM extends Application {
+    private double l_case=70;
+    private int nb_case=15;
 
     public static void main(String[] args) {
         launch(args);
@@ -16,37 +18,39 @@ public class IHM extends Application {
     @Override
     public void start(Stage primaryStage) {
         Group root = new Group();
-        Scene scene = new Scene(root, 400, 400);
+        Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*this.nb_case);
         scene.setFill(Color.web("#81c483"));
-        Frog frog = new Frog(20, 20, scene);
-        Piste piste1 = new Piste("route", true,1,2,1, true );
-        Voiture voiture1 = new Voiture(piste1, scene);
-        Piste piste2 = new Piste("route", true,-1,2,1, true );
-        Voiture voiture2 = new Voiture(piste2, scene);
-
+        Frog frog = new Frog(0, 0, this.l_case, this.nb_case);
+        Plateau plateau = new Plateau(root, this.nb_case, this.l_case, this.l_case*this.nb_case);
+        Voiture voiture = new Voiture(plateau.get(1),scene, this.l_case);
 
 
         EventHandler<KeyEvent> keyListener = e -> {
             if(e.getCode()== KeyCode.UP){
+                System.out.println(frog.getCoord());
                 frog.up();
-                voiture1.move();
-                voiture2.move();
             }
             if(e.getCode()==KeyCode.DOWN){
+                System.out.println(frog.getCoord());
                 frog.down();
             }
             if(e.getCode()==KeyCode.RIGHT){
+                System.out.println(frog.getCoord());
                 frog.right();
+                voiture.move();
             }
             if(e.getCode()==KeyCode.LEFT){
+                System.out.println(frog.getCoord());
                 frog.left();
             }
         };
 
+
         scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
+
+        plateau.display();
         root.getChildren().add(frog.getImageView());
-        root.getChildren().add(voiture1.getImageView());
-        root.getChildren().add(voiture2.getImageView());
+        root.getChildren().add(voiture.getImageView());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
