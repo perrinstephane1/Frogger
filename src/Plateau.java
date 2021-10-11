@@ -1,4 +1,5 @@
 import javafx.scene.Group;
+import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
 
@@ -8,6 +9,7 @@ public class Plateau extends ArrayList<Piste> {
     protected int nb_pistes;
     protected double h_piste;
     protected double l_piste;
+    protected GridPane gridPane = new GridPane();
 
 
     public Plateau(Group root, int nb_pistes, double h_piste, double l_piste) {
@@ -16,16 +18,23 @@ public class Plateau extends ArrayList<Piste> {
         this.h_piste = h_piste;
         this.l_piste = this.h_piste*this.nb_pistes;
 
+
         for (int ii=0; ii<this.nb_pistes; ii++) {
-            this.add(new Piste(ii, this, true, 1, 1, 1));
+            Piste piste = new Piste(ii, this, true, 1, 1, 1);
+            this.add(piste);
+            this.gridPane.add(piste.getImageView(), 0, ii);
         }
     }
 
-    public void display() {
-        for (int ii=0; ii<this.nb_pistes; ii++) {
-            this.root.getChildren().add(this.get(ii).getImageView());
-        }
+    public GridPane getGridPane() {
+        return gridPane;
     }
+
+//    public void display() {
+//        for (int ii=0; ii<this.nb_pistes; ii++) {
+//            this.root.getChildren().add(this.get(ii).getImageView());
+//        }
+//    }
 
 }
 

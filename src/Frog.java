@@ -2,7 +2,6 @@ import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
@@ -43,6 +42,8 @@ public class Frog{
         if (this.Y-this.l_case>=0) {
             trans.play();
             this.Y -= this.l_case;
+        } else {
+            this.dead = true;
         }
     }
 
@@ -52,6 +53,8 @@ public class Frog{
         if (this.l_case*this.nb_case>this.Y+this.l_case) {
             trans.play();
             this.Y += this.l_case;
+        } else {
+            this.dead = true;
         }
     }
 
@@ -61,6 +64,8 @@ public class Frog{
         if (this.X-this.l_case>=0) {
             this.X -= this.l_case;
             trans.play();
+        } else {
+            this.dead = true;
         }
     }
 
@@ -70,6 +75,8 @@ public class Frog{
         if (this.X+this.l_case<this.l_case*this.nb_case) {
             this.X += this.l_case;
             trans.play();
+        } else {
+            this.dead = true;
         }
     }
 
