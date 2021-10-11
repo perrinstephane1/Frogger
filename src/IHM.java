@@ -19,6 +19,15 @@ public class IHM extends Application {
         Scene scene = new Scene(root, 400, 400);
         scene.setFill(Color.web("#81c483"));
         Frog frog = new Frog(20, 20, scene);
+        Piste piste1 = new Piste("route", true,1,2,2, true );
+        Voiture voiture1 = new Voiture(piste1, scene);
+        int vie = 1;
+
+        while(vie>0){
+            voiture1.move();
+        }
+
+
 
         EventHandler<KeyEvent> keyListener = e -> {
             if(e.getCode()== KeyCode.UP){

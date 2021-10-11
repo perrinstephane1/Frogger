@@ -17,7 +17,7 @@ import java.io.FileNotFoundException;
 
 
 public class Truc_mobile {
-    protected double taille;
+    protected double taille_obstacle;
     protected double vitesse;
     protected double sens;
     protected boolean hostile;
@@ -33,14 +33,11 @@ public class Truc_mobile {
         this.Y = 30; //TODO en fonction de la piste
         this.vitesse = piste.vitesse;
         this.sens = piste.sens;
-        this.taille = piste.taille_obstacle;
+        this.taille_obstacle = piste.taille_obstacle;
         this.hostile = piste.hostile;
         this.scene = scene;
-        this.height = this.scene.getHeight()/10;
+        this.height = (this.scene.getHeight()/10)* piste.taille_obstacle;
 
-
-        //this.scene = scene;
-        //this.height = this.scene.getHeight() / 10.0D;
     }
     public ImageView getImageView() {
         return this.imageView;
@@ -60,9 +57,7 @@ public class Truc_mobile {
             trans.play();
             if (this.X - this.height < 0) {
                 this.X = this.height; // if the object goes off the scene, its position is re-init
-
             }
         }
-
     }
 }
