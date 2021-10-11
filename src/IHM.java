@@ -20,6 +20,11 @@ public class IHM extends Application {
         Group root = new Group();
         Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*this.nb_case);
         scene.setFill(Color.web("#81c483"));
+
+        Group root_end = new Group();
+        Scene the_end = new Scene(root_end, this.l_case*this.nb_case, this.l_case*this.nb_case);
+        the_end.setFill(Color.web("#d13318"));
+
         Frog frog = new Frog(0, 0, this.l_case, this.nb_case);
         Plateau plateau = new Plateau(root, this.nb_case, this.l_case, this.l_case*this.nb_case);
         Voiture voiture = new Voiture(plateau.get(1),scene, this.l_case);
@@ -37,12 +42,15 @@ public class IHM extends Application {
             if(e.getCode()==KeyCode.RIGHT){
                 System.out.println(frog.getCoord());
                 frog.right();
+
                 voiture.move();
             }
             if(e.getCode()==KeyCode.LEFT){
+                frog.setDead(true);
                 System.out.println(frog.getCoord());
                 frog.left();
             }
+            this.check_end(frog, primaryStage, the_end);
         };
 
 
@@ -50,8 +58,15 @@ public class IHM extends Application {
 
         plateau.display();
         root.getChildren().add(frog.getImageView());
-        root.getChildren().add(voiture.getImageView());
+//        root.getChildren().add(voiture.getImageView());
+
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    public void check_end(Frog frog, Stage primaryStage, Scene scene) {
+        if (frog.isDead()) {
+            primaryStage.setScene(scene);
+        }
     }
 }

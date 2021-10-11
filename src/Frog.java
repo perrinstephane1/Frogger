@@ -11,11 +11,12 @@ public class Frog{
     private double X;
     private double Y;
     private ImageView imageView;
-
+    private boolean dead;
     private double l_case;
     private int nb_case;
 
     public Frog(double X, double Y, double l_case, int nb_case) {
+        this.dead = false;
         this.X = X;
         this.Y = Y;
         this.l_case = l_case;
@@ -73,7 +74,15 @@ public class Frog{
     }
 
     public String getCoord(){
-        return this.X+", "+this.Y;
+        return this.X+", "+this.Y+", "+this.dead;
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
     }
 
 
