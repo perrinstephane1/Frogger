@@ -25,11 +25,7 @@ public class Plateau extends ArrayList{
         this(root, 10, 40, 400);
     }
 
-    public void display() {
-        System.out.println(this);
-//            this.root.getChildren().add(this.get(ii));
 
-    }
 }
 
 
