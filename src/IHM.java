@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 public class IHM extends Application {
     private double l_case=70;
-    private int nb_case=10;
+    private int nb_case=15;
 
     public static void main(String[] args) {
         launch(args);
