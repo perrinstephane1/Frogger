@@ -5,5 +5,4 @@ public class Truc_mobile {
     private boolean hostile;
     private double abscisse;
     private double ordonnee;
-
 }

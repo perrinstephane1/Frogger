@@ -1,3 +1,2 @@
-public class Voiture  extends Truc_mobile{
-
+public class Voiture extends Truc_mobile{
 }

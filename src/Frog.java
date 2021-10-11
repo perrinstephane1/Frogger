@@ -1,62 +1,80 @@
 import javafx.animation.TranslateTransition;
-import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
-public class Frog extends Application {
-    private double abscisse;
-    private double ordonnee;
 
-    public static void main(String[] args) {
-        launch(args);
+public class Frog{
+    private double X;
+    private double Y;
+    private Scene scene;
+    private ImageView imageView;
+    private double height;
+
+    public Frog(double X, double Y, Scene scene) {
+        this.X = X;
+        this.Y = Y;
+        this.scene = scene;
+        this.height = this.scene.getHeight()/10;
+        try {
+            Image image = new Image(new FileInputStream("D:\\SOIA_2A\\java\\Frogger\\frog.png"));
+            this.imageView = new ImageView(image);
+            this.imageView.setX(0);
+            this.imageView.setY(0);
+            imageView.setFitHeight(this.height);
+            imageView.setPreserveRatio(true);
+        } catch (FileNotFoundException e) {
+            System.out.println("f***");
+            System.out.println(e);
+        };
+//
     }
-    @Override
-    public void start(Stage primaryStage) {
-        BorderPane root = new BorderPane();
-        Scene scene = new Scene(root, 300, 300);
 
-        Circle c = new Circle(150, 150, 20);
-        c.setFill(Color.RED);
-
-        TranslateTransition trans_up = new TranslateTransition(Duration.seconds(0.001), c);
-        trans_up.setByY(-10f);
-        TranslateTransition trans_down = new TranslateTransition(Duration.seconds(0.001), c);
-        trans_down.setByY(10f);
-        TranslateTransition trans_R = new TranslateTransition(Duration.seconds(0.001), c);
-        trans_R.setByX(10f);
-        TranslateTransition trans_L = new TranslateTransition(Duration.seconds(0.001), c);
-        trans_L.setByX(-10f);
-
-        EventHandler<KeyEvent> keyListener = new
-                EventHandler<KeyEvent>(){
-                    @Override
-                    public void handle(KeyEvent e) {
-                        if(e.getCode()== KeyCode.UP){
-                            trans_up.play();
-                        }
-                        if(e.getCode()==KeyCode.DOWN){
-                            trans_down.play();
-                        }
-                        if(e.getCode()==KeyCode.RIGHT){
-                            trans_R.play();
-                        }
-                        if(e.getCode()==KeyCode.LEFT){
-                            trans_L.play();
-                        }
-                    }
-                };
-
-        scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
-        root.getChildren().add(c);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    public ImageView getImageView() {
+        return imageView;
     }
+
+    public void up() {
+        TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
+        trans.setByY(-this.height);
+        if (this.Y-this.height>0) {
+            trans.play();
+            this.Y -= this.height;
+        }
+    }
+
+    public void down() {
+        TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
+        trans.setByY(this.height);
+        if (this.scene.getHeight()>this.Y+this.height) { //this.scene.getHeight()>this.Y+20
+            trans.play();
+            this.Y += this.height;
+        }
+    }
+
+    public void left() {
+        TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
+        trans.setByX(-this.height);
+        if (this.X-this.height>0) {
+            this.X -= this.height;
+            trans.play();
+        }
+    }
+
+    public void right() {
+        TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
+        trans.setByX(this.height);
+        if (this.X+this.height<this.scene.getWidth()) { //this.X+20>this.scene.getWidth()
+            this.X += this.height;
+            trans.play();
+        }
+    }
+
+
 }
