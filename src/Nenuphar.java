@@ -11,15 +11,15 @@ public class Nenuphar extends Truc_mobile{
     private boolean hostile;
     private ImageView imageView;
 
-    public Nenuphar(Piste piste, Scene scene) {
-        super(piste,scene);
+    public Nenuphar(Piste piste, Scene scene, double l_case) {
+        super(piste,scene,l_case);
 
         try {
             Image image = new Image(new FileInputStream("nenuphar.png"));
             this.imageView = new ImageView(image);
             this.imageView.setX(this.X);
             this.imageView.setY(this.Y);
-            this.imageView.setFitHeight(this.height);
+            this.imageView.setFitHeight(this.l_case);
             this.imageView.setPreserveRatio(true);
         } catch (FileNotFoundException var7) {
             System.out.println("f***nenuphar");

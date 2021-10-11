@@ -22,7 +22,7 @@ public class IHM extends Application {
         scene.setFill(Color.web("#81c483"));
         Frog frog = new Frog(0, 0, this.l_case, this.nb_case);
         Plateau plateau = new Plateau(root, this.nb_case, this.l_case, this.l_case*this.nb_case);
-        Voiture voiture = new Voiture(plateau.get(1),scene);
+        Voiture voiture = new Voiture(plateau.get(1),scene, this.l_case);
 
 
         EventHandler<KeyEvent> keyListener = e -> {
@@ -44,6 +44,7 @@ public class IHM extends Application {
                 frog.left();
             }
         };
+
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
 
