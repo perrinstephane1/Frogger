@@ -24,7 +24,7 @@ public class Voiture extends Truc_mobile {
             this.imageView.setFitHeight(this.height);
             this.imageView.setPreserveRatio(true);
         } catch (FileNotFoundException var7) {
-            System.out.println("f***");
+            System.out.println("f***voiture");
             System.out.println(var7);
         }
     }
