@@ -17,7 +17,7 @@ public class Plateau extends ArrayList<Piste> {
         this.l_piste = this.h_piste*this.nb_pistes;
 
         for (int ii=0; ii<this.nb_pistes; ii++) {
-            this.add(new Piste(ii, this));
+            this.add(new Piste(ii, this, true, 1, 1, 1));
         }
     }
 

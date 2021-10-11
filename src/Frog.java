@@ -23,7 +23,7 @@ public class Frog{
         this.l_case = l_case;
         this.nb_case = nb_case;
         try {
-            Image image = new Image(new FileInputStream("C:\\Users\\Williams HOARAU\\Desktop\\Travail\\Année 2\\POO\\images pour le projet\\arnaud.png"));
+            Image image = new Image(new FileInputStream("frog.png"));
             this.imageView = new ImageView(image);
             this.imageView.setX(this.X);
             this.imageView.setY(this.Y);

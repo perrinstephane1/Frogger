@@ -15,7 +15,7 @@ public class Nenuphar extends Truc_mobile{
         super(piste,scene);
 
         try {
-            Image image = new Image(new FileInputStream("C:\\Users\\Williams HOARAU\\Desktop\\Travail\\Année 2\\POO\\images pour le projet\\nenuphar.png"));
+            Image image = new Image(new FileInputStream("nenuphar.png"));
             this.imageView = new ImageView(image);
             this.imageView.setX(this.X);
             this.imageView.setY(this.Y);

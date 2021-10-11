@@ -8,20 +8,20 @@ import java.util.ArrayList;
 
 
 public class Piste {
-    private Plateau p;
-    private boolean hostile;
-    private double sens;
-    private double vitesse;
-    private double taille_obstacle;
-    private boolean arrivee; // si c'est la dernière ligne c'est FINI
-    private ImageView imageView;
+    protected Plateau p;
+    protected boolean hostile;
+    protected double sens;
+    protected double vitesse;
+    protected double taille_obstacle;
+    protected boolean arrivee; // si c'est la dernière ligne c'est FINI
+    protected ImageView imageView;
 
     public Piste(int ii, Plateau p, boolean hostile, double sens, double vitesse, double taille_obstacle) {
         this.vitesse = vitesse;
         this.sens = sens;
         this.taille_obstacle = taille_obstacle;
         try {
-            Image image = new Image(new FileInputStream("D:\\SOIA_2A\\java\\Frogger\\herbe.png"));
+            Image image = new Image(new FileInputStream("herbe.png"));
             this.imageView = new ImageView(image);
             this.imageView.setX(0);
             this.imageView.setY(0+ii*p.h_piste);
