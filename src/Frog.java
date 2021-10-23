@@ -92,5 +92,18 @@ public class Frog{
         this.dead = dead;
     }
 
+    public void auto_down(int speed) {
+        TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
+        trans.setByY(speed);
+        this.Y += speed;
+        trans.play();
+    }
 
+    public double getX() {
+        return X;
+    }
+
+    public double getY() {
+        return Y;
+    }
 }
