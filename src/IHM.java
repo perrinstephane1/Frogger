@@ -1,9 +1,12 @@
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -15,13 +18,19 @@ import java.awt.event.ActionListener;
 
 import java.sql.Time;
 import java.util.Date;
+import java.util.TimerTask;
 import java.util.Timer;
 import java.util.TimerTask;
+
 
 
 public class IHM extends Application {
     private double l_case=70;
     private int nb_case=15;
+    Group root = new Group();
+    Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*this.nb_case);
+    Plateau plateau = new Plateau(root, this.nb_case, this.l_case, this.l_case*this.nb_case);
+    Voiture voiture = new Voiture(plateau.get(1),scene, this.l_case);
 
     public static void main(String[] args) {
         launch(args);
@@ -32,8 +41,8 @@ public class IHM extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Group root = new Group();
-        Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*this.nb_case);
+
+
         scene.setFill(Color.web("#81c483"));
 
         GridPane deadwindow = new GridPane();
@@ -46,8 +55,7 @@ public class IHM extends Application {
 
 
         Frog frog = new Frog(0, 0, this.l_case, this.nb_case);
-        Plateau plateau = new Plateau(root, this.nb_case, this.l_case, this.l_case*this.nb_case);
-        Voiture voiture = new Voiture(plateau.get(1),scene, this.l_case);
+
 
         Timer timer = new Timer(1000, down);
         timer.start();
