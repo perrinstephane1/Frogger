@@ -1,3 +1,4 @@
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -9,19 +10,27 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class IHM extends Application {
     private double l_case=70;
     private int nb_case=12;
+    private Group root = new Group();
+    Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*this.nb_case);
+    Plateau plateau = new Plateau(root, this.nb_case, this.l_case, this.l_case*this.nb_case);
+    Voiture voiture = new Voiture(plateau.get(1),scene, this.l_case);
 
     public static void main(String[] args) {
         launch(args);
     }
     @Override
-    public void start(Stage primaryStage) {
-        Group root = new Group();
-        Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*this.nb_case);
+    public void start(Stage primaryStage) throws InterruptedException {
+
         scene.setFill(Color.web("#81c483"));
 
         GridPane deadwindow = new GridPane();
@@ -34,9 +43,9 @@ public class IHM extends Application {
 
 
         Frog frog = new Frog(0, 0, this.l_case, this.nb_case);
-        Plateau plateau = new Plateau(root, this.nb_case, this.l_case, this.l_case*this.nb_case);
-        Voiture voiture = new Voiture(plateau.get(1),scene, this.l_case);
 
+        Timer timer = new Timer(1000, down);
+        timer.start();
 
         EventHandler<KeyEvent> keyListener = e -> {
             if(e.getCode()== KeyCode.UP){
@@ -46,6 +55,7 @@ public class IHM extends Application {
             if(e.getCode()==KeyCode.DOWN){
                 System.out.println(frog.getCoord());
                 frog.down();
+
             }
             if(e.getCode()==KeyCode.RIGHT){
                 System.out.println(frog.getCoord());
@@ -63,18 +73,35 @@ public class IHM extends Application {
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
 
-//        plateau.display();
         root.getChildren().add(plateau.getGridPane());
         root.getChildren().add(frog.getImageView());
         root.getChildren().add(voiture.getImageView());
 
         primaryStage.setScene(scene);
         primaryStage.show();
+
     }
+
+    ActionListener down = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            TranslateTransition transPlateau = new TranslateTransition(Duration.seconds(0.001), plateau.getGridPane());
+            TranslateTransition transVoiture = new TranslateTransition(Duration.seconds(0.001), voiture.getImageView());
+            transPlateau.setByY(40);
+            transPlateau.play();
+            transVoiture.setByY(40);
+            transVoiture.play();
+
+
+        }
+    };
+
 
     public void check_end(Frog frog, Stage primaryStage, Scene scene) {
         if (frog.isDead()) {
             primaryStage.setScene(scene);
         }
     }
+
+
 }

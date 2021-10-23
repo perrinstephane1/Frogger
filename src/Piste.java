@@ -1,6 +1,8 @@
+import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.util.Duration;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -23,8 +25,6 @@ public class Piste {
             for (int jj=0; jj<12; jj++) {
                 Image image = new Image(new FileInputStream("D:\\SOIA_2A\\java\\Frogger\\herbe.png"));
                 this.imageView = new ImageView(image);
-//                this.imageView.setX(0);
-//                this.imageView.setY(0+ii*p.h_piste);
                 this.imageView.setFitHeight(p.h_piste);
                 this.imageView.setFitWidth(p.h_piste);
                 this.gridPane.add(this.imageView, jj, ii);
@@ -34,6 +34,8 @@ public class Piste {
             System.out.println(e);
         }
     }
+
+
 
     public Piste(int ii, Plateau p) {
         this(ii, p, true, 1, 10, 40);
