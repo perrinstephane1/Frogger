@@ -44,8 +44,8 @@ public class IHM extends Application {
 
         Frog frog = new Frog(0, 0, this.l_case, this.nb_case);
 
-        Timer timer = new Timer(1000, down);
-        timer.start();
+//        Timer timer = new Timer(1000, down);
+//        timer.start();
 
         EventHandler<KeyEvent> keyListener = e -> {
             if(e.getCode()== KeyCode.UP){
