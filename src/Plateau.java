@@ -15,7 +15,7 @@ public class Plateau extends ArrayList<Piste> {
     protected GridPane gridPane = new GridPane();
 
 
-    public Plateau(Group root, int nb_pistes, double h_piste, double l_piste) {
+    public Plateau(Group root, int nb_pistes, double h_piste) {
         this.root = root;
         this.nb_pistes = nb_pistes;
         this.h_piste = h_piste;
@@ -33,12 +33,14 @@ public class Plateau extends ArrayList<Piste> {
     }
 
 
-
+    public void auto_down(int speed) {
+        TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getGridPane());
+        trans.setByY(speed);
+        trans.play();
+    }
 
     public GridPane getGridPane() {
         return gridPane;
     }
 
 }
-
-

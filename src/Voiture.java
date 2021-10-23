@@ -32,7 +32,7 @@ public class Voiture extends Truc_mobile {
         return this.imageView;
     }
 
-    public void move() {
+    public void move(int speed) {
         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001D), this.getImageView());
         if (this.sens == 1) {
 
@@ -42,8 +42,8 @@ public class Voiture extends Truc_mobile {
                 // if the object goes off the scene, its position is re-init
             }
             else{
-                trans.setByX(this.l_case);
-                this.X += this.l_case;
+                trans.setByX(speed);
+                this.X += speed;
             }
             trans.play();
         }
@@ -54,10 +54,16 @@ public class Voiture extends Truc_mobile {
                 // if the object goes off the scene, its position is re-init
             }
             else{
-                trans.setByX(-this.l_case);
-                this.X -= this.l_case;
+                trans.setByX(-speed);
+                this.X -= speed;
             }
             trans.play();
         }
+    }
+
+    public void auto_down(int speed) {
+        TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
+        trans.setByY(speed);
+        trans.play();
     }
 }

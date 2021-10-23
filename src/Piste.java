@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 
 public class Piste {
-    protected Plateau p;
     protected boolean hostile;
     protected double sens;
     protected double vitesse;
@@ -24,7 +23,7 @@ public class Piste {
         this.sens = sens;
         this.taille_obstacle = taille_obstacle;
         try {
-            for (int jj=0; jj<12; jj++) {
+            for (int jj=0; jj< p.nb_pistes; jj++) {
                 Image image = new Image(new FileInputStream("D:\\SOIA_2A\\java\\Frogger\\herbe.png"));
                 this.imageView = new ImageView(image);
                 this.imageView.setFitHeight(p.h_piste);
@@ -32,12 +31,6 @@ public class Piste {
                 this.gridPane.add(this.imageView, jj, ii);
             }
 
-            Image image = new Image(new FileInputStream("herbe.png"));
-            this.imageView = new ImageView(image);
-            this.imageView.setX(0);
-            this.imageView.setY(0+ii*p.h_piste);
-            this.imageView.setFitHeight(p.h_piste);
-            this.imageView.setFitWidth(p.l_piste);
         } catch (FileNotFoundException e) {
             System.out.println(e);
         }
