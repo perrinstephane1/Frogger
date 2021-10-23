@@ -1,9 +1,7 @@
 import javafx.animation.TranslateTransition;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
@@ -11,13 +9,13 @@ import java.io.FileNotFoundException;
 public class Frog{
     private double X;
     private double Y;
-//    private Scene scene;
     private ImageView imageView;
-
+    private boolean dead;
     private double l_case;
     private int nb_case;
 
     public Frog(double X, double Y, double l_case, int nb_case) {
+        this.dead = false;
         this.X = X;
         this.Y = Y;
         this.l_case = l_case;
@@ -44,6 +42,8 @@ public class Frog{
         if (this.Y-this.l_case>=0) {
             trans.play();
             this.Y -= this.l_case;
+        } else {
+            this.dead = true;
         }
     }
 
@@ -53,6 +53,8 @@ public class Frog{
         if (this.l_case*this.nb_case>this.Y+this.l_case) {
             trans.play();
             this.Y += this.l_case;
+        } else {
+            this.dead = true;
         }
     }
 
@@ -62,6 +64,8 @@ public class Frog{
         if (this.X-this.l_case>=0) {
             this.X -= this.l_case;
             trans.play();
+        } else {
+            this.dead = true;
         }
     }
 
@@ -71,11 +75,21 @@ public class Frog{
         if (this.X+this.l_case<this.l_case*this.nb_case) {
             this.X += this.l_case;
             trans.play();
+        } else {
+            this.dead = true;
         }
     }
 
     public String getCoord(){
-        return this.X+", "+this.Y;
+        return this.X+", "+this.Y+", "+this.dead;
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
     }
 
 
