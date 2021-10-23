@@ -7,6 +7,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.sql.Time;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class IHM extends Application {
     private double l_case=70;
@@ -15,6 +20,10 @@ public class IHM extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+
+
+
     @Override
     public void start(Stage primaryStage) {
         Group root = new Group();
@@ -44,8 +53,6 @@ public class IHM extends Application {
                 frog.left();
             }
         };
-
-
         scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
 
         plateau.display();
@@ -53,5 +60,12 @@ public class IHM extends Application {
         root.getChildren().add(voiture.getImageView());
         primaryStage.setScene(scene);
         primaryStage.show();
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                voiture.move();
+            }
+        }, 0, 500);
+
     }
 }
