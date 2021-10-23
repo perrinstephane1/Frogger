@@ -24,12 +24,12 @@ public class IHM extends Application {
         Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*this.nb_case);
         scene.setFill(Color.web("#81c483"));
 
-        GridPane gridPane = new GridPane();
-        gridPane.setAlignment(Pos.CENTER);
+        GridPane deadwindow = new GridPane();
+        deadwindow.setAlignment(Pos.CENTER);
         Text deadText = new Text("You're dead !");
         deadText.setStyle("-fx-font: normal bold "+this.l_case+"px 'serif' ");
-        gridPane.add(deadText, 0, 0);
-        Scene the_end = new Scene(gridPane, this.l_case*this.nb_case, this.l_case*this.nb_case);
+        deadwindow.add(deadText, 0, 0);
+        Scene the_end = new Scene(deadwindow, this.l_case*this.nb_case, this.l_case*this.nb_case);
         the_end.setFill(Color.web("#d13318"));
 
 
