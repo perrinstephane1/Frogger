@@ -10,6 +10,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TimerTask;
 import java.util.Timer;
 
@@ -23,14 +25,14 @@ public class IHM extends Application {
     Group root = new Group();
     Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*this.nb_case);
     Plateau plateau = new Plateau(root, this.nb_case, this.l_case);
-    Voiture voiture = new Voiture(plateau.get(4),scene, this.l_case);
-    Voiture voiture2 = new Voiture(plateau.get(nb_case),scene, this.l_case);
+//    Voiture voiture = new Voiture(plateau.get(4),scene, this.l_case);
+//    Voiture voiture2 = new Voiture(plateau.get(nb_case),scene, this.l_case);
+//    Nenuphar nenuphar = new Nenuphar(plateau.get(3),scene, this.l_case);
 
 
     GridPane deadwindow = new GridPane();
     Text deadText = new Text("You're dead !");
     Scene the_end = new Scene(deadwindow, this.l_case*this.nb_case, this.l_case*this.nb_case);
-
 
     public static void main(String[] args) {
         launch(args);
@@ -46,7 +48,6 @@ public class IHM extends Application {
         the_end.setFill(Color.web("#d13318"));
 
         Frog frog = new Frog((this.nb_case) * this.l_case /2 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case);
-
 
         EventHandler<KeyEvent> keyListener = e -> {
             if(e.getCode()== KeyCode.UP){
@@ -74,29 +75,29 @@ public class IHM extends Application {
         scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
 
 
-
         root.getChildren().add(plateau.getGridPane());
         root.getChildren().add(frog.getImageView());
-        root.getChildren().add(voiture.getImageView());
-        root.getChildren().add(voiture2.getImageView());
+//        root.getChildren().add(nenuphar.getImageView());
+//        root.getChildren().add(voiture.getImageView());
+//        root.getChildren().add(voiture2.getImageView());
+        addCar();
+        addLog();
 
         primaryStage.setScene(scene);
         primaryStage.show();
-        new Timer().scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                voiture.move(speed_h);
-                //voiture.auto_down(speed_down);
-                voiture2.move(speed_h);
-                //voiture2.auto_down(speed_down);
-
-                //plateau.auto_down(speed_down);
-
-                //frog.auto_down(speed_down);
-            }
-        }, 0, 50);
-
-
+//        new Timer().scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//
+//                nenuphar.move(speed_h);
+//                voiture.move(speed_h);
+//                voiture.auto_down(speed_down);
+//                voiture2.move(speed_h);
+//                voiture2.auto_down(speed_down);
+//                plateau.auto_down(speed_down);
+//                frog.auto_down(speed_down);
+//            }
+//        }, 0, 50);
     }
 
 
@@ -109,5 +110,42 @@ public class IHM extends Application {
 //        }
     }
 
+    public void addCar() {
+
+        Voiture[] voitures = new Voiture[plateau.nb_pistes/2];
+        for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
+            System.out.println("effkfkfkfkfkfkfkfkfkfkfk");
+            voitures[i-plateau.nb_pistes/2] = new Voiture(plateau.get(i),scene, this.l_case);
+            root.getChildren().add(voitures[i-plateau.nb_pistes/2].getImageView());
+
+        }
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
+                    voitures[i-plateau.nb_pistes/2].move(speed_h);
+                }
+            }
+        }, 0, 50);
+    }
+
+    public void addLog() {
+
+        Nenuphar[] nenuphars = new Nenuphar[plateau.nb_pistes/2];
+        for (int i = 2; i < plateau.nb_pistes/2; i++) { // Start at number 2 because Number 1 is a safe lane
+            System.out.println("nenu nenu");
+            nenuphars[i] = new Nenuphar(plateau.get(i),scene, this.l_case);
+            root.getChildren().add(nenuphars[i].getImageView());
+
+        }
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                for (int i = 2; i < plateau.nb_pistes/2; i++) {
+                    nenuphars[i].move(speed_h);
+                }
+            }
+        }, 0, 50);
+    }
 
 }

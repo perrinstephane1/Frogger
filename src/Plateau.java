@@ -32,9 +32,6 @@ public class Plateau extends ArrayList<Piste> {
         this.addPiste(this.nb_pistes/2 - 1, 2); // Middle line
         this.addPiste(0, 2); // Top line
 
-
-
-
     }
 
     public void addPiste(int cnt, int type_piste) {
