@@ -22,9 +22,14 @@ public class Plateau extends ArrayList<Piste> {
         this.h_piste = h_piste;
         this.l_piste = this.h_piste*this.nb_pistes;
 
-        for (int ii=0; ii<this.nb_pistes; ii++) {
+        for (int ii=0; ii<this.nb_pistes/2; ii++) {
             this.addPiste(ii);
         }
+        for (int ii=this.nb_pistes/2; ii<this.nb_pistes; ii++) {
+            this.addPiste(ii);
+        }
+
+
     }
 
     public void addPiste(int cnt) {

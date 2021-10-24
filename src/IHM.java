@@ -55,7 +55,7 @@ public class IHM extends Application {
         the_end.setFill(Color.web("#d13318"));
 
 
-        Frog frog = new Frog(0, 0, this.l_case, this.nb_case);
+        Frog frog = new Frog((this.nb_case-1) * this.l_case /2 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case);
 
 
         EventHandler<KeyEvent> keyListener = e -> {
