@@ -16,36 +16,47 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.sql.Time;
+import java.util.Date;
+import java.util.TimerTask;
+import java.util.Timer;
+import java.util.TimerTask;
+
+
 
 public class IHM extends Application {
     private double l_case=70;
     private int nb_case=12;
-    private Group root = new Group();
+    private int speed_down = 1;
+    private int speed_h = 3;
+
+    Group root = new Group();
     Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*this.nb_case);
-    Plateau plateau = new Plateau(root, this.nb_case, this.l_case, this.l_case*this.nb_case);
+    Plateau plateau = new Plateau(root, this.nb_case, this.l_case);
     Voiture voiture = new Voiture(plateau.get(1),scene, this.l_case);
+
+    GridPane deadwindow = new GridPane();
+    Text deadText = new Text("You're dead !");
+    Scene the_end = new Scene(deadwindow, this.l_case*this.nb_case, this.l_case*this.nb_case);
+
 
     public static void main(String[] args) {
         launch(args);
     }
     @Override
-    public void start(Stage primaryStage) throws InterruptedException {
+    public void start(Stage primaryStage) {
+
 
         scene.setFill(Color.web("#81c483"));
 
-        GridPane deadwindow = new GridPane();
         deadwindow.setAlignment(Pos.CENTER);
-        Text deadText = new Text("You're dead !");
         deadText.setStyle("-fx-font: normal bold "+this.l_case+"px 'serif' ");
         deadwindow.add(deadText, 0, 0);
-        Scene the_end = new Scene(deadwindow, this.l_case*this.nb_case, this.l_case*this.nb_case);
         the_end.setFill(Color.web("#d13318"));
 
 
         Frog frog = new Frog(0, 0, this.l_case, this.nb_case);
 
-//        Timer timer = new Timer(1000, down);
-//        timer.start();
 
         EventHandler<KeyEvent> keyListener = e -> {
             if(e.getCode()== KeyCode.UP){
@@ -61,7 +72,6 @@ public class IHM extends Application {
                 System.out.println(frog.getCoord());
                 frog.right();
 
-                voiture.move();
             }
             if(e.getCode()==KeyCode.LEFT){
                 System.out.println(frog.getCoord());
@@ -79,28 +89,27 @@ public class IHM extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.show();
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                voiture.move(speed_h);
+                plateau.auto_down(speed_down);
+                voiture.auto_down(speed_down);
+                frog.auto_down(speed_down);
+            }
+        }, 0, 50);
+
 
     }
 
-    ActionListener down = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            TranslateTransition transPlateau = new TranslateTransition(Duration.seconds(0.001), plateau.getGridPane());
-            TranslateTransition transVoiture = new TranslateTransition(Duration.seconds(0.001), voiture.getImageView());
-            transPlateau.setByY(40);
-            transPlateau.play();
-            transVoiture.setByY(40);
-            transVoiture.play();
-
-
-        }
-    };
-
 
     public void check_end(Frog frog, Stage primaryStage, Scene scene) {
-        if (frog.isDead()) {
+        if (frog.getX()<0 || frog.getX()>this.l_case*this.nb_case || frog.getY()<0 || frog.getY()>this.l_case*this.nb_case) {
             primaryStage.setScene(scene);
         }
+//        if (frog.isDead()) {
+//            primaryStage.setScene(scene);
+//        }
     }
 
 
