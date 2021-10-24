@@ -23,7 +23,7 @@ public class Frog extends Rectangle {
         this.l_case = l_case;
         this.nb_case = nb_case;
         try {
-            Image image = new Image(new FileInputStream("frog.png"));
+            Image image = new Image(new FileInputStream("froggergreen.png"));
             this.imageView = new ImageView(image);
             this.imageView.setX(this.X);
             this.imageView.setY(this.Y);
