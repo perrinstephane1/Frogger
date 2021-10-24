@@ -21,6 +21,7 @@ public class IHM extends Application {
     private int nb_case=10;
     private int speed_down = 1;
     private int speed_h = 3;
+    private Chrono chrono = new Chrono();
 
     Frog frog = new Frog((this.nb_case) * this.l_case /2 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case);
 
@@ -52,6 +53,9 @@ public class IHM extends Application {
 
 
         EventHandler<KeyEvent> keyListener = e -> {
+            if (!chrono.isRunning) {
+                chrono.start();
+            }
             if(e.getCode()== KeyCode.UP){
 //                System.out.println(frog.getCoord());
                 frog.up();
@@ -129,6 +133,8 @@ public class IHM extends Application {
 //                    System.out.println(voitures[i-plateau.nb_pistes/2].getLocation());
                     if (voitures[i-plateau.nb_pistes/2].intersects(frog)) {
                         System.out.println("colision");
+                        chrono.stop();
+                        System.out.println(chrono.getElapsedMilliseconds());
 
                     }
                 }
