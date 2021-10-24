@@ -2,11 +2,13 @@ import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+
+import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 
-public class Frog{
+public class Frog extends Rectangle {
     private double X;
     private double Y;
     private ImageView imageView;

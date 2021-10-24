@@ -30,14 +30,7 @@ public class IHM extends Application {
     private int speed_down = 1;
     private int speed_h = 3;
 
-    Group root = new Group();
-    Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*this.nb_case);
-    Plateau plateau = new Plateau(root, this.nb_case, this.l_case);
-    Voiture voiture = new Voiture(plateau.get(1),scene, this.l_case);
 
-    GridPane deadwindow = new GridPane();
-    Text deadText = new Text("You're dead !");
-    Scene the_end = new Scene(deadwindow, this.l_case*this.nb_case, this.l_case*this.nb_case);
 
 
     public static void main(String[] args) {
@@ -49,10 +42,15 @@ public class IHM extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
-
+        Group root = new Group();
+        Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*this.nb_case);
+        Plateau plateau = new Plateau(root, this.nb_case, this.l_case);
+        Voiture voiture = new Voiture(plateau.get(1),scene, this.l_case);
         scene.setFill(Color.web("#81c483"));
 
+        GridPane deadwindow = new GridPane();
+        Text deadText = new Text("You're dead !");
+        Scene the_end = new Scene(deadwindow, this.l_case*this.nb_case, this.l_case*this.nb_case);
         deadwindow.setAlignment(Pos.CENTER);
         deadText.setStyle("-fx-font: normal bold "+this.l_case+"px 'serif' ");
         deadwindow.add(deadText, 0, 0);
@@ -75,7 +73,10 @@ public class IHM extends Application {
             if(e.getCode()==KeyCode.RIGHT){
                 System.out.println(frog.getCoord());
                 frog.right();
-
+                voiture.setSize((int)this.l_case, (int)this.l_case);
+                frog.setSize((int)this.l_case, (int)this.l_case);
+                System.out.println(voiture.getSize());
+                System.out.println(voiture.intersects(frog));
             }
             if(e.getCode()==KeyCode.LEFT){
                 System.out.println(frog.getCoord());
@@ -97,6 +98,7 @@ public class IHM extends Application {
             @Override
             public void run() {
                 voiture.move(speed_h);
+
                 plateau.auto_down(speed_down);
                 voiture.auto_down(speed_down);
                 frog.auto_down(speed_down);

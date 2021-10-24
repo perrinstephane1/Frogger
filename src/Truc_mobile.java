@@ -7,8 +7,10 @@
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 
+import java.awt.*;
 
-public class Truc_mobile {
+
+public class Truc_mobile extends Rectangle {
     protected double taille_obstacle;
     protected double vitesse;
     protected double sens;
