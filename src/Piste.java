@@ -24,7 +24,7 @@ public class Piste {
         this.taille_obstacle = taille_obstacle;
         try {
             for (int jj=0; jj< p.nb_pistes; jj++) {
-                Image image = new Image(new FileInputStream("D:\\SOIA_2A\\java\\Frogger\\herbe.png"));
+                Image image = new Image(new FileInputStream("herbe.png"));
                 this.imageView = new ImageView(image);
                 this.imageView.setFitHeight(p.h_piste);
                 this.imageView.setFitWidth(p.h_piste);
