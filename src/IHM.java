@@ -44,14 +44,7 @@ public class IHM extends Application {
         launch(args);
     }
 
-//    public void down() {
-//        TranslateTransition transPlateau = new TranslateTransition(Duration.seconds(0.001), plateau.getGridPane());
-//        TranslateTransition transVoiture = new TranslateTransition(Duration.seconds(0.001), voiture.getImageView());
-//        transPlateau.setByY(40);
-//        transPlateau.play();
-//        transVoiture.setByY(40);
-//        transVoiture.play();
-//    }
+
 
 
     @Override
