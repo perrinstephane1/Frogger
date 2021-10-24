@@ -25,7 +25,7 @@ import java.util.TimerTask;
 
 
 public class IHM extends Application {
-    private double l_case=70;
+    private double l_case=50;
     private int nb_case=12;
     private int speed_down = 1;
     private int speed_h = 3;

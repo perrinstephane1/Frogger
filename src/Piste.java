@@ -60,7 +60,21 @@ public class Piste {
             } catch (FileNotFoundException e) {
                 System.out.println(e);
             }
+        }else if (this.type_piste == 2){  // If it is the beginning
+            try {
+                for (int jj = 0; jj < p.nb_pistes; jj++) {
+                    Image image = new Image(new FileInputStream("debut.png"));
+                    this.imageView = new ImageView(image);
+                    this.imageView.setFitHeight(p.h_piste);
+                    this.imageView.setFitWidth(p.h_piste);
+                    this.gridPane.add(this.imageView, jj, ii);
+                }
+
+            } catch (FileNotFoundException e) {
+                System.out.println(e);
+            }
         }
+
     }
 
 
