@@ -34,6 +34,7 @@ public class IHM extends Application {
     Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*this.nb_case);
     Plateau plateau = new Plateau(root, this.nb_case, this.l_case);
     Voiture voiture = new Voiture(plateau.get(1),scene, this.l_case);
+    Voiture voiture2 = new Voiture(plateau.get(2),scene, this.l_case);
 
     GridPane deadwindow = new GridPane();
     Text deadText = new Text("You're dead !");
@@ -86,6 +87,7 @@ public class IHM extends Application {
         root.getChildren().add(plateau.getGridPane());
         root.getChildren().add(frog.getImageView());
         root.getChildren().add(voiture.getImageView());
+        root.getChildren().add(voiture2.getImageView());
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -93,8 +95,12 @@ public class IHM extends Application {
             @Override
             public void run() {
                 voiture.move(speed_h);
-                plateau.auto_down(speed_down);
                 voiture.auto_down(speed_down);
+                voiture2.move(speed_h);
+                voiture2.auto_down(speed_down);
+
+                plateau.auto_down(speed_down);
+
                 frog.auto_down(speed_down);
             }
         }, 0, 50);

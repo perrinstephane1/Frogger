@@ -13,6 +13,9 @@ public class Piste {
     protected double sens;
     protected double vitesse;
     protected double taille_obstacle;
+    protected double longueur_piste;
+    protected double longueur_bloc;
+    protected int numero_piste;
     protected boolean arrivee; // si c'est la dernière ligne c'est FINI
     protected ImageView imageView;
     protected GridPane gridPane = new GridPane();
@@ -21,6 +24,9 @@ public class Piste {
         this.vitesse = vitesse;
         this.sens = sens;
         this.taille_obstacle = taille_obstacle;
+        this.longueur_bloc = p.h_piste;
+        this.longueur_piste = p.nb_pistes*p.h_piste;
+        this.numero_piste = ii;
         try {
             for (int jj=0; jj< p.nb_pistes; jj++) {
                 Image image = new Image(new FileInputStream("routemieuxJAUNE.jpeg.png"));
