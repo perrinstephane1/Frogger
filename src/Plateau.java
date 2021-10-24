@@ -25,10 +25,13 @@ public class Plateau extends ArrayList<Piste> {
         for (int ii=0; ii<this.nb_pistes/2; ii++) {
             this.addPiste(ii, 1);
         }
-        for (int ii=this.nb_pistes/2; ii<this.nb_pistes - 1; ii++) {
+        for (int ii=this.nb_pistes/2; ii<this.nb_pistes; ii++) {
             this.addPiste(ii, 0);
         }
-        this.addPiste(this.nb_pistes, 2); // First line
+        this.addPiste(this.nb_pistes-1, 2); // Bottom line
+        this.addPiste(this.nb_pistes/2 - 1, 2); // Middle line
+        this.addPiste(0, 2); // Top line
+
 
 
 

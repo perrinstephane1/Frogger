@@ -1,4 +1,3 @@
-import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -10,31 +9,23 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import java.sql.Time;
-import java.util.Date;
 import java.util.TimerTask;
 import java.util.Timer;
-import java.util.TimerTask;
-
 
 
 public class IHM extends Application {
     private double l_case=50;
-    private int nb_case=12;
+    private int nb_case=10;
     private int speed_down = 1;
     private int speed_h = 3;
 
     Group root = new Group();
     Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*this.nb_case);
     Plateau plateau = new Plateau(root, this.nb_case, this.l_case);
-    Voiture voiture = new Voiture(plateau.get(1),scene, this.l_case);
-    Voiture voiture2 = new Voiture(plateau.get(2),scene, this.l_case);
+    Voiture voiture = new Voiture(plateau.get(4),scene, this.l_case);
+    Voiture voiture2 = new Voiture(plateau.get(nb_case),scene, this.l_case);
+
 
     GridPane deadwindow = new GridPane();
     Text deadText = new Text("You're dead !");
@@ -47,7 +38,6 @@ public class IHM extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-
         scene.setFill(Color.web("#81c483"));
 
         deadwindow.setAlignment(Pos.CENTER);
@@ -55,8 +45,7 @@ public class IHM extends Application {
         deadwindow.add(deadText, 0, 0);
         the_end.setFill(Color.web("#d13318"));
 
-
-        Frog frog = new Frog((this.nb_case-1) * this.l_case /2 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case);
+        Frog frog = new Frog((this.nb_case) * this.l_case /2 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case);
 
 
         EventHandler<KeyEvent> keyListener = e -> {
@@ -83,6 +72,8 @@ public class IHM extends Application {
 
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
+
+
 
         root.getChildren().add(plateau.getGridPane());
         root.getChildren().add(frog.getImageView());
