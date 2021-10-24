@@ -5,6 +5,7 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.TimerTask;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class Plateau extends ArrayList<Piste> {
@@ -27,7 +28,13 @@ public class Plateau extends ArrayList<Piste> {
     }
 
     public void addPiste(int cnt) {
-        Piste piste = new Piste(cnt, this, true, 1, 1, 1);
+
+        int taille_min = 1;
+        int taille_max = 3;
+        int taille_obstacle = ThreadLocalRandom.current().nextInt(taille_min, taille_max + 1);
+
+
+        Piste piste = new Piste(cnt, this, true, 1, 1, taille_obstacle);
         this.add(piste);
         this.gridPane.add(piste.getImageView(), 0, cnt);
     }
