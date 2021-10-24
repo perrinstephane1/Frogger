@@ -95,13 +95,13 @@ public class IHM extends Application {
             @Override
             public void run() {
                 voiture.move(speed_h);
-                voiture.auto_down(speed_down);
+                //voiture.auto_down(speed_down);
                 voiture2.move(speed_h);
-                voiture2.auto_down(speed_down);
+                //voiture2.auto_down(speed_down);
 
-                plateau.auto_down(speed_down);
+                //plateau.auto_down(speed_down);
 
-                frog.auto_down(speed_down);
+                //frog.auto_down(speed_down);
             }
         }, 0, 50);
 

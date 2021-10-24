@@ -30,8 +30,8 @@ public class Truc_mobile {
         int position_max = (int) piste.longueur_piste;
         int position_start = ThreadLocalRandom.current().nextInt(position_min, position_max + 1);
 
-        this.X = position_start; //TODO changer le point d apparition
-        this.Y = (piste.numero_piste-1)*piste.longueur_bloc; //TODO en fonction de la piste
+        this.X = position_start;
+        this.Y = (piste.numero_piste-1)*piste.longueur_bloc;
 
 
 

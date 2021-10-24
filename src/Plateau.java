@@ -23,23 +23,24 @@ public class Plateau extends ArrayList<Piste> {
         this.l_piste = this.h_piste*this.nb_pistes;
 
         for (int ii=0; ii<this.nb_pistes/2; ii++) {
-            this.addPiste(ii);
+            this.addPiste(ii, 0);
         }
         for (int ii=this.nb_pistes/2; ii<this.nb_pistes; ii++) {
-            this.addPiste(ii);
+            this.addPiste(ii, 1);
         }
 
 
     }
 
-    public void addPiste(int cnt) {
+    public void addPiste(int cnt, int type_piste) {
 
         int taille_min = 1;
         int taille_max = 3;
         int taille_obstacle = ThreadLocalRandom.current().nextInt(taille_min, taille_max + 1);
+        int sens = ThreadLocalRandom.current().nextInt(0, 1 + 1);
 
 
-        Piste piste = new Piste(cnt, this, true, 1, 1, taille_obstacle);
+        Piste piste = new Piste(cnt, this, true, sens, 1, taille_obstacle, type_piste);
         this.add(piste);
         this.gridPane.add(piste.getImageView(), 0, cnt);
     }

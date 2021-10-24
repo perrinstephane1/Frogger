@@ -77,7 +77,7 @@ public class Voiture extends Truc_mobile {
         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001D), this.getImageView());
         if (this.sens == 1) {
 
-            if (this.X + this.l_case > this.scene.getWidth()) {
+            if (this.X > this.scene.getWidth()) {
                 trans.setByX(-this.scene.getWidth());
                 this.X = 0;
                 // if the object goes off the scene, its position is re-init
@@ -89,7 +89,7 @@ public class Voiture extends Truc_mobile {
             trans.play();
         }
         else{
-            if (this.X - this.l_case < 0) {
+            if (this.X + this.l_case < 0) {
                 trans.setByX(this.scene.getWidth());
                 this.X = this.scene.getWidth();
                 // if the object goes off the scene, its position is re-init
