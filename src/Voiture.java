@@ -22,8 +22,8 @@ public class Voiture extends Truc_mobile {
                 this.imageView = new ImageView(image);
                 this.imageView.setX(this.X);
                 this.imageView.setY(this.Y);
-                this.imageView.setFitWidth(piste.taille_obstacle*this.l_case);
-                this.imageView.setFitHeight(this.l_case);
+                this.imageView.setFitWidth(this.l_case);
+                this.imageView.setFitHeight(this.l_case/piste.taille_obstacle);
                 this.imageView.setPreserveRatio(false);
             } catch (FileNotFoundException var7) {
                 System.out.println("No picture found.");
@@ -54,8 +54,8 @@ public class Voiture extends Truc_mobile {
                 this.imageView = new ImageView(image);
                 this.imageView.setX(this.X);
                 this.imageView.setY(this.Y);
-                this.imageView.setFitWidth(piste.taille_obstacle*this.l_case);
-                this.imageView.setFitHeight(this.l_case);
+                this.imageView.setFitWidth(this.l_case);
+                this.imageView.setFitHeight(this.l_case/piste.taille_obstacle);
                 this.imageView.setPreserveRatio(false);
             } catch (FileNotFoundException var7) {
                 System.out.println("No picture found.");
