@@ -4,16 +4,10 @@
 //
 
 
-import javafx.animation.TranslateTransition;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.util.Duration;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class Truc_mobile {
@@ -30,8 +24,14 @@ public class Truc_mobile {
 
 
     public Truc_mobile(Piste piste, Scene scene, double l_case) {
-        this.X = 0; //TODO changer le point d apparition
-        this.Y = 0; //TODO en fonction de la piste
+
+
+        int position_min = 0;
+        int position_max = (int) piste.longueur_piste;
+        int position_start = ThreadLocalRandom.current().nextInt(position_min, position_max + 1);
+
+        this.X = position_start;
+        this.Y = (piste.numero_piste-1)*piste.longueur_bloc;
 
 
 
