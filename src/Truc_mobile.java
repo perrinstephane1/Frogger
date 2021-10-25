@@ -54,19 +54,17 @@ public class Truc_mobile extends Rectangle {
     }
 
     public void move(int speed) {
-        TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001D), this.getImageView());
+        TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
         if (this.sens == 1) {
 
             if (this.getX() >= this.scene.getWidth()) {
                 trans.setByX(-this.scene.getWidth()-this.l_case);
-                this.setLocation((int)this.getX()-(int)this.l_case, (int)this.getY());
-//                this.X = -this.l_case;
+                this.setLocation((int)this.getX()-(int)this.scene.getWidth()-(int)this.l_case, (int)this.getY());
                 // if the object goes off the scene, its position is re-init
             }
             else{
                 trans.setByX(speed);
                 this.setLocation((int)this.getX()+speed, (int)this.getY());
-//                this.X += speed;
             }
             trans.play();
         }
@@ -74,14 +72,11 @@ public class Truc_mobile extends Rectangle {
             if (this.getX() + this.l_case < 0) {
                 trans.setByX(this.scene.getWidth()+this.l_case);
                 this.setLocation((int)this.scene.getWidth(), (int)this.getY());
-//                this.X = ;
                 // if the object goes off the scene, its position is re-init
             }
             else{
                 trans.setByX(-speed);
                 this.setLocation((int)this.getX()-speed, (int)this.getY());
-
-//                this.X -= speed;
             }
             trans.play();
         }

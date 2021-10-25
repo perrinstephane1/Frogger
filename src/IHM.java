@@ -87,7 +87,7 @@ public class IHM extends Application {
 //        root.getChildren().add(voiture.getImageView());
 //        root.getChildren().add(voiture2.getImageView());
         addCar();
-        addLog();
+//        addLog();
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -130,7 +130,7 @@ public class IHM extends Application {
             public void run() {
                 for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
                     voitures[i-plateau.nb_pistes/2].move(speed_h);
-//                    System.out.println(voitures[i-plateau.nb_pistes/2].getLocation());
+//                    System.out.println(frog.getLocation());
                     if (voitures[i-plateau.nb_pistes/2].intersects(frog)) {
                         System.out.println("colision");
                         chrono.stop();
