@@ -17,10 +17,13 @@ import java.util.Timer;
 
 
 public class IHM extends Application {
-    private double l_case=50;
+    private int l_case=50;
     private int nb_case=10;
     private int speed_down = 1;
     private int speed_h = 3;
+    private Chrono chrono = new Chrono();
+
+    Frog frog = new Frog((this.nb_case) * this.l_case /2 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case);
 
     Group root = new Group();
     Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*this.nb_case);
@@ -42,30 +45,33 @@ public class IHM extends Application {
 
         scene.setFill(Color.web("#81c483"));
 
+
         deadwindow.setAlignment(Pos.CENTER);
         deadText.setStyle("-fx-font: normal bold "+this.l_case+"px 'serif' ");
         deadwindow.add(deadText, 0, 0);
         the_end.setFill(Color.web("#d13318"));
 
-        Frog frog = new Frog((this.nb_case) * this.l_case /2 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case);
 
         EventHandler<KeyEvent> keyListener = e -> {
+            if (!chrono.isRunning) {
+                chrono.start();
+            }
             if(e.getCode()== KeyCode.UP){
-                System.out.println(frog.getCoord());
+//                System.out.println(frog.getCoord());
                 frog.up();
             }
             if(e.getCode()==KeyCode.DOWN){
-                System.out.println(frog.getCoord());
+//                System.out.println(frog.getCoord());
                 frog.down();
 
             }
             if(e.getCode()==KeyCode.RIGHT){
-                System.out.println(frog.getCoord());
+//                System.out.println(frog.getCoord());
                 frog.right();
 
             }
             if(e.getCode()==KeyCode.LEFT){
-                System.out.println(frog.getCoord());
+//                System.out.println(frog.getCoord());
                 frog.left();
             }
             this.check_end(frog, primaryStage, the_end);
@@ -114,7 +120,7 @@ public class IHM extends Application {
 
         Voiture[] voitures = new Voiture[plateau.nb_pistes/2];
         for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
-            System.out.println("effkfkfkfkfkfkfkfkfkfkfk");
+//            System.out.println("effkfkfkfkfkfkfkfkfkfkfk");
             voitures[i-plateau.nb_pistes/2] = new Voiture(plateau.get(i),scene, this.l_case);
             root.getChildren().add(voitures[i-plateau.nb_pistes/2].getImageView());
 
@@ -124,6 +130,13 @@ public class IHM extends Application {
             public void run() {
                 for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
                     voitures[i-plateau.nb_pistes/2].move(speed_h);
+//                    System.out.println(voitures[i-plateau.nb_pistes/2].getLocation());
+                    if (voitures[i-plateau.nb_pistes/2].intersects(frog)) {
+                        System.out.println("colision");
+                        chrono.stop();
+                        System.out.println(chrono.getElapsedMilliseconds());
+
+                    }
                 }
             }
         }, 0, 50);
@@ -135,7 +148,7 @@ public class IHM extends Application {
         for (int i = 2; i < plateau.nb_pistes/2; i++) { // Start at number 2 because Number 1 is a safe lane
             System.out.println("nenu nenu");
             nenuphars[i] = new Nenuphar(plateau.get(i),scene, this.l_case);
-            root.getChildren().add(nenuphars[i].getImageView());
+//            root.getChildren().add(nenuphars[i].getImageView());
 
         }
         new Timer().scheduleAtFixedRate(new TimerTask() {
