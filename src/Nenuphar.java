@@ -11,8 +11,8 @@ public class Nenuphar extends Truc_mobile{
     private boolean hostile;
     private ImageView imageView;
 
-    public Nenuphar(Piste piste, Scene scene, double l_case) {
-        super(piste,scene,l_case);
+    public Nenuphar(Piste piste, Scene scene, double l_case, int in_plateau) {
+        super(piste,scene,l_case, in_plateau);
 
         if(piste.taille_obstacle == 1.0){
             System.out.println(piste.taille_obstacle);
@@ -61,11 +61,6 @@ public class Nenuphar extends Truc_mobile{
                 System.out.println(var7);
             }
         }
-
-
-
-
-
     }
 
     public ImageView getImageView() {

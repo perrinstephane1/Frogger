@@ -19,11 +19,13 @@ public class Truc_mobile {
     protected double Y;
     protected double l_case;
     protected Scene scene;
+    protected int in_plateau = 1; //1 : sur le plateau, 0 : out
+    protected Piste piste;
     private ImageView imageView;
 
 
 
-    public Truc_mobile(Piste piste, Scene scene, double l_case) {
+    public Truc_mobile(Piste piste, Scene scene, double l_case, int in_plateau) {
 
 
         int position_min = 0;
@@ -33,7 +35,8 @@ public class Truc_mobile {
         this.X = position_start;
         this.Y = (piste.numero_piste-1)*piste.longueur_bloc;
 
-
+        this.in_plateau = in_plateau;
+        this.piste = piste;
 
         this.vitesse = piste.vitesse;
         this.sens = piste.sens;

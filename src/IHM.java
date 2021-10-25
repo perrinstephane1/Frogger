@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
 import java.util.Timer;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class IHM extends Application {
@@ -21,6 +22,9 @@ public class IHM extends Application {
     private int nb_case=10;
     private int speed_down = 1;
     private int speed_h = 3;
+    private Voiture[] voituresIHM = new Voiture[1000000];
+    private int compteur_voiture = 0;
+    private int compteur_nenuphar = 0;
 
     Group root = new Group();
     Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*this.nb_case);
@@ -41,7 +45,6 @@ public class IHM extends Application {
     public void start(Stage primaryStage) {
 
         scene.setFill(Color.web("#81c483"));
-
         deadwindow.setAlignment(Pos.CENTER);
         deadText.setStyle("-fx-font: normal bold "+this.l_case+"px 'serif' ");
         deadwindow.add(deadText, 0, 0);
@@ -70,18 +73,26 @@ public class IHM extends Application {
             }
             this.check_end(frog, primaryStage, the_end);
         };
-
-
         scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
 
-
         root.getChildren().add(plateau.getGridPane());
+        initLog();
+        initLog();
+        initCar();
+        initCar();
+
         root.getChildren().add(frog.getImageView());
-//        root.getChildren().add(nenuphar.getImageView());
-//        root.getChildren().add(voiture.getImageView());
-//        root.getChildren().add(voiture2.getImageView());
-        addCar();
-        addLog();
+
+//        new Timer().scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                addElement();
+//                moveElement();
+//                showElement();
+//            }
+//        }, 0, 10000);
+
+
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -99,8 +110,6 @@ public class IHM extends Application {
 //            }
 //        }, 0, 50);
     }
-
-
     public void check_end(Frog frog, Stage primaryStage, Scene scene) {
         if (frog.getX()<0 || frog.getX()>this.l_case*this.nb_case || frog.getY()<0 || frog.getY()>this.l_case*this.nb_case) {
             primaryStage.setScene(scene);
@@ -109,15 +118,12 @@ public class IHM extends Application {
 //            primaryStage.setScene(scene);
 //        }
     }
-
-    public void addCar() {
-
-        Voiture[] voitures = new Voiture[plateau.nb_pistes/2];
+    public void initCar() {
+        Voiture[] voitures = new Voiture[plateau.nb_pistes*10];
         for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
-            System.out.println("effkfkfkfkfkfkfkfkfkfkfk");
-            voitures[i-plateau.nb_pistes/2] = new Voiture(plateau.get(i),scene, this.l_case);
+            System.out.println("car init");
+            voitures[i-plateau.nb_pistes/2] = new Voiture(plateau.get(i),scene, this.l_case, 1);
             root.getChildren().add(voitures[i-plateau.nb_pistes/2].getImageView());
-
         }
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -128,15 +134,12 @@ public class IHM extends Application {
             }
         }, 0, 50);
     }
-
-    public void addLog() {
-
-        Nenuphar[] nenuphars = new Nenuphar[plateau.nb_pistes/2];
+    public void initLog() {
+        Nenuphar[] nenuphars = new Nenuphar[plateau.nb_pistes*10];
         for (int i = 2; i < plateau.nb_pistes/2; i++) { // Start at number 2 because Number 1 is a safe lane
-            System.out.println("nenu nenu");
-            nenuphars[i] = new Nenuphar(plateau.get(i),scene, this.l_case);
+            System.out.println("nenu init");
+            nenuphars[i] = new Nenuphar(plateau.get(i),scene, this.l_case, 1);
             root.getChildren().add(nenuphars[i].getImageView());
-
         }
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -147,5 +150,29 @@ public class IHM extends Application {
             }
         }, 0, 50);
     }
+    public void addElement(){
 
+        System.out.println("debut addelement");
+        int ii = ThreadLocalRandom.current().nextInt(1, plateau.nb_pistes);
+        System.out.println(ii);
+
+        compteur_voiture += 1;
+
+        System.out.println("compteur voigture");
+        System.out.println(compteur_voiture);
+
+        voituresIHM[compteur_voiture] = new Voiture(plateau.get(ii),scene, l_case, 1);
+        System.out.println("fin de boucle 5000");
+    }
+    public void showElement(){
+        root.getChildren().add(voituresIHM[1].getImageView());
+    }
+    public void moveElement(){
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                voituresIHM[compteur_voiture].move(speed_h);
+            }
+        }, 0, 50);
+    }
 }

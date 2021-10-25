@@ -39,10 +39,11 @@ public class Plateau extends ArrayList<Piste> {
         int taille_min = 1;
         int taille_max = 3;
         int taille_obstacle = ThreadLocalRandom.current().nextInt(taille_min, taille_max + 1);
-        int sens = ThreadLocalRandom.current().nextInt(0, 1 + 1);
+
+        //int sens = ThreadLocalRandom.current().nextInt(0, 1 + 1);
 
 
-        Piste piste = new Piste(cnt, this, true, sens, 1, taille_obstacle, type_piste);
+        Piste piste = new Piste(cnt, this, true, cnt%2, 1, taille_obstacle, type_piste);
         this.add(piste);
         this.gridPane.add(piste.getImageView(), 0, cnt);
     }
