@@ -15,6 +15,8 @@ public class Frog extends Rectangle {
     private boolean dead;
     private int l_case;
     private int nb_case;
+    private int score = 0;
+    private int etage = 0;
 
     public Frog(int X, int Y, int l_case, int nb_case) {
         super(X, Y, l_case, l_case);
@@ -45,6 +47,10 @@ public class Frog extends Rectangle {
         if (this.getY()-this.l_case>=0) {
             trans.play();
             this.setLocation((int)this.getX(), (int)this.getY()-this.l_case);
+            if (this.score==this.etage) {
+                this.score += 1;
+            }
+            this.etage += 1;
         } else {
             this.dead = true;
         }
@@ -56,6 +62,7 @@ public class Frog extends Rectangle {
         if (this.l_case*this.nb_case>this.getY()+this.l_case) {
             trans.play();
             this.setLocation((int)this.getX(), (int)this.getY()+this.l_case);
+            this.etage -= 1;
         } else {
             this.dead = true;
         }
@@ -83,7 +90,10 @@ public class Frog extends Rectangle {
         }
     }
 
-//    public String getCoord(){
+    public int getScore() {
+        return score;
+    }
+    //    public String getCoord(){
 //        return this.X+", "+this.Y+", "+this.dead;
 //    }
 

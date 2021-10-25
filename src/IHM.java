@@ -75,6 +75,7 @@ public class IHM extends Application {
                 frog.left();
             }
             this.check_end(frog, primaryStage, the_end);
+            System.out.println("Score : "+frog.getScore());
         };
 
 
