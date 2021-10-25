@@ -33,15 +33,18 @@ public class test1212 extends Application {
         //SeparatorMenuItem separator= new SeparatorMenuItem(); pour séparer
         MenuItem pseudo2= new MenuItem("Pseudo 2");
         MenuItem nbre_routes = new MenuItem("Nombre de routes");
-        MenuItem nbre_riviere=new MenuItem("Nombre de rivière");
+        MenuItem nbre_riviere=new MenuItem("Largeur de la rivière");
         MenuItem deb = new MenuItem("Débutant");
         MenuItem inter = new MenuItem("Intermédiaire");
-        MenuItem exp = new MenuItem("expert");
+        MenuItem exp = new MenuItem("Expert");
+        MenuItem fini = new MenuItem("Fini");
+        MenuItem infini = new MenuItem("Infini");
         MenuItem un_joueur = new MenuItem("1 joueur");
         MenuItem deux_joueurs = new MenuItem("2 joueurs");
         MenuItem bs = new MenuItem("Meilleurs scores");
         MenuItem pause = new MenuItem("Pause");
         SeparatorMenuItem separator= new SeparatorMenuItem();
+        SeparatorMenuItem separator2= new SeparatorMenuItem();
         MenuItem quitter = new MenuItem("Quitter");
         Menu menu1 = new Menu("Paramètres");
         Menu menu2 = new Menu("Difficulté");
@@ -50,7 +53,7 @@ public class test1212 extends Application {
         Menu menu5 = new Menu("Jeu");
         menu1.getItems().addAll(pseudo1,pseudo2, nbre_routes,nbre_riviere);
         menu2.getItems().addAll(deb,inter,exp);
-        menu3.getItems().addAll(un_joueur,deux_joueurs);
+        menu3.getItems().addAll(un_joueur,deux_joueurs,separator2,fini,infini);
         menu4.getItems().addAll(bs);
         menu5.getItems().addAll(pause, separator,quitter);
         MenuBar menuBar= new MenuBar(menu1,menu2,menu5,menu3,menu4);
@@ -130,10 +133,159 @@ public class test1212 extends Application {
                 stage.setTitle("Changement de nom");
                 stage.setScene(new Scene(gridPane, 300, 150));
                 stage.show();
-                //TODO changer le nom dans le programme en tapant OK
+                OKbutton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        System.out.println("On a chnagé le pseudo du 1er joueur");
+                        //TODO changer le nom
+                        stage.close();
+                    }
+                });
             }
         });
-
+        pseudo2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                // TODO regarder si on est en mode 2 joueurs ou pas
+                Label nameLabel = new Label("Nom du joueur 2");
+                TextField pseudo = new TextField("Entrez votre pseudo");
+                Button OKbutton= new Button("OK");
+                GridPane gridPane = new GridPane();
+                // setting the gridPane
+                gridPane.setMinSize(100,200);
+                gridPane.setPadding(new javafx.geometry.Insets(3,3,3,3));
+                gridPane.setHgap(2);
+                gridPane.setVgap(10);
+                //gridPane.setAlignment(Pos.CENTER);
+                gridPane.add(nameLabel,0,3);
+                gridPane.add(pseudo,1,3);
+                gridPane.add(OKbutton,2,3);
+                Stage stage = new Stage();
+                stage.setTitle("Changement de nom");
+                stage.setScene(new Scene(gridPane, 300, 150));
+                stage.show();
+                OKbutton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        System.out.println("On a changé le pseudo 2");
+                        stage.close();
+                        //TODO changer le nom
+                    }
+                });
+            }
+        });
+        // action pour changer le nombre de routes/voies d'eau
+        nbre_routes.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Label nameLabel = new Label("Nombre de routes");
+                TextField n = new TextField("4");
+                Button OKbutton= new Button("OK");
+                GridPane gridPane = new GridPane();
+                // setting the gridPane
+                gridPane.setMinSize(100,200);
+                gridPane.setPadding(new javafx.geometry.Insets(3,3,3,3));
+                gridPane.setHgap(2);
+                gridPane.setVgap(10);
+                //gridPane.setAlignment(Pos.CENTER);
+                gridPane.add(nameLabel,0,3);
+                gridPane.add(n,1,3);
+                gridPane.add(OKbutton,2,3);
+                Stage stage = new Stage();
+                stage.setTitle("Nombre de routes");
+                stage.setScene(new Scene(gridPane, 300, 150));
+                stage.show();
+                OKbutton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        System.out.println("On a changé le nombre de routes");
+                        stage.close();
+                        //TODO changer le nombre de routes
+                    }
+                });
+            }
+        });
+        nbre_riviere.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Label nameLabel = new Label("Larguer de la rivière");
+                TextField n = new TextField("4");
+                Button OKbutton= new Button("OK");
+                GridPane gridPane = new GridPane();
+                // setting the gridPane
+                gridPane.setMinSize(100,200);
+                gridPane.setPadding(new javafx.geometry.Insets(3,3,3,3));
+                gridPane.setHgap(2);
+                gridPane.setVgap(10);
+                //gridPane.setAlignment(Pos.CENTER);
+                gridPane.add(nameLabel,0,3);
+                gridPane.add(n,1,3);
+                gridPane.add(OKbutton,2,3);
+                Stage stage = new Stage();
+                stage.setTitle("Largeur de la rivière");
+                stage.setScene(new Scene(gridPane, 300, 150));
+                stage.show();
+                OKbutton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        System.out.println("On a changé la largeur de la rivière");
+                        stage.close();
+                        //TODO changer le nombre de routes
+                    }
+                });
+            }
+        });
+        // actions pour changer la difficulté
+        deb.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("on est passé en mode débutant");
+                // TODO passer la speed en mode lent
+            }
+        });
+        inter.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("on est passé en mode intermédiaire");
+                // TODO passer la speed en mode normal
+            }
+        });
+        exp.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("on est passé en mode expert");
+                // TODO passer la speed en mode lent
+            }
+        });
+        // actions pour changer le mode de jeu
+        fini.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //TODO passer en mode fini
+                System.out.println("on est passé en mode de jeu fini");
+            }
+        });
+        infini.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //TODO passer en mode fini
+                System.out.println("on est passé en mode de jeu infini");
+            }
+        });
+        un_joueur.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //TODO passer en mode un joueur
+                System.out.println("on est passé en mode 1 joueur");
+            }
+        });
+        deux_joueurs.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //TODO passer en mode deux joueurs
+                System.out.println("on est passé en mode 2 joueurs");
+            }
+        });
         // setting the scene
         Scene scene = new Scene(gridPane,1000,500);
         primaryStage.setTitle("Bonjour Wiwi");
