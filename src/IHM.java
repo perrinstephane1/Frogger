@@ -19,9 +19,10 @@ import java.util.Timer;
 public class IHM extends Application {
     private int l_case=50;
     private int nb_case=10;
-    private int speed_down = 1;
+    private int speed_down = 10;
     private int speed_h = 3;
     private Chrono chrono = new Chrono();
+    private Voiture[] voitures;
 
     Frog frog = new Frog((this.nb_case) * this.l_case /2 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case);
 
@@ -59,21 +60,26 @@ public class IHM extends Application {
             if(e.getCode()== KeyCode.UP){
 //                System.out.println(frog.getCoord());
                 frog.up();
-            }
-            if(e.getCode()==KeyCode.DOWN){
+            } else if(e.getCode()==KeyCode.DOWN){
 //                System.out.println(frog.getCoord());
                 frog.down();
 
-            }
-            if(e.getCode()==KeyCode.RIGHT){
+            } else if(e.getCode()==KeyCode.RIGHT){
 //                System.out.println(frog.getCoord());
                 frog.right();
 
-            }
-            if(e.getCode()==KeyCode.LEFT){
+            } else if(e.getCode()==KeyCode.LEFT){
 //                System.out.println(frog.getCoord());
                 frog.left();
+            } else if (e.getCode()==KeyCode.SPACE) {
+                plateau.auto_down(speed_down);
+                for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
+                    this.voitures[i-plateau.nb_pistes/2].auto_down(speed_down);
+                }
+
+
             }
+
             this.check_end(frog, primaryStage, the_end);
             System.out.println("Score : "+frog.getScore());
         };
@@ -92,6 +98,7 @@ public class IHM extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.show();
+
 //        new Timer().scheduleAtFixedRate(new TimerTask() {
 //            @Override
 //            public void run() {
@@ -119,7 +126,12 @@ public class IHM extends Application {
 
     public void addCar() {
 
-        Voiture[] voitures = new Voiture[plateau.nb_pistes/2];
+        this.voitures = new Voiture[plateau.nb_pistes/2];
+
+        Thread thread_IHM = Thread.currentThread();
+        System.out.println(thread_IHM);
+
+
         for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
 //            System.out.println("effkfkfkfkfkfkfkfkfkfkfk");
             voitures[i-plateau.nb_pistes/2] = new Voiture(plateau.get(i),scene, this.l_case);
@@ -131,7 +143,6 @@ public class IHM extends Application {
             public void run() {
                 for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
                     voitures[i-plateau.nb_pistes/2].move(speed_h);
-//                    System.out.println(frog.getLocation());
                     if (voitures[i-plateau.nb_pistes/2].intersects(frog)) {
                         System.out.println("colision");
                         chrono.stop();
@@ -139,8 +150,10 @@ public class IHM extends Application {
 
                     }
                 }
+//                thread_IHM.run();
+//                plateau.auto_down(speed_down);
             }
-        }, 0, 50);
+        }, 500, 100);
     }
 
     public void addLog() {

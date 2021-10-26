@@ -83,4 +83,13 @@ public class Truc_mobile extends Rectangle {
     }
 
 
+    public void auto_down(int speed) {
+
+        TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
+        trans.setByY(speed);
+        trans.play();
+
+        }
+
+
 }
