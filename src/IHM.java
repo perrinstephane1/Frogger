@@ -18,7 +18,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 public class IHM extends Application {
-    private double l_case=50;
+    private int l_case=50;
     private int nb_case=10;
     private int speed_down = 1;
     private int speed_h = 3;
@@ -29,9 +29,6 @@ public class IHM extends Application {
     Group root = new Group();
     Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*this.nb_case);
     Plateau plateau = new Plateau(root, this.nb_case, this.l_case);
-//    Voiture voiture = new Voiture(plateau.get(4),scene, this.l_case);
-//    Voiture voiture2 = new Voiture(plateau.get(nb_case),scene, this.l_case);
-//    Nenuphar nenuphar = new Nenuphar(plateau.get(3),scene, this.l_case);
 
 
     GridPane deadwindow = new GridPane();
@@ -54,21 +51,17 @@ public class IHM extends Application {
 
         EventHandler<KeyEvent> keyListener = e -> {
             if(e.getCode()== KeyCode.UP){
-                System.out.println(frog.getCoord());
                 frog.up();
             }
             if(e.getCode()==KeyCode.DOWN){
-                System.out.println(frog.getCoord());
                 frog.down();
 
             }
             if(e.getCode()==KeyCode.RIGHT){
-                System.out.println(frog.getCoord());
                 frog.right();
 
             }
             if(e.getCode()==KeyCode.LEFT){
-                System.out.println(frog.getCoord());
                 frog.left();
             }
             this.check_end(frog, primaryStage, the_end);
@@ -110,6 +103,7 @@ public class IHM extends Application {
 //            }
 //        }, 0, 50);
     }
+
     public void check_end(Frog frog, Stage primaryStage, Scene scene) {
         if (frog.getX()<0 || frog.getX()>this.l_case*this.nb_case || frog.getY()<0 || frog.getY()>this.l_case*this.nb_case) {
             primaryStage.setScene(scene);

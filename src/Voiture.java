@@ -13,8 +13,8 @@ public class Voiture extends Truc_mobile {
     private ImageView imageView;
 
     /* Piste determine la piste sur laquelle est la voiture
-
      */
+
     public Voiture(Piste piste, Scene scene, double l_case, int in_plateau) {
         super(piste, scene, l_case, in_plateau);
 
@@ -71,11 +71,9 @@ public class Voiture extends Truc_mobile {
     public ImageView getImageView() {
         return this.imageView;
     }
-
     public void move(int speed) {
         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001D), this.getImageView());
         if (this.sens == 1) {
-
             if (this.X >= this.scene.getWidth() && this.in_plateau == 1) {
                 trans.setByX(-this.scene.getWidth()-this.l_case);
                 this.X = -this.l_case;
@@ -96,7 +94,6 @@ public class Voiture extends Truc_mobile {
                 this.X = this.scene.getWidth();
                 this.in_plateau = 1; //this.in_plateau = 0;
                 this.newCar(this.piste);
-
                 // if the object goes off the scene, its position is re-init
             }
             else{
@@ -115,8 +112,6 @@ public class Voiture extends Truc_mobile {
 
     public void newCar(Piste piste){
         System.out.println("Nouvelle voiture ! ");
-
-
     }
     public void destroy() {
         System.exit( 0 );
