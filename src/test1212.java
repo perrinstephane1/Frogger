@@ -25,12 +25,12 @@ public class test1212 extends Application {
 
 
         // trying to build a menu
-        MenuItem pseudo1 = new MenuItem("Pseudo 1");
         // Image newImage = MyImageUtils.getImage("/org/o7planning/javafx/icon/new-16.png");
         //buildItem.setGraphic(new ImageView(buildImage));
         //buildItem.setSelected(true);
         //CheckMenuItem buildItem = new CheckMenuItem("Build Automatically"); menu à cocher
         //SeparatorMenuItem separator= new SeparatorMenuItem(); pour séparer
+        MenuItem pseudo1 = new MenuItem("Pseudo 1");
         MenuItem pseudo2= new MenuItem("Pseudo 2");
         MenuItem nbre_routes = new MenuItem("Nombre de routes");
         MenuItem nbre_riviere=new MenuItem("Largeur de la rivière");
