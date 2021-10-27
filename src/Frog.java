@@ -12,7 +12,7 @@ public class Frog extends Rectangle {
 //    private double X;
 //    private double Y;
     private ImageView imageView;
-    private boolean dead;
+    protected boolean dead;
     private int l_case;
     private int nb_case;
     private int score = 0;

@@ -10,10 +10,11 @@ import java.io.FileNotFoundException;
 public class Nenuphar extends Truc_mobile{
     private boolean hostile;
 //    private ImageView imageView;
-
+    protected Piste piste;
     public Nenuphar(Piste piste, Scene scene, int l_case) {
         super(piste,scene,l_case);
 
+        this.piste = piste;
         if(piste.taille_obstacle == 1.0){
             System.out.println(piste.taille_obstacle);
             try {
