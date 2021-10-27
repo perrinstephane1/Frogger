@@ -91,4 +91,9 @@ public class Truc_mobile extends Rectangle {
         trans.play();
 
     }
+
+
+//    public boolean intersects(Frog frog){
+//
+//    }
 }

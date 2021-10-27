@@ -78,8 +78,8 @@ public class IHM extends Application {
 
         root.getChildren().add(plateau.getGridPane());
         initLog();
-        initLog();
-        initLog();
+//        initLog();
+//        initLog();
         initCar();
         initCar();
         initCar();
@@ -89,11 +89,13 @@ public class IHM extends Application {
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+                check_end(frog, primaryStage, the_end);
+//                System.out.println("checked end");
 //                addElement();
 //                moveElement();
 //                showElement();
             }
-        }, 0, 10000);
+        }, 0, 100);
 
 
 
@@ -123,9 +125,10 @@ public class IHM extends Application {
                 for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
                     voitures[i-plateau.nb_pistes/2].move(speed_h);
                     if (voitures[i-plateau.nb_pistes/2].intersects(frog)) {
+                        frog.dead = true;
                         System.out.println("colision");
                         chrono.stop();
-                        System.out.println(chrono.getElapsedMilliseconds());
+//                        System.out.println(chrono.getElapsedMilliseconds());
 
                     }
                 }
@@ -153,8 +156,8 @@ public class IHM extends Application {
                                 trans.play();
                             } else {
                                 frog.dead = true;
-                                System.out.println("dans le else du nenuphar");
-                                System.out.println(frog.getX());
+//                                System.out.println("dans le else du nenuphar");
+//                                System.out.println(frog.getX());
                             }
                         }
                         else{
@@ -164,13 +167,12 @@ public class IHM extends Application {
                                 trans.play();
                             } else {
                                 frog.dead = true;
-                                System.out.println("dans le else du nenuphar");
-                                System.out.println(frog.getX());
+//                                System.out.println("dans le else du nenuphar");
+//                                System.out.println(frog.getX());
                             }
                         }
-
-                        chrono.stop();
-                        System.out.println(chrono.getElapsedMilliseconds());
+//                        chrono.stop();
+//                        System.out.println(chrono.getElapsedMilliseconds());
 
                     }
                 }
