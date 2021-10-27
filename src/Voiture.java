@@ -68,36 +68,34 @@ public class Voiture extends Truc_mobile {
 //    public ImageView getImageView() {
 //        return this.imageView;
 //    }
-
 //    public void move(int speed) {
 //        TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001D), this.getImageView());
 //        if (this.sens == 1) {
-//
-//            if (this.getX() >= this.scene.getWidth()) {
+//            if (this.X >= this.scene.getWidth() && this.in_plateau == 1) {
 //                trans.setByX(-this.scene.getWidth()-this.l_case);
-//                this.setLocation((int)this.getX()-(int)this.l_case, (int)this.getY());
-////                this.X = -this.l_case;
+//                this.X = -this.l_case;
+//                this.in_plateau = 1; //this.in_plateau = 0;
+//                this.newCar(this.piste);
+//
 //                // if the object goes off the scene, its position is re-init
 //            }
 //            else{
 //                trans.setByX(speed);
-//                this.setLocation((int)this.getX()+speed, (int)this.getY());
-////                this.X += speed;
+//                this.X += speed;
 //            }
 //            trans.play();
 //        }
 //        else{
-//            if (this.getX() + this.l_case < 0) {
+//            if (this.X + this.l_case < 0 && this.in_plateau == 1) {
 //                trans.setByX(this.scene.getWidth()+this.l_case);
-//                this.setLocation((int)this.scene.getWidth(), (int)this.getY());
-////                this.X = ;
+//                this.X = this.scene.getWidth();
+//                this.in_plateau = 1; //this.in_plateau = 0;
+//                this.newCar(this.piste);
 //                // if the object goes off the scene, its position is re-init
 //            }
 //            else{
 //                trans.setByX(-speed);
-//                this.setLocation((int)this.getX()-speed, (int)this.getY());
-//
-////                this.X -= speed;
+//                this.X -= speed;
 //            }
 //            trans.play();
 //        }
@@ -107,5 +105,12 @@ public class Voiture extends Truc_mobile {
         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
         trans.setByY(speed);
         trans.play();
+    }
+
+    public void newCar(Piste piste){
+        System.out.println("Nouvelle voiture ! ");
+    }
+    public void destroy() {
+        System.exit( 0 );
     }
 }

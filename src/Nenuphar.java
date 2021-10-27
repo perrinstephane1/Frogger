@@ -9,11 +9,12 @@ import java.io.FileNotFoundException;
 
 public class Nenuphar extends Truc_mobile{
     private boolean hostile;
-    private ImageView imageView;
-
+//    private ImageView imageView;
+    protected Piste piste;
     public Nenuphar(Piste piste, Scene scene, int l_case) {
         super(piste,scene,l_case);
 
+        this.piste = piste;
         if(piste.taille_obstacle == 1.0){
             System.out.println(piste.taille_obstacle);
             try {
@@ -36,7 +37,7 @@ public class Nenuphar extends Truc_mobile{
                 Image image = new Image(new FileInputStream("log2.png"));
                 this.imageView = new ImageView(image);
                 this.imageView.setX(this.getX());
-                this.imageView.setY(this.getY());
+                this.imageView.setY(this.getY());;
                 this.imageView.setFitWidth(this.l_case);
                 this.imageView.setFitHeight(this.l_case/piste.taille_obstacle);
                 this.imageView.setPreserveRatio(false);
@@ -61,17 +62,12 @@ public class Nenuphar extends Truc_mobile{
                 System.out.println(var7);
             }
         }
-
-
-
-
-
     }
 
 //    public ImageView getImageView() {
 //        return this.imageView;
 //    }
-
+//
 //    public void move(int speed) {
 //        TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001D), this.getImageView());
 //        if (this.sens == 1) {
