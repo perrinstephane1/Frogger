@@ -29,6 +29,7 @@ public class IHM extends Application {
     protected int compteur_voiture = 100;
     protected int compteur_nenuphar = 0;
     private Chrono chrono = new Chrono();
+    private Voiture[] voitures;
 
     Frog frog = new Frog((this.nb_case) * this.l_case /2 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case);
     Group root = new Group();
@@ -76,9 +77,9 @@ public class IHM extends Application {
                 frog.left();
             } else if (e.getCode()==KeyCode.SPACE) {
                 plateau.auto_down(speed_down);
-//                for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
-//                    this.voitures[i - plateau.nb_pistes / 2].auto_down(speed_down);
-//                }
+                for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
+                    this.voitures[i - plateau.nb_pistes / 2].auto_down(speed_down);
+                }
             }
             this.check_end(frog, primaryStage, the_end);
         };
