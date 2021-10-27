@@ -9,7 +9,8 @@ import java.io.FileNotFoundException;
 
 
 public class Frog extends Rectangle {
-//    private double X;
+    public boolean onNenuphar = false;
+    //    private double X;
 //    private double Y;
     private ImageView imageView;
     protected boolean dead;
@@ -74,8 +75,8 @@ public class Frog extends Rectangle {
         if (this.getX()-this.l_case>=0) {
             this.setLocation((int) ((int)this.getX()-this.l_case), (int)this.getY());
             trans.play();
-        } else {
-            this.dead = true;
+//        } else {
+//            this.dead = true;
         }
     }
 
@@ -85,8 +86,8 @@ public class Frog extends Rectangle {
         if (this.getX()+this.l_case<this.l_case*this.nb_case) {
             this.setLocation((int) ((int)this.getX()+this.l_case), (int)this.getY());
             trans.play();
-        } else {
-            this.dead = true;
+//        } else {
+//            this.dead = true;
         }
     }
 

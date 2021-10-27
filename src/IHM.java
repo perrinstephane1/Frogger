@@ -1,5 +1,6 @@
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -351,13 +352,11 @@ public class IHM extends Application {
                     this.voitures[i - plateau.nb_pistes / 2].auto_down(speed_down);
                 }
             }
-            this.check_end(frog, primaryStage, the_end);
+//            this.check_end(frog, primaryStage, the_end);
         };
 
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
-
-
         root.getChildren().add(plateau.getGridPane());
         initLog();
 //        initLog();
@@ -365,9 +364,10 @@ public class IHM extends Application {
 //        initCar();
 //        initCar();
         initCar();
+        check_end_bien(primaryStage);
+        check_nenuphar(frog);
 
         root.getChildren().add(frog.getImageView());
-
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -378,9 +378,38 @@ public class IHM extends Application {
         if (frog.getX()<0 || frog.getX()>this.l_case*this.nb_case || frog.getY()<0 || frog.getY()>this.l_case*this.nb_case) {
             primaryStage.setScene(scene);
         }
-//        if (frog.isDead()) {
-//            primaryStage.setScene(scene);
-//        }
+        if (frog.dead) {
+            primaryStage.setScene(scene);
+        }
+    }
+    public void check_end_bien(Stage primaryStage){
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (frog.getX() < - l_case|| frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) {
+                            primaryStage.setScene(the_end);
+                        }
+                        if (frog.dead) {
+                            primaryStage.setScene(the_end);
+                        }
+                    }
+                });
+            }
+        }, 0, 50);
+    }
+    public void check_nenuphar(Frog frog){
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                int numero_piste = (int) (frog.getY()/l_case);
+                if (plateau.get(numero_piste).type_piste == 1 && !(frog.onNenuphar)){ // is the frog is on the river and not on a nenuphar
+                    frog.dead = true;
+                }
+            }
+        }, 0, 50);
     }
     public void initCar() {
         Voiture[] voitures = new Voiture[plateau.nb_pistes*10];
@@ -397,10 +426,8 @@ public class IHM extends Application {
                     voitures[i-plateau.nb_pistes/2].move(speed_h);
                     if (voitures[i-plateau.nb_pistes/2].intersects(frog)) {
                         frog.dead = true;
-                        System.out.println("colision");
                         chrono.stop();
 //                        System.out.println(chrono.getElapsedMilliseconds());
-
                     }
                 }
             }
@@ -419,16 +446,13 @@ public class IHM extends Application {
                 for (int i = 2; i < plateau.nb_pistes/2; i++) {
                     nenuphars[i].move(speed_h);
                     if (nenuphars[i].intersects(frog)) {
+                        frog.onNenuphar = true;
                         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), frog.getImageView());
                         if (nenuphars[i].piste.sens == 0){
                             trans.setByX(-speed_h);
-                            if (frog.getX()-l_case>=-50) {
+                            if (frog.getX()>=-50) {
                                 frog.setLocation((int)(frog.getX()-speed_h), (int)frog.getY());
                                 trans.play();
-                            } else {
-                                frog.dead = true;
-//                                System.out.println("dans le else du nenuphar");
-//                                System.out.println(frog.getX());
                             }
                         }
                         else{
@@ -436,20 +460,13 @@ public class IHM extends Application {
                             if (frog.getX() <= scene.getWidth()) {
                                 frog.setLocation((int)(frog.getX() + speed_h), (int)frog.getY());
                                 trans.play();
-                            } else {
-                                frog.dead = true;
-//                                System.out.println("dans le else du nenuphar");
-//                                System.out.println(frog.getX());
                             }
                         }
-//                        chrono.stop();
-//                        System.out.println(chrono.getElapsedMilliseconds());
-
+                    }
+                    else {
+                        frog.onNenuphar = false;
                     }
                 }
-
-
-
             }
         }, 0, 50);
     }

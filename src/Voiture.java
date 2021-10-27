@@ -13,7 +13,7 @@ public class Voiture extends Truc_mobile {
 //    private ImageView imageView;
 
     public Voiture(Piste piste, Scene scene, int l_case) {
-        super(piste, scene, l_case);
+        super(piste, scene, l_case, piste.taille_obstacle);
 
         if(piste.taille_obstacle == 1.0){
             System.out.println(piste.taille_obstacle);

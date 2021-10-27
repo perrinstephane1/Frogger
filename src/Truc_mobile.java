@@ -31,8 +31,8 @@ public class Truc_mobile extends Rectangle {
 
 
 
-    public Truc_mobile(Piste piste, Scene scene, int l_case) {
-        super(0, 0, l_case, l_case);
+    public Truc_mobile(Piste piste, Scene scene, int l_case, double taille_obstacle) {
+        super(0, 0, (int) (taille_obstacle*l_case), l_case);
 //        this.imageView = null;
         int position_min = 0;
         int position_max = (int) piste.longueur_piste;
