@@ -1,4 +1,6 @@
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -360,8 +362,8 @@ public class IHM extends Application {
         initLog();
 //        initLog();
 //        initLog();
-        initCar();
-        initCar();
+//        initCar();
+//        initCar();
         initCar();
 
         root.getChildren().add(frog.getImageView());
