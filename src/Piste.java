@@ -1,11 +1,12 @@
-import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.util.Duration;
 
+import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class Piste {
@@ -22,14 +23,14 @@ public class Piste {
     protected GridPane gridPane = new GridPane();
     protected int type_piste;
 
-    public Piste(int ii, Plateau p, boolean hostile, double sens, double vitesse, double taille_obstacle, int type_piste) {
+    public Piste(int ii, Plateau p, boolean hostile, double sens, double vitesse, double taille_obstacle, int type_piste, double densite) {
         this.vitesse = vitesse;
         this.sens = sens;
         this.taille_obstacle = taille_obstacle;
         this.longueur_bloc = p.h_piste;
         this.longueur_piste = p.nb_pistes * p.h_piste;
         this.numero_piste = ii;
-        this.densite = Math.random();
+        this.densite = densite;
         this.type_piste = type_piste;
 
 
@@ -74,9 +75,15 @@ public class Piste {
                 System.out.println(e);
             }
         }
-
     }
 
+    public Piste(int ii, Plateau p, boolean hostile, double sens, double vitesse, double taille_obstacle, int type_piste) {
+        this(ii, p, hostile, sens, vitesse, taille_obstacle, type_piste, Math.random());
+    }
+
+    public List getParametre() {
+        return Arrays.asList(this.vitesse, this.sens, this.taille_obstacle, this.longueur_bloc, this.longueur_piste, this.numero_piste, this.densite, this.type_piste);
+    }
 
 
     public Piste(int ii, Plateau p) {
