@@ -358,15 +358,15 @@ public class IHM extends Application {
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
         root.getChildren().add(plateau.getGridPane());
+
+        check_end_bien(primaryStage);
+        check_nenuphar(frog);
         initLog();
 //        initLog();
 //        initLog();
 //        initCar();
 //        initCar();
         initCar();
-        check_end_bien(primaryStage);
-        check_nenuphar(frog);
-
         root.getChildren().add(frog.getImageView());
 
         primaryStage.setScene(scene);
@@ -398,18 +398,26 @@ public class IHM extends Application {
                     }
                 });
             }
-        }, 0, 50);
+        }, 0, 100);
     }
     public void check_nenuphar(Frog frog){
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                int numero_piste = (int) (frog.getY()/l_case);
-                if (plateau.get(numero_piste).type_piste == 1 && !(frog.onNenuphar)){ // is the frog is on the river and not on a nenuphar
-                    frog.dead = true;
-                }
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        int numero_piste = (int) (frog.getY()/l_case);
+                        if (plateau.get(numero_piste).type_piste == 1 && !(frog.onNenuphar)){ // is the frog is on the river and not on a nenuphar
+                            frog.dead = true;
+                            System.out.println("check_nenu_death");
+                            System.out.println(frog.onNenuphar);
+                        }
+                    }
+                });
             }
-        }, 0, 50);
+        }, 0, 200);
+
     }
     public void initCar() {
         Voiture[] voitures = new Voiture[plateau.nb_pistes*10];
@@ -419,32 +427,48 @@ public class IHM extends Application {
             root.getChildren().add(voitures[i-plateau.nb_pistes/2].getImageView());
 
         }
+        new Timer().scheduleAtFixedRate(new TimerTask() { //Refresh actual position (quicker)
+            @Override
+            public void run() {
+                for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
+                    if (voitures[i-plateau.nb_pistes/2].intersects(frog)) {
+                        frog.dead = true;
+                    }
+                }
+            }
+        }, 0, 100);
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
                     voitures[i-plateau.nb_pistes/2].move(speed_h);
-                    if (voitures[i-plateau.nb_pistes/2].intersects(frog)) {
-                        frog.dead = true;
-                        chrono.stop();
-//                        System.out.println(chrono.getElapsedMilliseconds());
-                    }
                 }
             }
         }, 0, 50);
     }
     public void initLog() {
         Nenuphar[] nenuphars = new Nenuphar[plateau.nb_pistes*10];
-        for (int i = 2; i < plateau.nb_pistes/2; i++) { // Start at number 2 because Number 1 is a safe lane
+        for (int i = 2; i < plateau.nb_pistes/2 + 1; i++) { // Start at number 2 because Number 1 is a safe lane
             System.out.println("nenu init");
             nenuphars[i] = new Nenuphar(plateau.get(i),scene, this.l_case);
             root.getChildren().add(nenuphars[i].getImageView());
         }
-        new Timer().scheduleAtFixedRate(new TimerTask() {
+        new Timer().scheduleAtFixedRate(new TimerTask() { //Refresh actual position (quicker)
             @Override
             public void run() {
-                for (int i = 2; i < plateau.nb_pistes/2; i++) {
+                for (int i = 2; i < plateau.nb_pistes/2 + 1; i++) {
+                    if (nenuphars[i].intersects(frog)) {
+                        frog.onNenuphar = true;
+                    }
+                }
+            }
+        }, 0, 10);
+        new Timer().scheduleAtFixedRate(new TimerTask() { // Refresh visual position
+            @Override
+            public void run() {
+                for (int i = 2; i < plateau.nb_pistes/2 + 1; i++) {
                     nenuphars[i].move(speed_h);
+                    int numero_piste = (int) (frog.getY()/l_case);
                     if (nenuphars[i].intersects(frog)) {
                         frog.onNenuphar = true;
                         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), frog.getImageView());
@@ -463,12 +487,13 @@ public class IHM extends Application {
                             }
                         }
                     }
-                    else {
+                    else if (plateau.get(numero_piste).type_piste == 1){
                         frog.onNenuphar = false;
                     }
                 }
             }
         }, 0, 50);
+
     }
     public void addElement(){
 //        try {
