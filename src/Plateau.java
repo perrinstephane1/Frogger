@@ -1,17 +1,10 @@
 import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.TimerTask;
-import java.util.concurrent.ThreadLocalRandom;
 
 
 public class Plateau extends ArrayList<Piste> {
@@ -21,6 +14,7 @@ public class Plateau extends ArrayList<Piste> {
     protected double l_piste;
     protected GridPane gridPane = new GridPane();
     protected int cnt_decalage = (int)this.h_piste;
+    public Chrono chrono = new Chrono();
 
 
     public Plateau(Group root, int nb_pistes, double h_piste) {
@@ -38,19 +32,17 @@ public class Plateau extends ArrayList<Piste> {
             this.addPiste(ii, 0);
         }
         this.addPiste(this.nb_pistes-1, 2); // Bottom safe lane
+        this.addPiste(this.nb_pistes-2, 3);
 
 
     }
 
+    public Text getChrono() {
+        Text text_chrono = new Text("Time : "+this.chrono.getElapsedSeconds()+" s");
+        return text_chrono;
+    }
+
     public void addPiste(int cnt, int type_piste) {
-
-//        int taille_min = 1;
-//        int taille_max = 3;
-//        int taille_obstacle = ThreadLocalRandom.current().nextInt(taille_min, taille_max + 1);
-
-//        int sens = ThreadLocalRandom.current().nextInt(0, 1 + 1);
-
-
         Piste piste = new Piste(cnt, this, true, cnt%2, 1, Math.random(), type_piste);
         this.add(piste);
         this.gridPane.addColumn(0, piste.getImageView());
@@ -61,7 +53,6 @@ public class Plateau extends ArrayList<Piste> {
     }
 
     public void decalage() {
-//        System.out.println(Thread.currentThread());
         Piste piste = new Piste(0, this, true, 1, 1, Math.random(), 2);
 
         this.invert();

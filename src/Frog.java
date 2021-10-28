@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
 
 
 public class Frog extends Rectangle {
-    private boolean onNenuphar = false;
+    private boolean onLog = false;
     private ImageView imageView;
     protected boolean dead;
     private double l_case;
@@ -42,12 +42,12 @@ public class Frog extends Rectangle {
         return imageView;
     }
 
-    public boolean isOnNenuphar() {
-        return onNenuphar;
+    public boolean isOnLog() {
+        return onLog;
     }
 
-    public void setOnNenuphar(boolean onNenuphar) {
-        this.onNenuphar = onNenuphar;
+    public void setOnLog(boolean onLog) {
+        this.onLog = onLog;
     }
 
     public void up() {

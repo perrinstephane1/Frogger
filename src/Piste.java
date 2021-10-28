@@ -2,7 +2,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
-import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -36,8 +35,6 @@ public class Piste {
         this.numero_piste = ii;
         this.type_piste = type_piste;
 
-//        System.out.println("densite de la ligne");
-//        System.out.println(densite);
         if (densite < 0.33) {
             this.taille_obstacle = 1;
         }
@@ -54,6 +51,9 @@ public class Piste {
             this.setImageView("river.png");
         } else if (this.type_piste == 2){  // If it is the beginning
             this.setImageView("debut.png");
+        } else if (this.type_piste == 3) {
+            this.gridPane.add(p.getChrono(), ii, 0);
+
         }
     }
 

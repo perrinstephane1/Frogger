@@ -2,10 +2,10 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCombination;
-import javafx.stage.Stage;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 public class menuprincipal extends Application {
 

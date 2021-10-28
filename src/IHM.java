@@ -1,31 +1,25 @@
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import javafx.scene.control.*;
-//import java.awt.*;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TimerTask;
 import java.util.Timer;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.TimerTask;
+
+// TODO Problem de hitbox entre frog et elements mobiles
+// TODO Mettre fin au jeu quand on est mort et pas seulement a l'interface graphique
 
 
 public class IHM extends Application {
@@ -35,7 +29,6 @@ public class IHM extends Application {
     private int speed_h = 6;
     protected int compteur_voiture = 0;
     protected int compteur_log = 0;
-    private Chrono chrono = new Chrono();
     private Voiture[] voitures = new Voiture[10000];
     private Log[] logs = new Log[10000];
     private int difficulte = 1;
@@ -44,7 +37,7 @@ public class IHM extends Application {
 
     Frog frog = new Frog((this.nb_case) * this.l_case /2 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case);
     Group root = new Group();
-    Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*this.nb_case);
+    Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*(this.nb_case+1));
     Plateau plateau = new Plateau(root, this.nb_case, this.l_case);
 
 
@@ -67,8 +60,8 @@ public class IHM extends Application {
 
 
         EventHandler<KeyEvent> keyListener = e -> {
-            if (!chrono.isRunning) {
-                chrono.start();
+            if (!plateau.chrono.isRunning) {
+                plateau.chrono.start();
             }
             if(e.getCode()== KeyCode.UP){
                 frog.up();
@@ -112,32 +105,6 @@ public class IHM extends Application {
 
     }
 
-//    public void check_end(Frog frog, Stage primaryStage, Scene scene) {
-//        if (frog.getX()<0 || frog.getX()>this.l_case*this.nb_case || frog.getY()<0 || frog.getY()>this.l_case*this.nb_case) {
-//            primaryStage.setScene(scene);
-//        }
-//        if (frog.dead) {
-//            primaryStage.setScene(scene);
-//        }
-//    }
-//    public void check_end_bien(Stage primaryStage){
-//        new Timer().scheduleAtFixedRate(new TimerTask() {
-//            @Override
-//            public void run() {
-//                Platform.runLater(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        if (frog.getX() < - l_case|| frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) {
-//                            primaryStage.setScene(the_end);
-//                        }
-//                        if (frog.dead) {
-//                            primaryStage.setScene(the_end);
-//                        }
-//                    }
-//                });
-//            }
-//        }, 0, 100);
-//    }
     public void update_state(Stage primaryStage,Frog frog){
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -146,20 +113,26 @@ public class IHM extends Application {
                     @Override
                     public void run() {
                         int numero_piste = (int) (frog.getY()/l_case);
-//                        System.out.println(numero_piste);
-                        if (numero_piste ==0){
-                            chrono.stop();
-                            System.out.println(chrono.getElapsedMilliseconds());
+                        if (numero_piste == 0) {
+                            plateau.chrono.stop();
+                            System.out.println(plateau.chrono.getElapsedSeconds());
                         }
-                        if (plateau.get(numero_piste).type_piste == 1 && !(frog.isOnNenuphar())){ // if the frog is on the river and not on a nenuphar
-                            frog.dead = true;
+                        if (plateau.get(numero_piste).type_piste == 1 && !(frog.isOnLog())){ // if the frog is on the river and not on a log
+//                            frog.dead = true;
+                            System.out.println("noyée");
+                            primaryStage.setScene(the_end);
                         }
-                        if (frog.getX() < - l_case|| frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) { //if the frig is out of map
+                        if (frog.getX() < -l_case|| frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) { //if the frig is out of map
                             primaryStage.setScene(the_end);
                         }
                         if (frog.dead) {
                             primaryStage.setScene(the_end);
                         }
+                        Text txt = plateau.getChrono();
+                        txt.setFont(new Font(l_case*0.8));
+                        txt.setWrappingWidth(nb_case*l_case);
+                        txt.setTextAlignment(TextAlignment.CENTER);
+                        plateau.get(nb_case).gridPane.getChildren().set(0, txt);
                     }
                 });
             }
@@ -190,28 +163,22 @@ public class IHM extends Application {
             @Override
             public void run() {
                 for (int i = 1; i < compteur_voiture+1; i++) {
+                    voitures[i].move(speed_h);
                     if (voitures[i].intersects(frog)) {
                         frog.dead = true;
+                        System.out.println("collision");
                     }
-                }
-            }
-        }, 0, 100);
-        new Timer().scheduleAtFixedRate(new TimerTask() { // Refresh visual position
-            @Override
-            public void run() {
-                for (int i = 1; i < compteur_voiture+1; i++) {
-                    voitures[i].move(speed_h);
                 }
             }
         }, 0, 50);
     }
-    public void initLog(Log[] logs,  int nombre_nenuphar) {
+    public void initLog(Log[] logs,  int nombre_log) {
         for (int i = 2; i < plateau.nb_pistes/2 + 1; i++) { // Start at number 2 because Number 1 is a safe lane
-            for (int j = 0; j<nombre_nenuphar; j++) {
+            for (int j = 0; j<nombre_log; j++) {
                 compteur_log += 1;
                 logs[compteur_log] = new Log(plateau.get(i), scene, this.l_case);
-                boolean collisions_nenuphar = true;
-                while(collisions_nenuphar){
+                boolean collisions_log = true;
+                while(collisions_log){
                     if (compteur_log >=2 && logs[compteur_log-1].intersects(logs[compteur_log])){// checks for collisions
                         logs[compteur_log] = new Log(plateau.get(i), scene, this.l_case);
                     }
@@ -219,22 +186,13 @@ public class IHM extends Application {
                         logs[compteur_log] = new Log(plateau.get(i), scene, this.l_case);
                     }
                     else{
-                        collisions_nenuphar = false;
+                        collisions_log = false;
                     }
                 }
                 root.getChildren().add(logs[compteur_log].getImageView());
             }
         }
-        new Timer().scheduleAtFixedRate(new TimerTask() { //Refresh actual position (quicker)
-            @Override
-            public void run() {
-                for (int i = 1; i < compteur_log + 1; i++) {
-                    if (logs[i].intersects(frog)) {
-                        frog.setOnNenuphar(true);
-                    }
-                }
-            }
-        }, 0, 10);
+
         new Timer().scheduleAtFixedRate(new TimerTask() { // Refresh visual position
             @Override
             public void run() {
@@ -242,7 +200,7 @@ public class IHM extends Application {
                     logs[i].move(speed_h);
                     int numero_piste = (int) (frog.getY()/l_case);
                     if (logs[i].intersects(frog)) {
-                        frog.setOnNenuphar(true);
+                        frog.setOnLog(true);
                         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), frog.getImageView());
                         if (logs[i].piste.sens == 0){
                             trans.setByX(-speed_h);
@@ -250,8 +208,7 @@ public class IHM extends Application {
                                 frog.setLocation((int)(frog.getX()-speed_h), (int)frog.getY());
                                 trans.play();
                             }
-                        }
-                        else{
+                        } else {
                             trans.setByX(speed_h);
                             if (frog.getX() <= scene.getWidth()) {
                                 frog.setLocation((int)(frog.getX() + speed_h), (int)frog.getY());
@@ -260,69 +217,10 @@ public class IHM extends Application {
                         }
                     }
                     else if (plateau.get(numero_piste).type_piste == 1){
-                        frog.setOnNenuphar(false);
+                        frog.setOnLog(false);
                     }
                 }
             }
         }, 0, 50);
     }
-    public void addElement(){
-//        try {
-//            ;
-//        } catch (Exception exception) {
-//
-//            System.out.println("exception in add element");
-//            System.out.println(exception);
-//        }
-        Truc_mobile[] truc_mobiles = new Truc_mobile[100];
-
-        System.out.println("debut addelement");
-
-        int ii = ThreadLocalRandom.current().nextInt(1, 2); //plateau.nb_pistes
-        System.out.println("numero voix");
-        System.out.println(ii);
-
-        compteur_voiture += 1;
-        System.out.println("compteur voigture");
-        System.out.println(compteur_voiture);
-
-        truc_mobiles[compteur_voiture] = new Voiture(plateau.get(ii),scene, l_case);
-        System.out.println("fin de boucle 5000");
-
-        root.getChildren().add(truc_mobiles[compteur_voiture].getImageView());
-        System.out.println("fin de showelement");
-
-        new Timer().scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                truc_mobiles[compteur_voiture].move(speed_h);
-            }
-//            public void run() {
-//                for (int i = 1; i < truc_mobiles.length; i++) {
-//                    truc_mobiles[i].move(speed_h);
-//                    if (truc_mobiles[i].intersects(frog)) {
-//                        System.out.println("colision");
-//                        chrono.stop();
-//                        System.out.println(chrono.getElapsedMilliseconds());
-//                    }
-//                }
-//            }
-        }, 0, 50);
-        System.out.println("fin de move_element");
-    }
-//    public void showElement(){
-//        root.getChildren().add(truc_mobiles[1000].getImageView());
-//        System.out.println("fin de showelement");
-//
-//    }
-//    public void moveElement(){
-//        new Timer().scheduleAtFixedRate(new TimerTask() {
-//            @Override
-//            public void run() {
-//                truc_mobiles[compteur_voiture].move(speed_h);
-//            }
-//        }, 0, 50);
-//        System.out.println("fin de moveelement");
-//
-//    }
 }
