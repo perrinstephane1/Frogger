@@ -172,6 +172,8 @@ public class IHM extends Application {
                     public void handle(ActionEvent event) {
                         System.out.println("On a chnagé le pseudo du 1er joueur");
                         //TODO changer le nom
+                        String ref = "Stéphane";
+                        System.out.println(Integer.parseInt(pseudo.getText())==1);
                         stage.close();
                     }
                 });

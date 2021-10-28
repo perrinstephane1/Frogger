@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
-public class test1212 extends Application {
+public class menuprincipal extends Application {
 
     public static void main(String[] args) {
         launch(args);
@@ -137,6 +137,10 @@ public class test1212 extends Application {
                     @Override
                     public void handle(ActionEvent event) {
                         System.out.println("On a chnagé le pseudo du 1er joueur");
+                        String chaine = pseudo.getText();
+                        String ref = "Stéphane";
+                        System.out.println("ciocu");
+                        System.out.println(ref);
                         //TODO changer le nom
                         stage.close();
                     }
