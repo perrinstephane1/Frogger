@@ -168,6 +168,8 @@ public class IHM extends Application {
                     public void handle(ActionEvent event) {
                         System.out.println("On a chnagé le pseudo du 1er joueur");
                         //TODO changer le nom
+                        String ref = "Stéphane";
+                        System.out.println(Integer.parseInt(pseudo.getText())==1);
                         stage.close();
                     }
                 });
@@ -378,9 +380,10 @@ public class IHM extends Application {
         if (frog.getX()<0 || frog.getX()>this.l_case*this.nb_case || frog.getY()<0 || frog.getY()>this.l_case*this.nb_case) {
             primaryStage.setScene(scene);
         }
-//        if (frog.isDead()) {
-//            primaryStage.setScene(scene);
-//        }
+//        if (frog.dead) {
+ //           primaryStage.setScene(the_end);
+            //System.exit(0);
+       // }
     }
     public void initCar() {
         Voiture[] voitures = new Voiture[plateau.nb_pistes*10];
