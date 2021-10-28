@@ -29,16 +29,16 @@ public class Plateau extends ArrayList<Piste> {
         this.h_piste = h_piste;
         this.l_piste = this.h_piste*this.nb_pistes;
 
-        for (int ii=0; ii<this.nb_pistes/2; ii++) {
+        this.addPiste(0, 2); // Top safe lane
+
+        for (int ii=1; ii<this.nb_pistes/2; ii++) { // River lanes
             this.addPiste(ii, 1);
         }
-        for (int ii=this.nb_pistes/2; ii<this.nb_pistes; ii++) {
+        for (int ii=this.nb_pistes/2; ii<this.nb_pistes-1; ii++) { // Road lanes
             this.addPiste(ii, 0);
         }
-        this.addPiste(this.nb_pistes-1, 2); // Bottom line
-        this.addPiste(this.nb_pistes/2 - 1, 2); // Middle line
-        this.addPiste(0, 1); // Top line
-        this.addPiste(0, 0); // Top line
+        this.addPiste(this.nb_pistes-1, 2); // Bottom safe lane
+
 
     }
 

@@ -61,7 +61,7 @@ public class Piste {
             } catch (FileNotFoundException e) {
                 System.out.println(e);
             }
-        }else if (this.type_piste == 2){  // If it is the beginning
+        }else if (this.type_piste == 2){  // If it is a safe lane
             try {
                 for (int jj = 0; jj < p.nb_pistes; jj++) {
                     Image image = new Image(new FileInputStream("debut.png"));
