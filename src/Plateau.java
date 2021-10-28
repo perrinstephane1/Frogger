@@ -3,7 +3,14 @@ import javafx.scene.Group;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.TimerTask;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -22,29 +29,29 @@ public class Plateau extends ArrayList<Piste> {
         this.h_piste = h_piste;
         this.l_piste = this.h_piste*this.nb_pistes;
 
-        for (int ii=0; ii<this.nb_pistes/2; ii++) {
+        this.addPiste(0, 2); // Top safe lane
+
+        for (int ii=1; ii<this.nb_pistes/2; ii++) { // River lanes
             this.addPiste(ii, 1);
         }
-        for (int ii=this.nb_pistes/2; ii<this.nb_pistes; ii++) {
+        for (int ii=this.nb_pistes/2; ii<this.nb_pistes-1; ii++) { // Road lanes
             this.addPiste(ii, 0);
         }
-        this.addPiste(this.nb_pistes-1, 2); // Bottom line
-        this.addPiste(this.nb_pistes/2 - 1, 2); // Middle line
-        this.addPiste(0, 1); // Top line
-        this.addPiste(0, 0); // Top line
+        this.addPiste(this.nb_pistes-1, 2); // Bottom safe lane
+
 
     }
 
     public void addPiste(int cnt, int type_piste) {
 
-        int taille_min = 1;
-        int taille_max = 3;
-        int taille_obstacle = ThreadLocalRandom.current().nextInt(taille_min, taille_max + 1);
+//        int taille_min = 1;
+//        int taille_max = 3;
+//        int taille_obstacle = ThreadLocalRandom.current().nextInt(taille_min, taille_max + 1);
 
 //        int sens = ThreadLocalRandom.current().nextInt(0, 1 + 1);
 
 
-        Piste piste = new Piste(cnt, this, true, cnt%2, 1, taille_obstacle, type_piste);
+        Piste piste = new Piste(cnt, this, true, cnt%2, 1, Math.random(), type_piste);
         this.add(piste);
         this.gridPane.addColumn(0, piste.getImageView());
     }
@@ -54,7 +61,8 @@ public class Plateau extends ArrayList<Piste> {
     }
 
     public void decalage() {
-        Piste piste = new Piste(0, this, true, 1, 1, 1, 2);
+//        System.out.println(Thread.currentThread());
+        Piste piste = new Piste(0, this, true, 1, 1, Math.random(), 2);
 
         this.invert();
         this.add(piste);
@@ -93,4 +101,5 @@ public class Plateau extends ArrayList<Piste> {
             this.set(ii, temp.get(ii));
         }
     }
+
 }
