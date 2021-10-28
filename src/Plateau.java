@@ -44,14 +44,14 @@ public class Plateau extends ArrayList<Piste> {
 
     public void addPiste(int cnt, int type_piste) {
 
-        int taille_min = 1;
-        int taille_max = 3;
-        int taille_obstacle = ThreadLocalRandom.current().nextInt(taille_min, taille_max + 1);
+//        int taille_min = 1;
+//        int taille_max = 3;
+//        int taille_obstacle = ThreadLocalRandom.current().nextInt(taille_min, taille_max + 1);
 
         //int sens = ThreadLocalRandom.current().nextInt(0, 1 + 1);
 
 
-        Piste piste = new Piste(cnt, this, true, cnt%2, 1, taille_obstacle, type_piste);
+        Piste piste = new Piste(cnt, this, true, cnt%2, 1, Math.random(), type_piste);
         this.add(piste);
         this.gridPane.addColumn(0, piste.getImageView());
 
@@ -72,7 +72,7 @@ public class Plateau extends ArrayList<Piste> {
 
     public void decalage() {
 //        System.out.println(Thread.currentThread());
-        Piste piste = new Piste(0, this, true, 1, 1, 1, 2);
+        Piste piste = new Piste(0, this, true, 1, 1, Math.random(), 2);
 
         System.out.println("inversion");
         this.invert();

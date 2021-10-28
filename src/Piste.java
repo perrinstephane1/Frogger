@@ -23,16 +23,28 @@ public class Piste {
     protected GridPane gridPane = new GridPane();
     protected int type_piste;
 
-    public Piste(int ii, Plateau p, boolean hostile, double sens, double vitesse, double taille_obstacle, int type_piste, double densite) {
+
+
+    public Piste(int ii, Plateau p, boolean hostile, double sens, double vitesse, double densite, int type_piste) {
         this.vitesse = vitesse;
         this.sens = sens;
-        this.taille_obstacle = taille_obstacle;
+
         this.longueur_bloc = p.h_piste;
         this.longueur_piste = p.nb_pistes * p.h_piste;
         this.numero_piste = ii;
-        this.densite = densite;
         this.type_piste = type_piste;
 
+        System.out.println("densite de la ligne");
+        System.out.println(densite);
+        if (densite < 0.33) {
+            this.taille_obstacle = 1;
+        }
+        else if (densite < 0.66) {
+            this.taille_obstacle = 2;
+        }
+        else{
+            this.taille_obstacle = 3;
+        }
 
         if (this.type_piste == 0){ // If it is a road
             try {
@@ -77,9 +89,6 @@ public class Piste {
         }
     }
 
-    public Piste(int ii, Plateau p, boolean hostile, double sens, double vitesse, double taille_obstacle, int type_piste) {
-        this(ii, p, hostile, sens, vitesse, taille_obstacle, type_piste, Math.random());
-    }
 
     public List getParametre() {
         return Arrays.asList(this.vitesse, this.sens, this.taille_obstacle, this.longueur_bloc, this.longueur_piste, this.numero_piste, this.densite, this.type_piste);

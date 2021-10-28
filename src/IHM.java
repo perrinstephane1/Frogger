@@ -38,14 +38,15 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class IHM extends Application {
     private int l_case=50;
-    private int nb_case=10;
+    private int nb_case=12;
     private int speed_down = 1;
-    private int speed_h = 3;
+    private int speed_h = 6;
     protected int compteur_voiture = 0;
     protected int compteur_nenuphar = 0;
     private Chrono chrono = new Chrono();
     private Voiture[] voitures = new Voiture[10000];
     private Nenuphar[] nenuphars = new Nenuphar[10000];
+    private int difficulte = 1;
 
 
     Frog frog = new Frog((this.nb_case) * this.l_case /2 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case);
@@ -273,6 +274,7 @@ public class IHM extends Application {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("on est passé en mode débutant");
+                difficulte = 1;
                 // TODO passer la speed en mode lent
             }
         });
@@ -280,6 +282,7 @@ public class IHM extends Application {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("on est passé en mode intermédiaire");
+                difficulte = 2;
                 // TODO passer la speed en mode normal
             }
         });
@@ -287,7 +290,8 @@ public class IHM extends Application {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("on est passé en mode expert");
-                // TODO passer la speed en mode lent
+                difficulte = 3;
+                // TODO passer la speed en mode rapide
             }
         });
         // actions pour changer le mode de jeu
@@ -362,8 +366,20 @@ public class IHM extends Application {
         root.getChildren().add(plateau.getGridPane());
 
         update_state(primaryStage,frog);
-        initLog(nenuphars, 2);
-        initCar(voitures, 2);
+        difficulte = 1;
+        if (difficulte ==3){ // expert
+            speed_h = 6;
+            initLog(nenuphars, 1);
+            initCar(voitures, 3);
+        }else if (difficulte ==2){ // intermediaire
+            speed_h = 4;
+            initLog(nenuphars, 2);
+            initCar(voitures, 2);
+        }else{ // debutant
+            speed_h = 3;
+            initLog(nenuphars, 3);
+            initCar(voitures, 2);
+        }
 
         root.getChildren().add(frog.getImageView());
         primaryStage.setScene(scene);
@@ -437,6 +453,9 @@ public class IHM extends Application {
                     if (compteur_voiture >=2 && voitures[compteur_voiture-1].intersects(voitures[compteur_voiture])){// checks for collisions
                         voitures[compteur_voiture] = new Voiture(plateau.get(i), scene, this.l_case);
                     }
+                    if (compteur_voiture >=3 && (voitures[compteur_voiture-2].intersects(voitures[compteur_voiture]) || voitures[compteur_voiture-1].intersects(voitures[compteur_voiture]) )    ){// checks for collisions
+                        voitures[compteur_voiture] = new Voiture(plateau.get(i), scene, this.l_case);
+                    }
                     else{
                         collisions_car = false;
                     }
@@ -471,6 +490,9 @@ public class IHM extends Application {
                 boolean collisions_nenuphar = true;
                 while(collisions_nenuphar){
                     if (compteur_nenuphar >=2 && nenuphars[compteur_nenuphar-1].intersects(nenuphars[compteur_nenuphar])){// checks for collisions
+                        nenuphars[compteur_nenuphar] = new Nenuphar(plateau.get(i), scene, this.l_case);
+                    }
+                    if (compteur_nenuphar >=3 && (nenuphars[compteur_nenuphar-2].intersects(nenuphars[compteur_nenuphar]) || nenuphars[compteur_nenuphar-1].intersects(nenuphars[compteur_nenuphar]) )    ){// checks for collisions
                         nenuphars[compteur_nenuphar] = new Nenuphar(plateau.get(i), scene, this.l_case);
                     }
                     else{
