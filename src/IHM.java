@@ -28,7 +28,7 @@ public class IHM extends Application {
     private int speed_h = 3;
     protected int compteur_voiture = 100;
     protected int compteur_nenuphar = 0;
-    private Chrono chrono = new Chrono();  //TODO Trouver pk le chrono bug
+//    private Chrono chrono = new Chrono();  //TODO Trouver pk le chrono bug
     private Voiture[] voitures;
 
 
