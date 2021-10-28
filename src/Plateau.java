@@ -41,33 +41,21 @@ public class Plateau extends ArrayList<Piste> {
         int taille_max = 3;
         int taille_obstacle = ThreadLocalRandom.current().nextInt(taille_min, taille_max + 1);
 
-        //int sens = ThreadLocalRandom.current().nextInt(0, 1 + 1);
+//        int sens = ThreadLocalRandom.current().nextInt(0, 1 + 1);
 
 
         Piste piste = new Piste(cnt, this, true, cnt%2, 1, taille_obstacle, type_piste);
         this.add(piste);
         this.gridPane.addColumn(0, piste.getImageView());
-
-//        int n = this.gridPane.getChildren().size();
-//        System.out.println("n : "+n);
-//        GridPane temp = new GridPane();
-//        for (int ii=n-1; ii>=0; ii--) {
-//
-//            temp.addColumn(0, this.gridPane.getChildren().get(ii));
-//        }
-//        this.gridPane = temp;
-
     }
 
-    public void setGridPane(GridPane gridPane) {
-        this.gridPane = gridPane;
+    public GridPane getGridPane() {
+        return this.gridPane;
     }
 
     public void decalage() {
-//        System.out.println(Thread.currentThread());
         Piste piste = new Piste(0, this, true, 1, 1, 1, 2);
 
-        System.out.println("inversion");
         this.invert();
         this.add(piste);
         this.invert();
@@ -80,7 +68,6 @@ public class Plateau extends ArrayList<Piste> {
     }
 
     public void auto_down(int speed) {
-
         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getGridPane());
         assert (this.size()==this.gridPane.getChildren().size());
         System.out.println("nbr pistes : "+this.size());
@@ -93,20 +80,7 @@ public class Plateau extends ArrayList<Piste> {
             cnt_decalage += speed;
             trans.setByY(speed);
             trans.play();
-
         }
-    }
-
-    public GridPane getGridPane() {
-//        int n = this.gridPane.getChildren().size();
-//        System.out.println("n : "+n);
-//        GridPane temp = new GridPane();
-//        for (int ii=n-1; ii>=0; ii--) {
-//
-//            temp.addColumn(0, this.gridPane.getChildren().get(ii));
-//        }
-//        this.gridPane = temp;
-        return this.gridPane;
     }
 
     public void invert() {
@@ -119,5 +93,4 @@ public class Plateau extends ArrayList<Piste> {
             this.set(ii, temp.get(ii));
         }
     }
-
 }

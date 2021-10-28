@@ -21,7 +21,6 @@ import java.util.TimerTask;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-
 public class IHM extends Application {
     private int l_case=50;
     private int nb_case=10;
@@ -29,7 +28,7 @@ public class IHM extends Application {
     private int speed_h = 3;
     protected int compteur_voiture = 100;
     protected int compteur_nenuphar = 0;
-    private Chrono chrono = new Chrono();
+    private Chrono chrono = new Chrono();  //TODO Trouver pk le chrono bug
     private Voiture[] voitures;
 
 
@@ -317,24 +316,16 @@ public class IHM extends Application {
 
 
         EventHandler<KeyEvent> keyListener = e -> {
-            if (!chrono.isRunning) {
-                chrono.start();
-            }
+//            if (!chrono.isRunning) {
+//                chrono.start();
+//            }
             if(e.getCode()== KeyCode.UP){
-//                System.out.println(frog.getCoord());
                 frog.up();
-            }
-            if(e.getCode()==KeyCode.DOWN){
-//                System.out.println(frog.getCoord());
+            } else if (e.getCode()==KeyCode.DOWN){
                 frog.down();
-
-            }
-            if(e.getCode()==KeyCode.RIGHT){
-//                System.out.println(frog.getCoord());
+            } else if (e.getCode()==KeyCode.RIGHT){
                 frog.right();
-            }
-            if(e.getCode()==KeyCode.LEFT){
-//                System.out.println(frog.getCoord());
+            } else if (e.getCode()==KeyCode.LEFT){
                 frog.left();
             } else if (e.getCode()==KeyCode.SPACE) {
                 plateau.auto_down(speed_down);
@@ -342,7 +333,6 @@ public class IHM extends Application {
                     this.voitures[i - plateau.nb_pistes / 2].auto_down(speed_down);
                 }
             }
-//            this.check_end(frog, primaryStage, the_end);
         };
 
 
@@ -352,10 +342,6 @@ public class IHM extends Application {
         check_end_bien(primaryStage);
         check_nenuphar(frog);
         initLog();
-//        initLog();
-//        initLog();
-//        initCar();
-//        initCar();
         initCar();
         root.getChildren().add(frog.getImageView());
 
@@ -372,6 +358,7 @@ public class IHM extends Application {
             primaryStage.setScene(scene);
         }
     }
+
     public void check_end_bien(Stage primaryStage){
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -390,6 +377,7 @@ public class IHM extends Application {
             }
         }, 0, 100);
     }
+
     public void check_nenuphar(Frog frog){
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override

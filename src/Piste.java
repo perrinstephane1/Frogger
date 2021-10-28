@@ -22,8 +22,10 @@ public class Piste {
     protected ImageView imageView;
     protected GridPane gridPane = new GridPane();
     protected int type_piste;
+    protected Plateau plateau;
 
     public Piste(int ii, Plateau p, boolean hostile, double sens, double vitesse, double taille_obstacle, int type_piste, double densite) {
+        this.plateau = p;
         this.vitesse = vitesse;
         this.sens = sens;
         this.taille_obstacle = taille_obstacle;
@@ -35,45 +37,25 @@ public class Piste {
 
 
         if (this.type_piste == 0){ // If it is a road
-            try {
-                for (int jj = 0; jj < p.nb_pistes; jj++) {
-                    Image image = new Image(new FileInputStream("routemieuxJAUNE.jpeg.png"));
-                    this.imageView = new ImageView(image);
-                    this.imageView.setFitHeight(p.h_piste);
-                    this.imageView.setFitWidth(p.h_piste);
-                    this.gridPane.add(this.imageView, jj, ii);
-                }
-
-            } catch (FileNotFoundException e) {
-                System.out.println(e);
-            }
+            this.setImageView("routemieuxJAUNE.png");
+        } else if (this.type_piste == 1){  // If it is a river
+            this.setImageView("river.png");
+        } else if (this.type_piste == 2){  // If it is the beginning
+            this.setImageView("debut.png");
         }
-        else if (this.type_piste == 1){  // If it is a river
-            try {
-                for (int jj = 0; jj < p.nb_pistes; jj++) {
-                    Image image = new Image(new FileInputStream("river.png"));
-                    this.imageView = new ImageView(image);
-                    this.imageView.setFitHeight(p.h_piste);
-                    this.imageView.setFitWidth(p.h_piste);
-                    this.gridPane.add(this.imageView, jj, ii);
-                }
+    }
 
-            } catch (FileNotFoundException e) {
-                System.out.println(e);
+    private void setImageView(String file) {
+        try {
+            for (int jj = 0; jj < this.plateau.nb_pistes; jj++) {
+                Image image = new Image(new FileInputStream(file));
+                this.imageView = new ImageView(image);
+                this.imageView.setFitHeight(this.plateau.h_piste);
+                this.imageView.setFitWidth(this.plateau.h_piste);
+                this.gridPane.add(this.imageView, jj, this.numero_piste);
             }
-        }else if (this.type_piste == 2){  // If it is the beginning
-            try {
-                for (int jj = 0; jj < p.nb_pistes; jj++) {
-                    Image image = new Image(new FileInputStream("debut.png"));
-                    this.imageView = new ImageView(image);
-                    this.imageView.setFitHeight(p.h_piste);
-                    this.imageView.setFitWidth(p.h_piste);
-                    this.gridPane.add(this.imageView, jj, ii);
-                }
-
-            } catch (FileNotFoundException e) {
-                System.out.println(e);
-            }
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
         }
     }
 
@@ -83,11 +65,6 @@ public class Piste {
 
     public List getParametre() {
         return Arrays.asList(this.vitesse, this.sens, this.taille_obstacle, this.longueur_bloc, this.longueur_piste, this.numero_piste, this.densite, this.type_piste);
-    }
-
-
-    public Piste(int ii, Plateau p) {
-        this(ii, p, true, 1, 10, 40, 0);
     }
 
     public GridPane getImageView() {

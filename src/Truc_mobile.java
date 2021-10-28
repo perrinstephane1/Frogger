@@ -35,18 +35,20 @@ public class Truc_mobile extends Rectangle {
 
         this.in_plateau = in_plateau;
         this.piste = piste;
-
-        this.vitesse = piste.vitesse;
         this.sens = piste.sens;
         this.taille_obstacle = piste.taille_obstacle;
-        this.hostile = piste.hostile;
         this.scene = scene;
         this.l_case = l_case; //(this.scene.getHeight()/piste.p.nb_pistes)
     }
 
     public void setImageView(String file) {
         try {
-            Image image = new Image(new FileInputStream(file));
+            String adresse = file;
+            if (this.piste.sens == 0) {
+                adresse = file.replace(".png", "_r.png");
+                System.out.println(adresse);
+            }
+            Image image = new Image(new FileInputStream(adresse));
             this.imageView = new ImageView(image);
             this.imageView.setX(this.getX());
             this.imageView.setY(this.getY());

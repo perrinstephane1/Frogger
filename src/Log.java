@@ -4,7 +4,6 @@ import javafx.util.Duration;
 
 
 public class Log extends Truc_mobile{
-    private boolean hostile;
     protected Piste piste;
 
     public Log(Piste piste, Scene scene, int l_case) {
