@@ -273,6 +273,7 @@ public class menu extends Application {
             public void handle(ActionEvent event) {
                 stage.close();
                 //TODO lancer le vrai jeu
+                //IHM.launch(); commande à trouver
             }
         });
         stage.setTitle("Avant de commencer à jouer...");
