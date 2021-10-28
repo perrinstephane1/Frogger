@@ -6,32 +6,18 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import javafx.scene.control.*;
-//import java.awt.*;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TimerTask;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -59,9 +45,8 @@ public class IHM extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    @Override
-    public void start(Stage primaryStage) {
-        //test
+
+    private void generate_menu() {
         MenuItem pseudo1 = new MenuItem("Pseudo 1");
         MenuItem pseudo2= new MenuItem("Pseudo 2");
         MenuItem nbre_routes = new MenuItem("Nombre de routes");
@@ -90,8 +75,7 @@ public class IHM extends Application {
         menu5.getItems().addAll(pause, separator,quitter);
         MenuBar menuBar= new MenuBar(menu1,menu2,menu5,menu3,menu4);
         this.plateau.getGridPane().getChildren().add(menuBar);
-        //trying to add things
-        // action pour mettre le jeu en pause
+
         pause.setAccelerator(KeyCombination.keyCombination(("P")));
         pause.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -317,6 +301,11 @@ public class IHM extends Application {
                 System.out.println("on est passé en mode 2 joueurs");
             }
         });
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+//        this.generate_menu();
 
         scene.setFill(Color.web("#81c483"));
 
@@ -408,10 +397,10 @@ public class IHM extends Application {
                     @Override
                     public void run() {
                         int numero_piste = (int) (frog.getY()/l_case);
-                        if (plateau.get(numero_piste).type_piste == 1 && !(frog.onNenuphar)){ // is the frog is on the river and not on a nenuphar
+                        if (plateau.get(numero_piste).type_piste == 1 && !(frog.isOnNenuphar())){ // is the frog is on the river and not on a nenuphar
                             frog.dead = true;
                             System.out.println("check_nenu_death");
-                            System.out.println(frog.onNenuphar);
+                            System.out.println(frog.isOnNenuphar());
                         }
                     }
                 });
@@ -422,7 +411,6 @@ public class IHM extends Application {
     public void initCar() {
         Voiture[] voitures = new Voiture[plateau.nb_pistes*10];
         for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
-            System.out.println("car init");
             voitures[i-plateau.nb_pistes/2] = new Voiture(plateau.get(i),scene, this.l_case);
             root.getChildren().add(voitures[i-plateau.nb_pistes/2].getImageView());
 
@@ -447,18 +435,17 @@ public class IHM extends Application {
         }, 0, 50);
     }
     public void initLog() {
-        Nenuphar[] nenuphars = new Nenuphar[plateau.nb_pistes*10];
+        Log[] logs = new Log[plateau.nb_pistes*10];
         for (int i = 2; i < plateau.nb_pistes/2 + 1; i++) { // Start at number 2 because Number 1 is a safe lane
-            System.out.println("nenu init");
-            nenuphars[i] = new Nenuphar(plateau.get(i),scene, this.l_case);
-            root.getChildren().add(nenuphars[i].getImageView());
+            logs[i] = new Log(plateau.get(i),scene, this.l_case);
+            root.getChildren().add(logs[i].getImageView());
         }
         new Timer().scheduleAtFixedRate(new TimerTask() { //Refresh actual position (quicker)
             @Override
             public void run() {
                 for (int i = 2; i < plateau.nb_pistes/2 + 1; i++) {
-                    if (nenuphars[i].intersects(frog)) {
-                        frog.onNenuphar = true;
+                    if (logs[i].intersects(frog)) {
+                        frog.setOnNenuphar(true);
                     }
                 }
             }
@@ -467,12 +454,12 @@ public class IHM extends Application {
             @Override
             public void run() {
                 for (int i = 2; i < plateau.nb_pistes/2 + 1; i++) {
-                    nenuphars[i].move(speed_h);
+                    logs[i].move(speed_h);
                     int numero_piste = (int) (frog.getY()/l_case);
-                    if (nenuphars[i].intersects(frog)) {
-                        frog.onNenuphar = true;
+                    if (logs[i].intersects(frog)) {
+                        frog.setOnNenuphar(true);
                         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), frog.getImageView());
-                        if (nenuphars[i].piste.sens == 0){
+                        if (logs[i].piste.sens == 0){
                             trans.setByX(-speed_h);
                             if (frog.getX()>=-50) {
                                 frog.setLocation((int)(frog.getX()-speed_h), (int)frog.getY());
@@ -488,7 +475,7 @@ public class IHM extends Application {
                         }
                     }
                     else if (plateau.get(numero_piste).type_piste == 1){
-                        frog.onNenuphar = false;
+                        frog.setOnNenuphar(true);
                     }
                 }
             }

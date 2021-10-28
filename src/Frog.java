@@ -9,9 +9,7 @@ import java.io.FileNotFoundException;
 
 
 public class Frog extends Rectangle {
-    public boolean onNenuphar = false;
-    //    private double X;
-//    private double Y;
+    private boolean onNenuphar = false;
     private ImageView imageView;
     protected boolean dead;
     private double l_case;
@@ -19,15 +17,13 @@ public class Frog extends Rectangle {
     private int score = 0;
     private int etage = 0;
 
-    public Frog(int X, int Y, int l_case, int nb_case) {
+    public Frog(int X, int Y, int l_case, int nb_case, String img) {
         super(X, Y, l_case, l_case);
         this.dead = false;
-//        this.X = X;
-//        this.Y = Y;
         this.l_case = l_case;
         this.nb_case = nb_case;
         try {
-            Image image = new Image(new FileInputStream("froggergreen.png"));
+            Image image = new Image(new FileInputStream(img));
             this.imageView = new ImageView(image);
             this.imageView.setX(this.getX());
             this.imageView.setY(this.getY());
@@ -38,8 +34,20 @@ public class Frog extends Rectangle {
         }
     }
 
+    public Frog(int X, int Y, int l_case, int nb_case) {
+        this(X, Y, l_case, nb_case, "frog8bit.png");
+    }
+
     public ImageView getImageView() {
         return imageView;
+    }
+
+    public boolean isOnNenuphar() {
+        return onNenuphar;
+    }
+
+    public void setOnNenuphar(boolean onNenuphar) {
+        this.onNenuphar = onNenuphar;
     }
 
     public void up() {
@@ -75,8 +83,6 @@ public class Frog extends Rectangle {
         if (this.getX()-this.l_case>=0) {
             this.setLocation((int) ((int)this.getX()-this.l_case), (int)this.getY());
             trans.play();
-//        } else {
-//            this.dead = true;
         }
     }
 
@@ -86,38 +92,15 @@ public class Frog extends Rectangle {
         if (this.getX()+this.l_case<this.l_case*this.nb_case) {
             this.setLocation((int) ((int)this.getX()+this.l_case), (int)this.getY());
             trans.play();
-//        } else {
-//            this.dead = true;
         }
     }
 
-    public int getScore() {
-        return score;
-    }
-    //    public String getCoord(){
-//        return this.X+", "+this.Y+", "+this.dead;
-//    }
-
-//    public boolean isDead() {
-//        return dead;
-//    }
-//
-//    public void setDead(boolean dead) {
-//        this.dead = dead;
-//    }
-//
 //    public void auto_down(int speed) {
 //        TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
 //        trans.setByY(speed);
 //        this.Y += speed;
 //        trans.play();
 //    }
-//
-//    public double getX() {
-//        return X;
-//    }
-//
-//    public double getY() {
-//        return Y;
-//    }
+
+
 }
