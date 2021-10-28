@@ -102,7 +102,7 @@ public class IHM extends Application {
             initCar(voitures, 2);
         }else{ // debutant
             speed_h = 3;
-            initLog(logs, 3);
+            initLog(logs, 2);
             initCar(voitures, 2);
         }
 
@@ -173,7 +173,7 @@ public class IHM extends Application {
                 voitures[compteur_voiture] = new Voiture(plateau.get(i),scene, this.l_case);
                 boolean collisions_car = true;
                 while(collisions_car){
-                    if (compteur_voiture >=2 && voitures[compteur_voiture-1].intersects(voitures[compteur_voiture])){// checks for collisions
+                    if (compteur_voiture ==2 && voitures[compteur_voiture-1].intersects(voitures[compteur_voiture])){// checks for collisions
                         voitures[compteur_voiture] = new Voiture(plateau.get(i), scene, this.l_case);
                     }
                     if (compteur_voiture >=3 && (voitures[compteur_voiture-2].intersects(voitures[compteur_voiture]) || voitures[compteur_voiture-1].intersects(voitures[compteur_voiture]) )    ){// checks for collisions

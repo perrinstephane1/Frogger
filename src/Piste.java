@@ -36,8 +36,8 @@ public class Piste {
         this.numero_piste = ii;
         this.type_piste = type_piste;
 
-        System.out.println("densite de la ligne");
-        System.out.println(densite);
+//        System.out.println("densite de la ligne");
+//        System.out.println(densite);
         if (densite < 0.33) {
             this.taille_obstacle = 1;
         }

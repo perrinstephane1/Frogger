@@ -9,11 +9,11 @@ public class Voiture extends Truc_mobile {
         super(piste, scene, l_case, piste.taille_obstacle);
 
         if(piste.taille_obstacle == 1.0){
-            this.setImageView("car1red.png");
+            this.setImageView("car1.png");
         } else if (piste.taille_obstacle == 2.0){
-            this.setImageView("car2red.png");
+            this.setImageView("car2.png");
         } else if (piste.taille_obstacle == 3.0){
-            this.setImageView("car3red.png");
+            this.setImageView("car3.png");
         }
     }
 

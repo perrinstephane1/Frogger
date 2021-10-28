@@ -44,10 +44,10 @@ public class Truc_mobile extends Rectangle {
     public void setImageView(String file) {
         try {
             String adresse = file;
-//            if (this.piste.sens == 0) {
-//                adresse = file.replace(".png", "_r.png");
+            if (this.piste.sens == 0) {
+                adresse = file.replace(".png", "_r.png");
 //                System.out.println(adresse);
-//            }
+            }
             Image image = new Image(new FileInputStream(adresse));
             this.imageView = new ImageView(image);
             this.imageView.setX(this.getX());
@@ -70,8 +70,8 @@ public class Truc_mobile extends Rectangle {
         if (this.sens == 1) {
 
             if (this.getX() >= this.scene.getWidth()) {
-                trans.setByX(-this.scene.getWidth()-this.taille_obstacle);
-                this.setLocation((int)this.getX()-(int)this.scene.getWidth()-(int)this.taille_obstacle, (int)this.getY());
+                trans.setByX(-this.scene.getWidth()-this.taille_obstacle*this.l_case);
+                this.setLocation((int) (this.getX()-this.scene.getWidth()-this.taille_obstacle*this.l_case), (int)this.getY());
                 // if the object goes off the scene, its position is re-init
             }
             else{
@@ -81,8 +81,8 @@ public class Truc_mobile extends Rectangle {
             trans.play();
         }
         else{
-            if (this.getX() + this.l_case < 0) {
-                trans.setByX(this.scene.getWidth()+this.l_case);
+            if (this.getX() + this.taille_obstacle*this.l_case < 0) {
+                trans.setByX(this.scene.getWidth()+this.taille_obstacle*this.l_case);
                 this.setLocation((int)this.scene.getWidth(), (int)this.getY());
                 // if the object goes off the scene, its position is re-init
             }
