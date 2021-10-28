@@ -32,6 +32,7 @@ public class IHM extends Application {
     private Chrono chrono = new Chrono();
     private Voiture[] voitures;
 
+
     Frog frog = new Frog((this.nb_case) * this.l_case /2 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case);
     Group root = new Group();
     Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*this.nb_case);
