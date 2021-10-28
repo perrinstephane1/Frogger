@@ -260,7 +260,7 @@ public class IHM extends Application {
                         }
                     }
                     else if (plateau.get(numero_piste).type_piste == 1){
-                        frog.setOnNenuphar(true);
+                        frog.setOnNenuphar(false);
                     }
                 }
             }
