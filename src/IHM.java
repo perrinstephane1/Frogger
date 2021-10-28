@@ -103,7 +103,7 @@ public class IHM extends Application {
         }else{ // debutant
             speed_h = 3;
             initLog(logs, 2);
-            initCar(voitures, 2);
+            initCar(voitures, 1);
         }
 
         root.getChildren().add(frog.getImageView());
