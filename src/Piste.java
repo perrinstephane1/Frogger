@@ -27,7 +27,6 @@ public class Piste {
 
 
     public Piste(int ii, Plateau p, boolean hostile, double sens, double vitesse, double densite, int type_piste) {
-    public Piste(int ii, Plateau p, boolean hostile, double sens, double vitesse, double taille_obstacle, int type_piste, double densite) {
         this.plateau = p;
         this.vitesse = vitesse;
         this.sens = sens;

@@ -34,10 +34,10 @@ public class IHM extends Application {
     private int speed_down = 1;
     private int speed_h = 6;
     protected int compteur_voiture = 0;
-    protected int compteur_nenuphar = 0;
+    protected int compteur_log = 0;
     private Chrono chrono = new Chrono();
     private Voiture[] voitures = new Voiture[10000];
-    private Nenuphar[] nenuphars = new Nenuphar[10000];
+    private Log[] logs = new Log[10000];
     private int difficulte = 1;
 
 
@@ -94,15 +94,15 @@ public class IHM extends Application {
         difficulte = 1;
         if (difficulte ==3){ // expert
             speed_h = 6;
-            initLog(nenuphars, 1);
+            initLog(logs, 1);
             initCar(voitures, 3);
         }else if (difficulte ==2){ // intermediaire
             speed_h = 4;
-            initLog(nenuphars, 2);
+            initLog(logs, 2);
             initCar(voitures, 2);
         }else{ // debutant
             speed_h = 3;
-            initLog(nenuphars, 3);
+            initLog(logs, 3);
             initCar(voitures, 2);
         }
 
@@ -151,10 +151,8 @@ public class IHM extends Application {
                             chrono.stop();
                             System.out.println(chrono.getElapsedMilliseconds());
                         }
-                        if (plateau.get(numero_piste).type_piste == 1 && !(frog.onNenuphar)){ // if the frog is on the river and not on a nenuphar
+                        if (plateau.get(numero_piste).type_piste == 1 && !(frog.isOnNenuphar())){ // if the frog is on the river and not on a nenuphar
                             frog.dead = true;
-//                            System.out.println("check_nenu_death");
-//                            System.out.println(frog.onNenuphar);
                         }
                         if (frog.getX() < - l_case|| frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) { //if the frig is out of map
                             primaryStage.setScene(the_end);
@@ -207,33 +205,31 @@ public class IHM extends Application {
             }
         }, 0, 50);
     }
-    public void initLog(Nenuphar[] nenuphars,  int nombre_nenuphar) {
+    public void initLog(Log[] logs,  int nombre_nenuphar) {
         for (int i = 2; i < plateau.nb_pistes/2 + 1; i++) { // Start at number 2 because Number 1 is a safe lane
             for (int j = 0; j<nombre_nenuphar; j++) {
-                compteur_nenuphar += 1;
-                nenuphars[compteur_nenuphar] = new Nenuphar(plateau.get(i), scene, this.l_case);
+                compteur_log += 1;
+                logs[compteur_log] = new Log(plateau.get(i), scene, this.l_case);
                 boolean collisions_nenuphar = true;
                 while(collisions_nenuphar){
-                    if (compteur_nenuphar >=2 && nenuphars[compteur_nenuphar-1].intersects(nenuphars[compteur_nenuphar])){// checks for collisions
-                        nenuphars[compteur_nenuphar] = new Nenuphar(plateau.get(i), scene, this.l_case);
+                    if (compteur_log >=2 && logs[compteur_log-1].intersects(logs[compteur_log])){// checks for collisions
+                        logs[compteur_log] = new Log(plateau.get(i), scene, this.l_case);
                     }
-                    if (compteur_nenuphar >=3 && (nenuphars[compteur_nenuphar-2].intersects(nenuphars[compteur_nenuphar]) || nenuphars[compteur_nenuphar-1].intersects(nenuphars[compteur_nenuphar]) )    ){// checks for collisions
-                        nenuphars[compteur_nenuphar] = new Nenuphar(plateau.get(i), scene, this.l_case);
+                    if (compteur_log >=3 && (logs[compteur_log-2].intersects(logs[compteur_log]) || logs[compteur_log-1].intersects(logs[compteur_log]) )    ){// checks for collisions
+                        logs[compteur_log] = new Log(plateau.get(i), scene, this.l_case);
                     }
                     else{
                         collisions_nenuphar = false;
                     }
                 }
-                root.getChildren().add(nenuphars[compteur_nenuphar].getImageView());
+                root.getChildren().add(logs[compteur_log].getImageView());
             }
         }
         new Timer().scheduleAtFixedRate(new TimerTask() { //Refresh actual position (quicker)
             @Override
-
             public void run() {
-
-                for (int i = 1; i < compteur_nenuphar + 1; i++) {
-                    if (nenuphars[i].intersects(frog)) {
+                for (int i = 1; i < compteur_log + 1; i++) {
+                    if (logs[i].intersects(frog)) {
                         frog.setOnNenuphar(true);
                     }
                 }
@@ -242,13 +238,13 @@ public class IHM extends Application {
         new Timer().scheduleAtFixedRate(new TimerTask() { // Refresh visual position
             @Override
             public void run() {
-                for (int i = 1; i < compteur_nenuphar + 1; i++) {
-                    nenuphars[i].move(speed_h);
+                for (int i = 1; i < compteur_log + 1; i++) {
+                    logs[i].move(speed_h);
                     int numero_piste = (int) (frog.getY()/l_case);
-                    if (nenuphars[i].intersects(frog)) {
+                    if (logs[i].intersects(frog)) {
                         frog.setOnNenuphar(true);
                         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), frog.getImageView());
-                        if (nenuphars[i].piste.sens == 0){
+                        if (logs[i].piste.sens == 0){
                             trans.setByX(-speed_h);
                             if (frog.getX()>=-50) {
                                 frog.setLocation((int)(frog.getX()-speed_h), (int)frog.getY());
