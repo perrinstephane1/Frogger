@@ -101,6 +101,7 @@ public class IHM extends Application {
 
         root.getChildren().add(frog.getImageView());
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
 
     }

@@ -234,6 +234,7 @@ public class menu extends Application {
         primaryStage.setResizable(false);
         primaryStage.setTitle("Frogger");
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
     public void avant_commencer (boolean joueurs,boolean fini){
