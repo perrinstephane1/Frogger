@@ -168,17 +168,30 @@ public class IHM extends Application {
                         if (frog.dead) {
                             primaryStage.setScene(the_end);
                         }
+
                         Text txt = plateau.getChrono();
                         txt.setFont(new Font(l_case*0.8));
                         txt.setWrappingWidth(nb_case*l_case);
                         txt.setTextAlignment(TextAlignment.CENTER);
                         plateau.get(nb_case).gridPane.getChildren().set(0, txt);
+                        displayTime();
 
                         frog.setOnLog(false);
                     }
                 });
             }
         }, 0, 50);
+    }
+
+    private void displayTime() {
+        Text txt = plateau.getChrono();
+        txt.setFont(new Font(l_case*0.8));
+        txt.setWrappingWidth(nb_case*l_case);
+        txt.setTextAlignment(TextAlignment.CENTER);
+        txt.setFill(Color.BROWN);
+        txt.setStrokeWidth(1);
+        txt.setStroke(Color.BLUE);
+        plateau.get(nb_case).gridPane.getChildren().set(0, txt);
     }
 
     public void initCar(Voiture[] voitures, int nombre_voiture) {
