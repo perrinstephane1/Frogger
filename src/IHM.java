@@ -239,7 +239,34 @@ public class IHM extends Application {
                     fini_test = true;
                 } ;
                 boolean fini=fini_test;
-                avant_commencer(deux_joueurs,fini);
+
+                String dif="";
+                try {
+                    if (choix_diff.getValue()==null){
+                        dif="Débutant";
+                    } else {
+                        dif = choix_diff.getValue();
+                    }
+                } catch (Exception e) {
+                    dif="Débutant";
+                }
+                //System.out.println(dif);
+                int dif_i=1;
+                switch (dif){
+                    case "Débutant":
+                        dif_i=1;
+                        break;
+                    case "Intermédiaire":
+                        dif_i=2;
+                        break;
+                    case "Expert:" :
+                        dif_i=3;
+                        break;
+                    default:
+                        dif_i=1;
+                        break;
+                }
+                avant_commencer(deux_joueurs,fini,dif_i);
             }
         });
 
@@ -397,7 +424,7 @@ public class IHM extends Application {
         }
     }
 
-    public void joue(){
+    public void joue(boolean joueurs, String name1, String name2, int dif_i){
         Stage primaryStage= new Stage();
         scene.setFill(Color.BLACK);
 
@@ -447,7 +474,7 @@ public class IHM extends Application {
         scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
         root.getChildren().add(plateau.getGridPane());
 
-        difficulte = 1;
+        difficulte = dif_i;
         if (difficulte ==3){ // expert
             speed_h = 6;
             initLog(logs, 1);
@@ -468,12 +495,15 @@ public class IHM extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
     }
-    public void avant_commencer (boolean joueurs,boolean fini){
+    public void avant_commencer(boolean joueurs, boolean fini, int dif_i){
         // joueurs = true si 2 joueurs
         // fini = true si on joue en mode fini
         Label pseudo1 = new Label("Pseudo 1");
-        TextField nom1 = new TextField("Entrez votre pseudo");
+        TextField nom1 = new TextField("Joueur 1");
         Label exp_1 = new Label("Ce joueur jouera avec les flèches directionnelles");
+        Label pseudo2 = new Label("Pseudo 2");
+        TextField nom2 = new TextField("Joueur 2");
+        Label exp_2 = new Label("Ce joueur jouera avec les touches QWSD");
         Button play = new Button("START PLAYING");
 
         GridPane gridPane = new GridPane();
@@ -490,9 +520,6 @@ public class IHM extends Application {
         gridPane.add(nom1,1,1);
         gridPane.add(exp_1,0,2,2,1);
         if (joueurs){
-            Label pseudo2 = new Label("Pseudo 2");
-            TextField nom2 = new TextField("Entrez votre pseudo");
-            Label exp_2 = new Label("Ce joueur jouera avec les touches QWSD");
             gridPane.add(pseudo2,3,1);
             GridPane.setHalignment(pseudo2, HPos.RIGHT);
             gridPane.add(nom2,4,1);
@@ -520,7 +547,22 @@ public class IHM extends Application {
             public void handle(ActionEvent event) {
                 stage.close();
                 //TODO lancer le vrai jeu
-                joue();
+                String name1;
+                try{
+                    name1= String.valueOf(nom1.getCharacters());
+                } catch(Exception e) {
+                    name1="Joueur 1";
+                }
+                String name2;
+                try{
+                    name2= String.valueOf(nom2.getCharacters());
+                } catch(Exception e) {
+                    name2="Joueur 2";
+                }
+                //System.out.println(name1);
+                //System.out.println(name2);
+                joue(joueurs,name1,name2,dif_i);
+
             }
         });
         stage.setTitle("Avant de commencer à jouer...");
