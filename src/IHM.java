@@ -225,13 +225,13 @@ public class IHM extends Application {
                 boolean test;
                 try {
                     test=choix_joueurs.getValue().equals(2);
-                    System.out.println("valeur correcte");
+                    //System.out.println("valeur correcte");
                 } catch (Exception e) {
-                    System.out.println("correction");
+                    //System.out.println("correction");
                     test = false;
                 }
                 boolean deux_joueurs=test;
-                System.out.println(deux_joueurs);
+                //System.out.println(deux_joueurs);
                 boolean fini_test;
                 try{
                     fini_test = (choix_mode.getValue().equals("Fini"));
