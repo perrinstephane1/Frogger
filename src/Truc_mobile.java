@@ -51,7 +51,7 @@ public class Truc_mobile extends Rectangle {
             this.imageView = new ImageView(image);
             this.imageView.setX(this.getX());
             this.imageView.setY(this.getY());
-            this.imageView.setFitWidth(this.l_case * piste.taille_obstacle);
+            this.imageView.setFitWidth(this.l_case * piste.taille_obstacle + 10);
             this.imageView.setFitHeight(this.l_case);
             this.imageView.setPreserveRatio(false);
         } catch (FileNotFoundException var7) {
@@ -64,7 +64,7 @@ public class Truc_mobile extends Rectangle {
         return imageView;
     }
 
-    public void move(int speed) {
+    public void move(double speed) {
         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
         if (this.sens == 1) {
 
@@ -75,7 +75,7 @@ public class Truc_mobile extends Rectangle {
             }
             else{
                 trans.setByX(speed);
-                this.setLocation((int)this.getX()+speed, (int)this.getY());
+                this.setLocation((int) (this.getX()+speed), (int)this.getY());
             }
             trans.play();
         }
@@ -87,7 +87,7 @@ public class Truc_mobile extends Rectangle {
             }
             else{
                 trans.setByX(-speed);
-                this.setLocation((int)this.getX()-speed, (int)this.getY());
+                this.setLocation((int) (this.getX()-speed), (int)this.getY());
             }
             trans.play();
         }

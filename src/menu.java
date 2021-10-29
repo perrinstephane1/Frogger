@@ -205,6 +205,8 @@ public class menu extends Application {
                 avant_commencer(deux_joueurs,fini);
 
             }
+
+
         });
 
         // ajout sur la gridpane
@@ -237,6 +239,7 @@ public class menu extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
     }
+
     public void avant_commencer (boolean joueurs,boolean fini){
         // joueurs = true si 2 joueurs
         // fini = true si on joue en mode fini
