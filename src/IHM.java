@@ -222,11 +222,24 @@ public class IHM extends Application {
             @Override
             public void handle(ActionEvent event) {
                 primaryStage.close();
-                boolean joueurs = (choix_joueurs.getValue().equals(2));
-                boolean fini = (choix_mode.getValue().equals("Fini"));
-                //System.out.println(joueurs);
-                //System.out.println(fini);
-                avant_commencer(joueurs,fini);
+                boolean test;
+                try {
+                    test=choix_joueurs.getValue().equals(2);
+                    System.out.println("valeur correcte");
+                } catch (Exception e) {
+                    System.out.println("correction");
+                    test = false;
+                }
+                boolean deux_joueurs=test;
+                System.out.println(deux_joueurs);
+                boolean fini_test;
+                try{
+                    fini_test = (choix_mode.getValue().equals("Fini"));
+                } catch (Exception e) {
+                    fini_test = true;
+                } ;
+                boolean fini=fini_test;
+                avant_commencer(deux_joueurs,fini);
             }
         });
 
@@ -257,8 +270,6 @@ public class IHM extends Application {
         primaryStage.setTitle("Frogger");
         primaryStage.setScene(scene);
         primaryStage.show();
-
-
     }
 
     public void update_state(Stage primaryStage,Frog frog){
@@ -414,7 +425,7 @@ public class IHM extends Application {
         scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
         root.getChildren().add(plateau.getGridPane());
 
-        difficulte = 3;
+        difficulte = 1;
         if (difficulte ==3){ // expert
             speed_h = 6;
             initLog(logs, 1);
