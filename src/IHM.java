@@ -32,8 +32,8 @@ import java.util.TimerTask;
 public class IHM extends Application {
     private int l_case=50;
     private int nb_case=12;
-    private int speed_down = 1;
-    private int speed_h = 6;
+    private double speed_down = 1;
+    private double speed_h = 6;
     protected int compteur_voiture = 0;
     protected int compteur_log = 0;
     private Voiture[] voitures = new Voiture[100];
@@ -268,13 +268,7 @@ public class IHM extends Application {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = 1; i < compteur_voiture+1; i++) {
-                            voitures[i].move(speed_h);
-                            if (voitures[i].intersects(frog)) {
-                                primaryStage.setScene(the_end);
-                                System.out.println("collision");
-                            }
-                        }
+
                         for (int i = 1; i < compteur_log + 1; i++) {
                             int numero_piste = (int) (frog.getY()/l_case);
                             if (logs[i].intersects(frog)) {
@@ -299,7 +293,13 @@ public class IHM extends Application {
                             }
                             logs[i].move(speed_h);
                         }
-
+                        for (int i = 1; i < compteur_voiture+1; i++) {
+                            voitures[i].move(speed_h);
+                            if (voitures[i].intersects(frog)) {
+                                primaryStage.setScene(the_end);
+                                System.out.println("collision");
+                            }
+                        }
                         int numero_piste = (int) (frog.getY()/l_case);
                         if (numero_piste == 0) {
                             plateau.chrono.stop();
@@ -318,11 +318,6 @@ public class IHM extends Application {
                             primaryStage.setScene(the_end);
                         }
 
-                        Text txt = plateau.getChrono();
-                        txt.setFont(new Font(l_case*0.8));
-                        txt.setWrappingWidth(nb_case*l_case);
-                        txt.setTextAlignment(TextAlignment.CENTER);
-                        plateau.get(nb_case).gridPane.getChildren().set(0, txt);
                         displayTime();
 
                         frog.setOnLog(false);
@@ -363,7 +358,6 @@ public class IHM extends Application {
                 root.getChildren().add(voitures[compteur_voiture].getImageView());
             }
         }
-
     }
     public void initLog(Log[] logs,  int nombre_log) {
         for (int i = 2; i < plateau.nb_pistes/2 + 1; i++) { // Start at number 2 because Number 1 is a safe lane
@@ -409,9 +403,9 @@ public class IHM extends Application {
             } else if (e.getCode()==KeyCode.LEFT){
                 frog.left();
             } else if (e.getCode()==KeyCode.SPACE) {
-                plateau.auto_down(speed_down);
+                plateau.auto_down((int) speed_down);
                 for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
-                    this.voitures[i - plateau.nb_pistes / 2].auto_down(speed_down);
+                    this.voitures[i - plateau.nb_pistes / 2].auto_down((int) speed_down);
                 }
             }
         };
@@ -420,7 +414,7 @@ public class IHM extends Application {
         scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
         root.getChildren().add(plateau.getGridPane());
 
-        difficulte = 1;
+        difficulte = 3;
         if (difficulte ==3){ // expert
             speed_h = 6;
             initLog(logs, 1);
