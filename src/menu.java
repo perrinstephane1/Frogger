@@ -185,12 +185,28 @@ public class menu extends Application {
             @Override
             public void handle(ActionEvent event) {
                 primaryStage.close();
-                boolean joueurs = (choix_joueurs.getValue().equals(2));
-                boolean fini = (choix_mode.getValue().equals("Fini"));
-                //System.out.println(joueurs);
-                //System.out.println(fini);
-                avant_commencer(joueurs,fini);
+                boolean test;
+                try {
+                    test=choix_joueurs.getValue().equals(2);
+                    System.out.println("valeur correcte");
+                } catch (Exception e) {
+                    System.out.println("correction");
+                    test = false;
+                }
+                boolean deux_joueurs=test;
+                System.out.println(deux_joueurs);
+                boolean fini_test;
+                try{
+                    fini_test = (choix_mode.getValue().equals("Fini"));
+                } catch (Exception e) {
+                    fini_test = true;
+                } ;
+                boolean fini=fini_test;
+                avant_commencer(deux_joueurs,fini);
+
             }
+
+
         });
 
         // ajout sur la gridpane
@@ -221,6 +237,7 @@ public class menu extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
     public void avant_commencer (boolean joueurs,boolean fini){
         // joueurs = true si 2 joueurs
         // fini = true si on joue en mode fini
