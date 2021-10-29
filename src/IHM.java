@@ -259,7 +259,7 @@ public class IHM extends Application {
                     case "Intermédiaire":
                         dif_i=2;
                         break;
-                    case "Expert:" :
+                    case "Expert" :
                         dif_i=3;
                         break;
                     default:
