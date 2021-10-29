@@ -29,8 +29,8 @@ public class IHM extends Application {
     private int speed_h = 6;
     protected int compteur_voiture = 0;
     protected int compteur_log = 0;
-    private Voiture[] voitures = new Voiture[10000];
-    private Log[] logs = new Log[10000];
+    private Voiture[] voitures = new Voiture[100];
+    private Log[] logs = new Log[100];
     private int difficulte = 1;
 
 
@@ -83,7 +83,6 @@ public class IHM extends Application {
         scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
         root.getChildren().add(plateau.getGridPane());
 
-        update_state(primaryStage,frog);
         difficulte = 1;
         if (difficulte ==3){ // expert
             speed_h = 6;
@@ -98,6 +97,7 @@ public class IHM extends Application {
             initLog(logs, 2);
             initCar(voitures, 1);
         }
+        update_state(primaryStage,frog);
 
         root.getChildren().add(frog.getImageView());
         primaryStage.setScene(scene);
@@ -107,16 +107,49 @@ public class IHM extends Application {
 
     public void update_state(Stage primaryStage,Frog frog){
         new Timer().scheduleAtFixedRate(new TimerTask() {
-            @Override
+        @Override
             public void run() {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
+                        for (int i = 1; i < compteur_voiture+1; i++) {
+                            voitures[i].move(speed_h);
+                            if (voitures[i].intersects(frog)) {
+                                primaryStage.setScene(the_end);
+                                System.out.println("collision");
+                            }
+                        }
+                        for (int i = 1; i < compteur_log + 1; i++) {
+                            int numero_piste = (int) (frog.getY()/l_case);
+                            if (logs[i].intersects(frog)) {
+                                frog.setOnLog(true);
+                                TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), frog.getImageView());
+                                if (logs[i].piste.sens == 0){
+                                    trans.setByX(-speed_h);
+                                    if (frog.getX()>=-50) {
+                                        frog.setLocation((int)(frog.getX()-speed_h), (int)frog.getY());
+                                        trans.play();
+                                    }
+                                } else {
+                                    trans.setByX(speed_h);
+                                    if (frog.getX() <= scene.getWidth()) {
+                                        frog.setLocation((int)(frog.getX() + speed_h), (int)frog.getY());
+                                        trans.play();
+                                    }
+                                }
+                            }
+                            else if (plateau.get(numero_piste).type_piste != 1){
+                                frog.setOnLog(false);
+                            }
+                            logs[i].move(speed_h);
+                        }
+
                         int numero_piste = (int) (frog.getY()/l_case);
                         if (numero_piste == 0) {
                             plateau.chrono.stop();
                             System.out.println(plateau.chrono.getElapsedSeconds());
                         }
+
                         if (plateau.get(numero_piste).type_piste == 1 && !(frog.isOnLog())){ // if the frog is on the river and not on a log
 //                            frog.dead = true;
                             System.out.println("noyée");
@@ -133,10 +166,12 @@ public class IHM extends Application {
                         txt.setWrappingWidth(nb_case*l_case);
                         txt.setTextAlignment(TextAlignment.CENTER);
                         plateau.get(nb_case).gridPane.getChildren().set(0, txt);
+
+                        frog.setOnLog(false);
                     }
                 });
             }
-        }, 0, 100);
+        }, 0, 50);
     }
 
     public void initCar(Voiture[] voitures, int nombre_voiture) {
@@ -159,18 +194,7 @@ public class IHM extends Application {
                 root.getChildren().add(voitures[compteur_voiture].getImageView());
             }
         }
-        new Timer().scheduleAtFixedRate(new TimerTask() { //Refresh actual position
-            @Override
-            public void run() {
-                for (int i = 1; i < compteur_voiture+1; i++) {
-                    voitures[i].move(speed_h);
-                    if (voitures[i].intersects(frog)) {
-                        frog.dead = true;
-                        System.out.println("collision");
-                    }
-                }
-            }
-        }, 0, 50);
+
     }
     public void initLog(Log[] logs,  int nombre_log) {
         for (int i = 2; i < plateau.nb_pistes/2 + 1; i++) { // Start at number 2 because Number 1 is a safe lane
@@ -192,35 +216,5 @@ public class IHM extends Application {
                 root.getChildren().add(logs[compteur_log].getImageView());
             }
         }
-
-        new Timer().scheduleAtFixedRate(new TimerTask() { // Refresh visual position
-            @Override
-            public void run() {
-                for (int i = 1; i < compteur_log + 1; i++) {
-                    logs[i].move(speed_h);
-                    int numero_piste = (int) (frog.getY()/l_case);
-                    if (logs[i].intersects(frog)) {
-                        frog.setOnLog(true);
-                        TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), frog.getImageView());
-                        if (logs[i].piste.sens == 0){
-                            trans.setByX(-speed_h);
-                            if (frog.getX()>=-50) {
-                                frog.setLocation((int)(frog.getX()-speed_h), (int)frog.getY());
-                                trans.play();
-                            }
-                        } else {
-                            trans.setByX(speed_h);
-                            if (frog.getX() <= scene.getWidth()) {
-                                frog.setLocation((int)(frog.getX() + speed_h), (int)frog.getY());
-                                trans.play();
-                            }
-                        }
-                    }
-                    else if (plateau.get(numero_piste).type_piste == 1){
-                        frog.setOnLog(false);
-                    }
-                }
-            }
-        }, 0, 50);
     }
 }
