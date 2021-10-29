@@ -2,11 +2,16 @@ import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -20,6 +25,7 @@ import java.util.TimerTask;
 
 // TODO Problem de hitbox entre frog et elements mobiles
 // TODO Mettre fin au jeu quand on est mort et pas seulement a l'interface graphique
+// TODO Restart apres une defaite
 
 
 public class IHM extends Application {
@@ -51,7 +57,7 @@ public class IHM extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        scene.setFill(Color.web("#81c483"));
+        scene.setFill(Color.BLACK);
 
         deadwindow.setAlignment(Pos.CENTER);
         deadText.setStyle("-fx-font: normal bold "+this.l_case+"px 'serif' ");
@@ -101,6 +107,7 @@ public class IHM extends Application {
 
         root.getChildren().add(frog.getImageView());
         primaryStage.setScene(scene);
+        primaryStage.setResizable(true);
         primaryStage.show();
 
     }
@@ -128,15 +135,22 @@ public class IHM extends Application {
                         if (frog.dead) {
                             primaryStage.setScene(the_end);
                         }
-                        Text txt = plateau.getChrono();
-                        txt.setFont(new Font(l_case*0.8));
-                        txt.setWrappingWidth(nb_case*l_case);
-                        txt.setTextAlignment(TextAlignment.CENTER);
-                        plateau.get(nb_case).gridPane.getChildren().set(0, txt);
+                        displayTime();
                     }
                 });
             }
         }, 0, 100);
+    }
+
+    private void displayTime() {
+        Text txt = plateau.getChrono();
+        txt.setFont(new Font(l_case*0.8));
+        txt.setWrappingWidth(nb_case*l_case);
+        txt.setTextAlignment(TextAlignment.CENTER);
+        txt.setFill(Color.BROWN);
+        txt.setStrokeWidth(1);
+        txt.setStroke(Color.BLUE);
+        plateau.get(nb_case).gridPane.getChildren().set(0, txt);
     }
 
     public void initCar(Voiture[] voitures, int nombre_voiture) {
@@ -172,6 +186,7 @@ public class IHM extends Application {
             }
         }, 0, 50);
     }
+
     public void initLog(Log[] logs,  int nombre_log) {
         for (int i = 2; i < plateau.nb_pistes/2 + 1; i++) { // Start at number 2 because Number 1 is a safe lane
             for (int j = 0; j<nombre_log; j++) {
