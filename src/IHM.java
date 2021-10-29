@@ -4,29 +4,22 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.text.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
-// TODO Problem de hitbox entre frog et elements mobiles
-// TODO Mettre fin au jeu quand on est mort et pas seulement a l'interface graphique
-// TODO Restart apres une defaite
 
 
 public class IHM extends Application {
@@ -50,7 +43,14 @@ public class IHM extends Application {
 
     GridPane deadwindow = new GridPane();
     Text deadText = new Text("You're dead !");
+    Text restartText = new Text("Restart");
     Scene the_end = new Scene(deadwindow, this.l_case*this.nb_case, this.l_case*this.nb_case);
+
+    GridPane victoryWindow = new GridPane();
+    Text victoryText = new Text("Victory !");
+    Text newGameText = new Text("New Game ?");
+    Scene victoryScene = new Scene(victoryWindow, this.l_case*this.nb_case, this.l_case*this.nb_case);
+
 
     public static void main(String[] args) {
         launch(args);
@@ -307,6 +307,7 @@ public class IHM extends Application {
                         for (int i = 1; i < compteur_voiture+1; i++) {
                             voitures[i].move(speed_h);
                             if (voitures[i].intersects(frog)) {
+
                                 primaryStage.setScene(the_end);
                                 System.out.println("collision");
                             }
@@ -314,6 +315,9 @@ public class IHM extends Application {
                         int numero_piste = (int) (frog.getY()/l_case);
                         if (numero_piste == 0) {
                             plateau.chrono.stop();
+//                            Text yourTime = new Text("Your time : "+plateau.getChrono());
+//                            victoryWindow.add(yourTime, 0, 2);
+                            primaryStage.setScene(victoryScene);
                             System.out.println(plateau.chrono.getElapsedSeconds());
                         }
 
@@ -391,14 +395,32 @@ public class IHM extends Application {
             }
         }
     }
+
     public void joue(){
         Stage primaryStage= new Stage();
         scene.setFill(Color.BLACK);
 
         deadwindow.setAlignment(Pos.CENTER);
-        deadText.setStyle("-fx-font: normal bold "+this.l_case+"px 'serif' ");
+        deadText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, this.l_case));
+        deadText.setWrappingWidth(this.l_case*this.nb_case);
+        deadText.setTextAlignment(TextAlignment.CENTER);
+        restartText.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, this.l_case*0.8));
+        restartText.setWrappingWidth(this.l_case*this.nb_case);
+        restartText.setTextAlignment(TextAlignment.CENTER);
         deadwindow.add(deadText, 0, 0);
-        the_end.setFill(Color.web("#d13318"));
+        deadwindow.add(restartText, 0, 1);
+
+        victoryWindow.setAlignment(Pos.CENTER);
+        victoryText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, this.l_case));
+        victoryText.setWrappingWidth(this.l_case*this.nb_case);
+        victoryText.setTextAlignment(TextAlignment.CENTER);
+        newGameText.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, this.l_case*0.8));
+        newGameText.setWrappingWidth(this.l_case*this.nb_case);
+        newGameText.setTextAlignment(TextAlignment.CENTER);
+
+        victoryWindow.add(victoryText, 0, 0);
+        victoryWindow.add(newGameText, 0, 1);
+//        victoryWindow.add(yourTime, 0, 2);
 
 
         EventHandler<KeyEvent> keyListener = e -> {
@@ -420,7 +442,6 @@ public class IHM extends Application {
                 }
             }
         };
-
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
         root.getChildren().add(plateau.getGridPane());
