@@ -38,7 +38,8 @@ public class Plateau extends ArrayList<Piste> {
     }
 
     public Text getChrono() {
-        Text text_chrono = new Text("Time : "+this.chrono.getElapsedSeconds()+" s");
+        Long time = this.chrono.getElapsedCenti();
+        Text text_chrono = new Text("Time : "+time/100+","+time%100+" s");
         return text_chrono;
     }
 

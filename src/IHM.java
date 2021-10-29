@@ -2,11 +2,16 @@ import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -20,6 +25,7 @@ import java.util.TimerTask;
 
 // TODO Problem de hitbox entre frog et elements mobiles
 // TODO Mettre fin au jeu quand on est mort et pas seulement a l'interface graphique
+// TODO Restart apres une defaite
 
 
 public class IHM extends Application {
@@ -51,7 +57,7 @@ public class IHM extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        scene.setFill(Color.web("#81c483"));
+        scene.setFill(Color.BLACK);
 
         deadwindow.setAlignment(Pos.CENTER);
         deadText.setStyle("-fx-font: normal bold "+this.l_case+"px 'serif' ");
@@ -101,6 +107,7 @@ public class IHM extends Application {
 
         root.getChildren().add(frog.getImageView());
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
 
     }
