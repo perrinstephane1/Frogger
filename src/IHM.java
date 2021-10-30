@@ -315,6 +315,8 @@ public class IHM extends Application {
      * @param joueurs This boolean determines if the game is in single or two player mode
      */
     public void update_state(Stage primaryStage, boolean joueurs){
+        Timer timer =  new Timer();
+
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
