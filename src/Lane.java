@@ -35,13 +35,12 @@ public class Lane {
      * This method is the constructor
      * @param ii This int is the number given to the Lane as an ID.
      * @param p This Board is the one in which the Lane will be put
-     * @param hostile
      * @param sens This double gives the direction of the Lane (0 : from right to left. 1 : from left to right)//TODO renommer en direction
      * @param vitesse This double is the speed at which the MovingElement is moving.//TODO renommer en speed
      * @param densite This double determines the probability of having cars on the Lane//TODO renommer en density
      * @param type_lane
      */
-    public Lane(int ii, Board p, boolean hostile, double sens, double vitesse, double densite, int type_lane) {
+    public Lane(int ii, Board p, double sens, double vitesse, double densite, int type_lane) {
         this.board = p;
         this.vitesse = vitesse;
         this.sens = sens;
