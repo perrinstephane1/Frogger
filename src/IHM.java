@@ -21,7 +21,14 @@ import javafx.util.Duration;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
+/**
+ * This class represents the human-machine interface
+ * @author Williams HOARAU
+ * @author Louis JOGUET
+ * @author Aurelien PARAIRE
+ * @author Stephane PERRIN
+ *
+ */
 public class IHM extends Application {
     private int l_case=50;
     private int nb_case=12;
@@ -34,8 +41,9 @@ public class IHM extends Application {
     private int difficulte = 1;
 
 
-
     Frog frog = new Frog((this.nb_case) * this.l_case /2 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case);
+    Frog frog2 = new Frog(0 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case);
+
     Group root = new Group();
     Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*(this.nb_case+1));
     Plateau plateau = new Plateau(root, this.nb_case, this.l_case);
@@ -51,10 +59,18 @@ public class IHM extends Application {
     Text newGameText = new Text("New Game ?");
     Scene victoryScene = new Scene(victoryWindow, this.l_case*this.nb_case, this.l_case*this.nb_case);
 
-
+    /**
+     * Method to launch the game
+     */
     public static void main(String[] args) {
         launch(args);
     }
+
+    /**
+     * This method launches the first menu of the application.
+     * This menu allows the player to choose the game mode (1 or 2 player), the game mode (normal or infinite) and the difficulty (3 levels)
+     * The menu also proposes an help on how to use the game and gives information about the developers
+     */
     @Override
     public void start(Stage primaryStage) {
         // Premières choses
@@ -300,76 +316,129 @@ public class IHM extends Application {
         primaryStage.show();
     }
 
-    public void update_state(Stage primaryStage,Frog frog){
+    /**
+     * This method updates the position of all the moving components of the game (frog, logs and cars) and the timer of the player
+     * This method also verify is the frog is not hit by a car, on the river. If it is the case, the game ends
+     * @param primaryStage This Stage is what ? TODO
+     * @param joueurs This boolean determines if the game is in single or two player mode
+     */
+    public void update_state(Stage primaryStage, boolean joueurs){
         new Timer().scheduleAtFixedRate(new TimerTask() {
         @Override
             public void run() {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-
                         for (int i = 1; i < compteur_log + 1; i++) {
-                            int numero_piste = (int) (frog.getY()/l_case);
+                            int numero_piste = (int) (frog.getY() / l_case);
                             if (logs[i].intersects(frog)) {
                                 frog.setOnLog(true);
                                 TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), frog.getImageView());
-                                if (logs[i].piste.sens == 0){
+                                if (logs[i].piste.sens == 0) {
                                     trans.setByX(-speed_h);
-                                    if (frog.getX()>=-50) {
-                                        frog.setLocation((int)(frog.getX()-speed_h), (int)frog.getY());
+                                    if (frog.getX() >= -50) {
+                                        frog.setLocation((int) (frog.getX() - speed_h), (int) frog.getY());
                                         trans.play();
                                     }
                                 } else {
                                     trans.setByX(speed_h);
                                     if (frog.getX() <= scene.getWidth()) {
-                                        frog.setLocation((int)(frog.getX() + speed_h), (int)frog.getY());
+                                        frog.setLocation((int) (frog.getX() + speed_h), (int) frog.getY());
                                         trans.play();
                                     }
                                 }
-                            }
-                            else if (plateau.get(numero_piste).type_piste != 1){
+                            } else if (plateau.get(numero_piste).type_piste != 1) {
                                 frog.setOnLog(false);
                             }
+
+                            if (joueurs) {
+                                int numero_piste2 = (int) (frog2.getY() / l_case);
+                                if (logs[i].intersects(frog2)) {
+                                    frog2.setOnLog(true);
+                                    TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), frog2.getImageView());
+                                    if (logs[i].piste.sens == 0) {
+                                        trans.setByX(-speed_h);
+                                        if (frog2.getX() >= -50) {
+                                            frog2.setLocation((int) (frog2.getX() - speed_h), (int) frog2.getY());
+                                            trans.play();
+                                        }
+                                    } else {
+                                        trans.setByX(speed_h);
+                                        if (frog2.getX() <= scene.getWidth()) {
+                                            frog2.setLocation((int) (frog2.getX() + speed_h), (int) frog2.getY());
+                                            trans.play();
+                                        }
+                                    }
+                                } else if (plateau.get(numero_piste2).type_piste != 1) {
+                                    frog2.setOnLog(false);
+                                }
+                            }
+
                             logs[i].move(speed_h);
                         }
-                        for (int i = 1; i < compteur_voiture+1; i++) {
+                        for (int i = 1; i < compteur_voiture + 1; i++) {
                             voitures[i].move(speed_h);
                             if (voitures[i].intersects(frog)) {
-
                                 primaryStage.setScene(the_end);
                                 System.out.println("collision");
                             }
+                            if (joueurs) {
+                                if (voitures[i].intersects(frog) || voitures[i].intersects(frog2)) {
+                                    primaryStage.setScene(the_end);
+                                    System.out.println("collision");
+                                }
+                            }
                         }
-                        int numero_piste = (int) (frog.getY()/l_case);
+
+                        int numero_piste = (int) (frog.getY() / l_case);
+                        int numero_piste2 = (int) (frog2.getY() / l_case);
                         if (numero_piste == 0) {
                             plateau.chrono.stop();
-//                            Text yourTime = new Text("Your time : "+plateau.getChrono());
-//                            victoryWindow.add(yourTime, 0, 2);
+                            //                            Text yourTime = new Text("Your time : "+plateau.getChrono());
+                            //                            victoryWindow.add(yourTime, 0, 2);
                             primaryStage.setScene(victoryScene);
                             System.out.println(plateau.chrono.getElapsedSeconds());
                         }
 
-                        if (plateau.get(numero_piste).type_piste == 1 && !(frog.isOnLog())){ // if the frog is on the river and not on a log
-//                            frog.dead = true;
+                        if ( plateau.get(numero_piste).type_piste == 1 && !(frog.isOnLog()) ) { // if the frog is on the river and not on a log
                             System.out.println("noyée");
                             primaryStage.setScene(the_end);
                         }
-                        if (frog.getX() < -l_case|| frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) { //if the frig is out of map
+                        if (frog.getX() < -l_case || frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) { //if the frig is out of map
                             primaryStage.setScene(the_end);
                         }
-                        if (frog.dead) {
-                            primaryStage.setScene(the_end);
+
+                        if (joueurs) {
+                            if (numero_piste == 0 && numero_piste2 == 0) {
+                                plateau.chrono.stop();
+                                //                            Text yourTime = new Text("Your time : "+plateau.getChrono());
+                                //                            victoryWindow.add(yourTime, 0, 2);
+                                primaryStage.setScene(victoryScene);
+                                System.out.println(plateau.chrono.getElapsedSeconds());
+                            }
+
+                            if ((plateau.get(numero_piste).type_piste == 1 && !(frog.isOnLog())) || (plateau.get(numero_piste2).type_piste == 1 && !(frog2.isOnLog()))) { // if the frog is on the river and not on a log
+                                System.out.println("noyée");
+                                primaryStage.setScene(the_end);
+                            }
+                            if ((frog.getX() < -l_case || frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) || (frog2.getX() < -l_case || frog2.getX() > l_case * nb_case || frog2.getY() < 0 || frog2.getY() > l_case * nb_case)) { //if the frig is out of map
+                                primaryStage.setScene(the_end);
+                            }
                         }
 
                         displayTime();
 
                         frog.setOnLog(false);
+                        frog2.setOnLog(false);
                     }
                 });
             }
         }, 0, 50);
     }
 
+    /**
+     * This method display the timer at the bottom of the game window
+     */
     private void displayTime() {
         Text txt = plateau.getChrono();
         txt.setFont(new Font(l_case*0.8));
@@ -381,6 +450,11 @@ public class IHM extends Application {
         plateau.get(nb_case).gridPane.getChildren().set(0, txt);
     }
 
+    /**
+     * This method intitialize every car required for the game
+     * @param voitures This Voiture[] contains all the cars generated on the map
+     * @param nombre_voiture This int corresponds to the number of cars on the map
+     * */
     public void initCar(Voiture[] voitures, int nombre_voiture) {
         for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
             for (int j = 0; j<nombre_voiture; j++){
@@ -402,6 +476,12 @@ public class IHM extends Application {
             }
         }
     }
+
+    /**
+     * This method intitialize every log required for the game
+     * @param logs This Log[] contains all the logs generated on the map
+     * @param nombre_log This int corresponds to the number of logs on the map
+     */
     public void initLog(Log[] logs,  int nombre_log) {
         for (int i = 2; i < plateau.nb_pistes/2 + 1; i++) { // Start at number 2 because Number 1 is a safe lane
             for (int j = 0; j<nombre_log; j++) {
@@ -424,6 +504,14 @@ public class IHM extends Application {
         }
     }
 
+    /**
+     * This method launches the games after the player selected all the required options before
+     * @param dif_i This int is the difficulty of the game from 1 to 3. 1 is the lowest difficulty.
+     * @param joueurs This boolean determines if the game is in single or two player mode.
+     * @param name1 This String is the pseudo chosen by the first player.
+     * @param name2 This String is the pseudo chosen by the second player.
+     *
+     */
     public void joue(boolean joueurs, String name1, String name2, int dif_i){
         Stage primaryStage= new Stage();
         scene.setFill(Color.BLACK);
@@ -461,8 +549,16 @@ public class IHM extends Application {
                 frog.down();
             } else if (e.getCode()==KeyCode.RIGHT){
                 frog.right();
-            } else if (e.getCode()==KeyCode.LEFT){
+            } else if (e.getCode()==KeyCode.LEFT) {
                 frog.left();
+            }else if (e.getCode()==KeyCode.Z){
+                frog2.up();
+            }else if (e.getCode()==KeyCode.S){
+                frog2.down();
+            } else if (e.getCode()==KeyCode.D){
+                frog2.right();
+            } else if (e.getCode()==KeyCode.Q){
+                frog2.left();
             } else if (e.getCode()==KeyCode.SPACE) {
                 plateau.auto_down((int) speed_down);
                 for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
@@ -488,13 +584,24 @@ public class IHM extends Application {
             initLog(logs, 2);
             initCar(voitures, 1);
         }
-        update_state(primaryStage,frog);
+        update_state(primaryStage, joueurs);
 
         root.getChildren().add(frog.getImageView());
+        if (joueurs){
+            root.getChildren().add(frog2.getImageView()); // TODO changer en cas de 1 joueur
+        }
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
     }
+
+    /**
+     * This method allows the player to change his pseudo and the number of lane in the game
+     * @param dif_i This int is the difficulty of the game from 1 to 3. 1 is the lowest difficulty.
+     * @param fini This boolean determines if the game is in finite or infinite mode
+     * @param joueurs This boolean determines if the game is in single or two player mode
+     *
+     */
     public void avant_commencer(boolean joueurs, boolean fini, int dif_i){
         // joueurs = true si 2 joueurs
         // fini = true si on joue en mode fini
