@@ -383,7 +383,7 @@ public class IHM extends Application {
                         int numero_piste = (int) (frog.getY() / l_case);
                         int numero_piste2 = (int) (frog2.getY() / l_case);
 
-                        if (numero_piste == 0) {
+                        if (numero_piste == 0 && numero_piste2 == 0) {
                             plateau.chrono.stop();
                             primaryStage.setScene(victoryScene());
                         }
@@ -394,14 +394,11 @@ public class IHM extends Application {
                         if (frog.getX() < -l_case|| frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) { //if the frig is out of map
                             primaryStage.setScene(deadScene());
                         }
-                        if (frog.dead) {
-                            primaryStage.setScene(deadScene());
-                        }
+//                        if (frog.dead) {
+//                            primaryStage.setScene(deadScene());
+//                        }
 
                         if (joueurs) {
-                            if (numero_piste == 0 && numero_piste2 == 0) {
-                                primaryStage.setScene(deadScene());
-                            }
 
                             if ((plateau.get(numero_piste).type_piste == 1 && !(frog.isOnLog())) || (plateau.get(numero_piste2).type_piste == 1 && !(frog2.isOnLog()))) { // if the frog is on the river and not on a log
                                 primaryStage.setScene(deadScene());
