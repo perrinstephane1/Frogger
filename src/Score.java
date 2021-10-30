@@ -1,28 +1,57 @@
+/**
+ * This class represents the human-machine interface
+ * @author Williams HOARAU
+ * @author Louis JOGUET
+ * @author Aurelien PARAIRE
+ * @author Stephane PERRIN
+ *
+ */
 public class Score implements Comparable<Score> {
     private float time;
     private String name;
 
+    /**
+     * This method is the constructor
+     * @param time
+     * @param pseudo
+     */
     public Score(float time, String pseudo) {
         this.time = time;
         this.name = pseudo;
     }
 
+    /**
+     * This method returns the time
+     */
     public float getTime() {
         return time;
     }
 
+    /**
+     * This method sets the time
+     */
     public void setTime(long time) {
         this.time = time;
     }
 
+    /**
+     * This method returns the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * This method sets the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * This method compares the different times
+     * @param other Score to compare with
+     */
     @Override
     public int compareTo(Score other) {
         if (this.time== other.time) {
@@ -34,6 +63,9 @@ public class Score implements Comparable<Score> {
         }
     }
 
+    /**
+     * This method returns the name and the time as a String
+     */
     public String toString() {
         return this.name+" : "+this.time+"s";
     }
