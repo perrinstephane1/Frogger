@@ -19,8 +19,8 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class MovingElements extends Rectangle {
     protected double taille_obstacle;
-    protected double vitesse;
-    protected double sens;
+    protected double speed;
+    protected double direction;
     protected boolean hostile;
     protected double l_case;
     protected Scene scene;
@@ -46,7 +46,7 @@ public class MovingElements extends Rectangle {
 
         this.in_plateau = in_plateau;
         this.lane = lane;
-        this.sens = lane.sens;
+        this.direction = lane.direction;
         this.taille_obstacle = lane.taille_obstacle;
         this.scene = scene;
         this.l_case = l_case; //(this.scene.getHeight()/lane.p.nb_case)
@@ -59,7 +59,7 @@ public class MovingElements extends Rectangle {
     public void setImageView(String file) {
         try {
             String adresse = file;
-            if (this.lane.sens == 0) {
+            if (this.lane.direction == 0) {
                 adresse = file.replace(".png", "_r.png");
 //                System.out.println(adresse);
             }
@@ -89,7 +89,7 @@ public class MovingElements extends Rectangle {
      */
     public void move(double speed) {
         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
-        if (this.sens == 1) {
+        if (this.direction == 1) {
 
             if (this.getX() >= this.scene.getWidth()) {
                 // if the object goes off the scene, its position is re-init

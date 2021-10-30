@@ -17,13 +17,13 @@ import java.util.List;
  */
 public class Lane {
     protected boolean hostile;
-    protected double sens;
-    protected double vitesse;
+    protected double direction;
+    protected double speed;
     protected double taille_obstacle;
     protected double longueur_lane;
     protected double longueur_bloc;
     protected int numero_lane;
-    protected double densite;
+    protected double density;
     protected boolean arrivee; // si c'est la dernière ligne c'est FINI
     protected ImageView imageView;
     protected GridPane gridPane = new GridPane();
@@ -35,24 +35,24 @@ public class Lane {
      * This method is the constructor
      * @param ii This int is the number given to the Lane as an ID.
      * @param p This Board is the one in which the Lane will be put
-     * @param sens This double gives the direction of the Lane (0 : from right to left. 1 : from left to right)//TODO renommer en direction
-     * @param vitesse This double is the speed at which the MovingElement is moving.//TODO renommer en speed
-     * @param densite This double determines the probability of having cars on the Lane//TODO renommer en density
-     * @param type_lane
+     * @param direction This double gives the direction of the Lane (0 : from right to left. 1 : from left to right)
+     * @param speed This double is the speed at which the MovingElement is moving.
+     * @param density This double determines the probability of having cars on the Lane
+     * @param type_lane This int characterizes the lane. A type-0 Lane is a road, a type-1 Lane is a river and a type-2 Lane is a safe lane.
      */
-    public Lane(int ii, Board p, double sens, double vitesse, double densite, int type_lane) {
+    public Lane(int ii, Board p, double direction, double speed, double density, int type_lane) {
         this.board = p;
-        this.vitesse = vitesse;
-        this.sens = sens;
+        this.speed = speed;
+        this.direction = direction;
         this.longueur_bloc = p.l_case;
         this.longueur_lane = p.nb_case * p.l_case;
         this.numero_lane = ii;
         this.type_lane = type_lane;
 
-        if (densite < 0.33) {
+        if (density < 0.33) {
             this.taille_obstacle = 1;
         }
-        else if (densite < 0.66) {
+        else if (density < 0.66) {
             this.taille_obstacle = 2;
         }
         else{
@@ -91,7 +91,7 @@ public class Lane {
      * This method returns an array with the Lan parameters
      */
     public List getParametre() {
-        return Arrays.asList(this.vitesse, this.sens, this.taille_obstacle, this.longueur_bloc, this.longueur_lane, this.numero_lane, this.densite, this.type_lane);
+        return Arrays.asList(this.speed, this.direction, this.taille_obstacle, this.longueur_bloc, this.longueur_lane, this.numero_lane, this.density, this.type_lane);
     }
 
     /**
