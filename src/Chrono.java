@@ -12,25 +12,29 @@ public class Chrono {
     }
 
     public void stop() {
-        this.chronoStopTime = System.nanoTime();
-        this.isRunning = false;
+        if (this.isRunning) {
+            this.chronoStopTime = System.nanoTime();
+            this.isRunning = false;
+        }
     }
 
     public long getElapsedSeconds() {
         long elapsedTime;
-        if (isRunning)
+        if (isRunning) {
             elapsedTime = (System.nanoTime() - chronoStartTime);
-        else
+        } else {
             elapsedTime = (chronoStopTime - chronoStartTime);
+        }
         return elapsedTime / nanoSecondsPerSecond;
     }
 
     public long getElapsedCenti() {
         long elapsedTime;
-        if (isRunning)
+        if (isRunning) {
             elapsedTime = (System.nanoTime() - chronoStartTime);
-        else
+        } else {
             elapsedTime = (chronoStopTime - chronoStartTime);
+        }
         return elapsedTime / nanoSecondPerCentieme;
     }
 }

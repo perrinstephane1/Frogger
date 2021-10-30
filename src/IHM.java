@@ -18,43 +18,55 @@ import javafx.scene.text.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
+/**
+ * This class represents the human-machine interface
+ * @author Williams HOARAU
+ * @author Louis JOGUET
+ * @author Aurelien PARAIRE
+ * @author Stephane PERRIN
+ *
+ */
 public class IHM extends Application {
-    private int l_case=50;
-    private int nb_case=12;
-    private double speed_down = 1;
+    private final int l_case=50;
+    private final int nb_case=12;
+    private final double speed_down = 1;
     private double speed_h = 6;
     protected int compteur_voiture = 0;
     protected int compteur_log = 0;
-    private Voiture[] voitures = new Voiture[100];
-    private Log[] logs = new Log[100];
+    private final Voiture[] voitures = new Voiture[100];
+    private final Log[] logs = new Log[100];
     private int difficulte = 1;
 
 
-
     Frog frog = new Frog((this.nb_case) * this.l_case /2 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case);
+    Frog frog2 = new Frog(0 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case);
+
     Group root = new Group();
     Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*(this.nb_case+1));
     Plateau plateau = new Plateau(root, this.nb_case, this.l_case);
 
 
-    GridPane deadwindow = new GridPane();
-    Text deadText = new Text("You're dead !");
-    Text restartText = new Text("Restart");
-    Scene the_end = new Scene(deadwindow, this.l_case*this.nb_case, this.l_case*this.nb_case);
-
-    GridPane victoryWindow = new GridPane();
-    Text victoryText = new Text("Victory !");
-    Text newGameText = new Text("New Game ?");
-    Scene victoryScene = new Scene(victoryWindow, this.l_case*this.nb_case, this.l_case*this.nb_case);
 
 
+    /**
+     * Method to launch the game
+     */
     public static void main(String[] args) {
         launch(args);
     }
+
+    /**
+     * This method launches the first menu of the application.
+     * This menu allows the player to choose the game mode (1 or 2 player), the game mode (normal or infinite) and the difficulty (3 levels)
+     * The menu also proposes an help on how to use the game and gives information about the developers
+     */
     @Override
     public void start(Stage primaryStage) {
         // Premières choses
@@ -225,13 +237,10 @@ public class IHM extends Application {
                 boolean test;
                 try {
                     test=choix_joueurs.getValue().equals(2);
-                    System.out.println("valeur correcte");
                 } catch (Exception e) {
-                    System.out.println("correction");
                     test = false;
                 }
                 boolean deux_joueurs=test;
-                System.out.println(deux_joueurs);
                 boolean fini_test;
                 try{
                     fini_test = (choix_mode.getValue().equals("Fini"));
@@ -250,7 +259,6 @@ public class IHM extends Application {
                 } catch (Exception e) {
                     dif="Débutant";
                 }
-                //System.out.println(dif);
                 int dif_i=1;
                 switch (dif){
                     case "Débutant":
@@ -300,76 +308,119 @@ public class IHM extends Application {
         primaryStage.show();
     }
 
-    public void update_state(Stage primaryStage,Frog frog){
+    /**
+     * This method updates the position of all the moving components of the game (frog, logs and cars) and the timer of the player
+     * This method also verify is the frog is not hit by a car, on the river. If it is the case, the game ends
+     * @param primaryStage This Stage is the window on which the game is displayed
+     * @param joueurs This boolean determines if the game is in single or two player mode
+     */
+    public void update_state(Stage primaryStage, boolean joueurs){
         new Timer().scheduleAtFixedRate(new TimerTask() {
         @Override
             public void run() {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-
                         for (int i = 1; i < compteur_log + 1; i++) {
-                            int numero_piste = (int) (frog.getY()/l_case);
+                            int numero_piste = (int) (frog.getY() / l_case);
                             if (logs[i].intersects(frog)) {
                                 frog.setOnLog(true);
                                 TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), frog.getImageView());
-                                if (logs[i].piste.sens == 0){
+                                if (logs[i].piste.sens == 0) {
                                     trans.setByX(-speed_h);
-                                    if (frog.getX()>=-50) {
-                                        frog.setLocation((int)(frog.getX()-speed_h), (int)frog.getY());
+                                    if (frog.getX() >= -50) {
+                                        frog.setLocation((int) (frog.getX() - speed_h), (int) frog.getY());
                                         trans.play();
                                     }
                                 } else {
                                     trans.setByX(speed_h);
                                     if (frog.getX() <= scene.getWidth()) {
-                                        frog.setLocation((int)(frog.getX() + speed_h), (int)frog.getY());
+                                        frog.setLocation((int) (frog.getX() + speed_h), (int) frog.getY());
                                         trans.play();
                                     }
                                 }
-                            }
-                            else if (plateau.get(numero_piste).type_piste != 1){
+                            } else if (plateau.get(numero_piste).type_piste != 1) {
                                 frog.setOnLog(false);
                             }
+
+                            if (joueurs) {
+                                int numero_piste2 = (int) (frog2.getY() / l_case);
+                                if (logs[i].intersects(frog2)) {
+                                    frog2.setOnLog(true);
+                                    TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), frog2.getImageView());
+                                    if (logs[i].piste.sens == 0) {
+                                        trans.setByX(-speed_h);
+                                        if (frog2.getX() >= -50) {
+                                            frog2.setLocation((int) (frog2.getX() - speed_h), (int) frog2.getY());
+                                            trans.play();
+                                        }
+                                    } else {
+                                        trans.setByX(speed_h);
+                                        if (frog2.getX() <= scene.getWidth()) {
+                                            frog2.setLocation((int) (frog2.getX() + speed_h), (int) frog2.getY());
+                                            trans.play();
+                                        }
+                                    }
+                                } else if (plateau.get(numero_piste2).type_piste != 1) {
+                                    frog2.setOnLog(false);
+                                }
+                            }
+
                             logs[i].move(speed_h);
                         }
-                        for (int i = 1; i < compteur_voiture+1; i++) {
+                        for (int i = 1; i < compteur_voiture + 1; i++) {
                             voitures[i].move(speed_h);
                             if (voitures[i].intersects(frog)) {
-
-                                primaryStage.setScene(the_end);
-                                System.out.println("collision");
+                                primaryStage.setScene(deadScene());
+                            }
+                            if (joueurs) {
+                                if (voitures[i].intersects(frog) || voitures[i].intersects(frog2)) {
+                                    primaryStage.setScene(deadScene());
+                                }
                             }
                         }
-                        int numero_piste = (int) (frog.getY()/l_case);
-                        if (numero_piste == 0) {
+
+                        int numero_piste = (int) (frog.getY() / l_case);
+                        int numero_piste2 = (int) (frog2.getY() / l_case);
+
+                        if (numero_piste == 0 && numero_piste2 == 0) {
                             plateau.chrono.stop();
-//                            Text yourTime = new Text("Your time : "+plateau.getChrono());
-//                            victoryWindow.add(yourTime, 0, 2);
-                            primaryStage.setScene(victoryScene);
-                            System.out.println(plateau.chrono.getElapsedSeconds());
+                            primaryStage.setScene(victoryScene());
                         }
 
                         if (plateau.get(numero_piste).type_piste == 1 && !(frog.isOnLog())){ // if the frog is on the river and not on a log
-//                            frog.dead = true;
-                            System.out.println("noyée");
-                            primaryStage.setScene(the_end);
+                            primaryStage.setScene(deadScene());
                         }
                         if (frog.getX() < -l_case|| frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) { //if the frig is out of map
-                            primaryStage.setScene(the_end);
+                            primaryStage.setScene(deadScene());
                         }
-                        if (frog.dead) {
-                            primaryStage.setScene(the_end);
+//                        if (frog.dead) {
+//                            primaryStage.setScene(deadScene());
+//                        }
+
+                        if (joueurs) {
+
+                            if ((plateau.get(numero_piste).type_piste == 1 && !(frog.isOnLog())) || (plateau.get(numero_piste2).type_piste == 1 && !(frog2.isOnLog()))) { // if the frog is on the river and not on a log
+                                primaryStage.setScene(deadScene());
+                            }
+                            if ((frog.getX() < -l_case || frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) || (frog2.getX() < -l_case || frog2.getX() > l_case * nb_case || frog2.getY() < 0 || frog2.getY() > l_case * nb_case)) { //if the frig is out of map
+                                primaryStage.setScene(deadScene());
+                            }
                         }
 
                         displayTime();
 
                         frog.setOnLog(false);
+                        frog2.setOnLog(false);
                     }
                 });
             }
         }, 0, 50);
     }
 
+    /**
+     * This method display the timer at the bottom of the game window
+     */
     private void displayTime() {
         Text txt = plateau.getChrono();
         txt.setFont(new Font(l_case*0.8));
@@ -381,6 +432,11 @@ public class IHM extends Application {
         plateau.get(nb_case).gridPane.getChildren().set(0, txt);
     }
 
+    /**
+     * This method intitialize every car required for the game
+     * @param voitures This Voiture[] contains all the cars generated on the map
+     * @param nombre_voiture This int corresponds to the number of cars on the map
+     * */
     public void initCar(Voiture[] voitures, int nombre_voiture) {
         for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
             for (int j = 0; j<nombre_voiture; j++){
@@ -402,6 +458,12 @@ public class IHM extends Application {
             }
         }
     }
+
+    /**
+     * This method intitialize every log required for the game
+     * @param logs This Log[] contains all the logs generated on the map
+     * @param nombre_log This int corresponds to the number of logs on the map
+     */
     public void initLog(Log[] logs,  int nombre_log) {
         for (int i = 2; i < plateau.nb_pistes/2 + 1; i++) { // Start at number 2 because Number 1 is a safe lane
             for (int j = 0; j<nombre_log; j++) {
@@ -424,31 +486,19 @@ public class IHM extends Application {
         }
     }
 
-    public void joue(boolean joueurs,String pseudo1, String pseudo2, int dif){
+    /**
+     * This method launches the games after the player selected all the required options before
+     * @param dif_i This int is the difficulty of the game from 1 to 3. 1 is the lowest difficulty.
+     * @param joueurs This boolean determines if the game is in single or two player mode.
+     * @param name1 This String is the pseudo chosen by the first player.
+     * @param name2 This String is the pseudo chosen by the second player.
+     *
+     */
+    public void joue(boolean joueurs, String name1, String name2, int dif_i){
         Stage primaryStage= new Stage();
         scene.setFill(Color.BLACK);
 
-        deadwindow.setAlignment(Pos.CENTER);
-        deadText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, this.l_case));
-        deadText.setWrappingWidth(this.l_case*this.nb_case);
-        deadText.setTextAlignment(TextAlignment.CENTER);
-        restartText.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, this.l_case*0.8));
-        restartText.setWrappingWidth(this.l_case*this.nb_case);
-        restartText.setTextAlignment(TextAlignment.CENTER);
-        deadwindow.add(deadText, 0, 0);
-        deadwindow.add(restartText, 0, 1);
 
-        victoryWindow.setAlignment(Pos.CENTER);
-        victoryText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, this.l_case));
-        victoryText.setWrappingWidth(this.l_case*this.nb_case);
-        victoryText.setTextAlignment(TextAlignment.CENTER);
-        newGameText.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, this.l_case*0.8));
-        newGameText.setWrappingWidth(this.l_case*this.nb_case);
-        newGameText.setTextAlignment(TextAlignment.CENTER);
-
-        victoryWindow.add(victoryText, 0, 0);
-        victoryWindow.add(newGameText, 0, 1);
-//        victoryWindow.add(yourTime, 0, 2);
 
 
         EventHandler<KeyEvent> keyListener = e -> {
@@ -461,8 +511,16 @@ public class IHM extends Application {
                 frog.down();
             } else if (e.getCode()==KeyCode.RIGHT){
                 frog.right();
-            } else if (e.getCode()==KeyCode.LEFT){
+            } else if (e.getCode()==KeyCode.LEFT) {
                 frog.left();
+            }else if (e.getCode()==KeyCode.Z){
+                frog2.up();
+            }else if (e.getCode()==KeyCode.S){
+                frog2.down();
+            } else if (e.getCode()==KeyCode.D){
+                frog2.right();
+            } else if (e.getCode()==KeyCode.Q){
+                frog2.left();
             } else if (e.getCode()==KeyCode.SPACE) {
                 plateau.auto_down((int) speed_down);
                 for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
@@ -474,7 +532,7 @@ public class IHM extends Application {
         scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
         root.getChildren().add(plateau.getGridPane());
 
-        difficulte = dif;
+        difficulte = dif_i;
         if (difficulte ==3){ // expert
             speed_h = 6;
             initLog(logs, 1);
@@ -488,19 +546,33 @@ public class IHM extends Application {
             initLog(logs, 2);
             initCar(voitures, 1);
         }
-        update_state(primaryStage,frog);
+        update_state(primaryStage, joueurs);
 
         root.getChildren().add(frog.getImageView());
+        if (joueurs){
+            root.getChildren().add(frog2.getImageView()); // TODO changer en cas de 1 joueur
+        }
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
     }
-    public void avant_commencer (boolean joueurs,boolean fini,int dif){
+
+    /**
+     * This method allows the player to change his pseudo and the number of lane in the game
+     * @param dif_i This int is the difficulty of the game from 1 to 3. 1 is the lowest difficulty.
+     * @param fini This boolean determines if the game is in finite or infinite mode
+     * @param joueurs This boolean determines if the game is in single or two player mode
+     *
+     */
+    public void avant_commencer(boolean joueurs, boolean fini, int dif_i){
         // joueurs = true si 2 joueurs
         // fini = true si on joue en mode fini
         Label pseudo1 = new Label("Pseudo 1");
-        TextField nom1 = new TextField("Entrez votre pseudo");
+        TextField nom1 = new TextField("Joueur 1");
         Label exp_1 = new Label("Ce joueur jouera avec les flèches directionnelles");
+        Label pseudo2 = new Label("Pseudo 2");
+        TextField nom2 = new TextField("Joueur 2");
+        Label exp_2 = new Label("Ce joueur jouera avec les touches QWSD");
         Button play = new Button("START PLAYING");
 
         GridPane gridPane = new GridPane();
@@ -517,9 +589,6 @@ public class IHM extends Application {
         gridPane.add(nom1,1,1);
         gridPane.add(exp_1,0,2,2,1);
         if (joueurs){
-            Label pseudo2 = new Label("Pseudo 2");
-            TextField nom2 = new TextField("Entrez votre pseudo");
-            Label exp_2 = new Label("Ce joueur jouera avec les touches QWSD");
             gridPane.add(pseudo2,3,1);
             GridPane.setHalignment(pseudo2, HPos.RIGHT);
             gridPane.add(nom2,4,1);
@@ -547,11 +616,87 @@ public class IHM extends Application {
             public void handle(ActionEvent event) {
                 stage.close();
                 //TODO lancer le vrai jeu
-                joue();
+                String name1;
+                try{
+                    name1= String.valueOf(nom1.getCharacters());
+                } catch(Exception e) {
+                    name1="Joueur 1";
+                }
+                String name2;
+                try{
+                    name2= String.valueOf(nom2.getCharacters());
+                } catch(Exception e) {
+                    name2="Joueur 2";
+                }
+                joue(joueurs,name1,name2,dif_i);
+
             }
         });
         stage.setTitle("Avant de commencer à jouer...");
         stage.setScene(new Scene(gridPane, 600, 150));
         stage.show();
+    }
+
+    private Scene deadScene() {
+        GridPane deadwindow = new GridPane();
+        Text deadText = new Text("You're dead !");
+        Text restartText = new Text("Restart");
+        Scene deadScene = new Scene(deadwindow, this.l_case*this.nb_case, this.l_case*this.nb_case);
+
+        deadwindow.setAlignment(Pos.CENTER);
+        deadText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, this.l_case));
+        deadText.setWrappingWidth(this.l_case*this.nb_case);
+        deadText.setTextAlignment(TextAlignment.CENTER);
+        restartText.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, this.l_case*0.8));
+        restartText.setWrappingWidth(this.l_case*this.nb_case);
+        restartText.setTextAlignment(TextAlignment.CENTER);
+        deadwindow.add(deadText, 0, 0);
+        deadwindow.add(restartText, 0, 1);
+
+        return deadScene;
+    }
+
+    private Scene victoryScene() {
+        GridPane victoryWindow = new GridPane();
+        Text victoryText = new Text("Victory !");
+        plateau.chrono.stop();
+        this.saveScore(plateau.getChrono().getText());
+        Text yourScore = new Text(plateau.getChrono().getText());
+        Text newGameText = new Text("New Game ?");
+        Scene victoryScene = new Scene(victoryWindow, l_case*nb_case, l_case*nb_case);
+        victoryWindow.setAlignment(Pos.CENTER);
+        victoryText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, l_case));
+        victoryText.setWrappingWidth(l_case*nb_case);
+        victoryText.setTextAlignment(TextAlignment.CENTER);
+
+        yourScore.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, l_case));
+        yourScore.setWrappingWidth(l_case*nb_case);
+        yourScore.setTextAlignment(TextAlignment.CENTER);
+
+        newGameText.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, l_case*0.8));
+        newGameText.setWrappingWidth(l_case*nb_case);
+        newGameText.setTextAlignment(TextAlignment.CENTER);
+
+        victoryWindow.add(victoryText, 0, 0);
+        victoryWindow.add(yourScore, 0, 1);
+        victoryWindow.add(newGameText, 0, 2);
+
+        return victoryScene;
+    }
+
+    private void saveScore(String score) {
+        PrintWriter pw = null;
+        try {
+            pw = new PrintWriter(new FileWriter("Scores"));
+            pw.println(score);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pw.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
