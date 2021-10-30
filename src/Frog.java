@@ -16,12 +16,19 @@ import java.io.FileNotFoundException;
  *
  */
 public class Frog extends Rectangle {
+    /** True if the frog is on a log and is false otherwise */
     private boolean onLog = false;
+    /** ImageView */
     private ImageView imageView;
-    protected boolean dead;
+//    /** If the frog is dead or not */
+//    protected boolean dead;
+    /** Length in pixels of a square on the game windows */
     private double l_case;
+    /** Number of lane (river, road, safe lane) composing the game*/
     private int nb_case;
+    /** Score of the player */
     private int score = 0;
+    /** Number of the Lane on which the player is */
     private int etage = 0;
 
     /**

@@ -28,13 +28,19 @@ public class Lane {
     protected double longueur_lane;
     /** Length in pixels of a square on the game windows */
     protected double l_case;
+    /** Number given to the Lane as an ID */
     protected int numero_lane;
+    /** Probability of having cars on the Lane */
     protected double density;
 //    /** */
 //    protected boolean arrivee; // si c'est la dernière ligne c'est FINI
+    /** ImageView */
     protected ImageView imageView;
+    /** GridPane */
     protected GridPane gridPane = new GridPane();
+    /** Characterizes the lane. A type-0 Lane is a road, a type-1 Lane is a river and a type-2 Lane is a safe lane.*/
     protected int type_lane;
+    /** Board */
     protected Board board;
 
 
