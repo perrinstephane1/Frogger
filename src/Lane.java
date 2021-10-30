@@ -7,16 +7,23 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * This class represents the human-machine interface
+ * @author Williams HOARAU
+ * @author Louis JOGUET
+ * @author Aurelien PARAIRE
+ * @author Stephane PERRIN
+ *
+ */
 public class Lane {
     protected boolean hostile;
-    protected double sens;
-    protected double vitesse;
+    protected double direction;
+    protected double speed;
     protected double taille_obstacle;
     protected double longueur_lane;
     protected double longueur_bloc;
     protected int numero_lane;
-    protected double densite;
+    protected double density;
     protected boolean arrivee; // si c'est la dernière ligne c'est FINI
     protected ImageView imageView;
     protected GridPane gridPane = new GridPane();
@@ -24,27 +31,33 @@ public class Lane {
     protected Board board;
 
 
-
-    public Lane(int ii, Board p, boolean hostile, double sens, double vitesse, double densite, int type_lane) {
+    /**
+     * This method is the constructor
+     * @param ii This int is the number given to the Lane as an ID.
+     * @param p This Board is the one in which the Lane will be put
+     * @param direction This double gives the direction of the Lane (0 : from right to left. 1 : from left to right)
+     * @param speed This double is the speed at which the MovingElement is moving.
+     * @param density This double determines the probability of having cars on the Lane
+     * @param type_lane This int characterizes the lane. A type-0 Lane is a road, a type-1 Lane is a river and a type-2 Lane is a safe lane.
+     */
+    public Lane(int ii, Board p, double direction, double speed, double density, int type_lane) {
         this.board = p;
-        this.vitesse = vitesse;
-        this.sens = sens;
-
+        this.speed = speed;
+        this.direction = direction;
         this.longueur_bloc = p.l_case;
         this.longueur_lane = p.nb_case * p.l_case;
         this.numero_lane = ii;
         this.type_lane = type_lane;
 
-        if (densite < 0.33) {
+        if (density < 0.33) {
             this.taille_obstacle = 1;
         }
-        else if (densite < 0.66) {
+        else if (density < 0.66) {
             this.taille_obstacle = 2;
         }
         else{
             this.taille_obstacle = 3;
         }
-
         if (this.type_lane == 0){ // If it is a road
             this.setImageView("routemieuxJAUNE.png");
         } else if (this.type_lane == 1){  // If it is a river
@@ -53,10 +66,13 @@ public class Lane {
             this.setImageView("debut.png");
         } else if (this.type_lane == 3) {
             this.gridPane.add(p.getChrono(), ii, 0);
-
         }
     }
 
+    /**
+     * This method returns sets the image on the game window.
+     * @param file This String corresponds to the image file to be showed in the game.
+     */
     private void setImageView(String file) {
         try {
             for (int jj = 0; jj < this.board.nb_case; jj++) {
@@ -71,11 +87,16 @@ public class Lane {
         }
     }
 
-
+    /**
+     * This method returns an array with the Lan parameters
+     */
     public List getParametre() {
-        return Arrays.asList(this.vitesse, this.sens, this.taille_obstacle, this.longueur_bloc, this.longueur_lane, this.numero_lane, this.densite, this.type_lane);
+        return Arrays.asList(this.speed, this.direction, this.taille_obstacle, this.longueur_bloc, this.longueur_lane, this.numero_lane, this.density, this.type_lane);
     }
 
+    /**
+     * This method returns an ImageView.
+     */
     public GridPane getImageView() {
         return this.gridPane;
     }

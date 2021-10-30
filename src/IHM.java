@@ -324,7 +324,7 @@ public class IHM extends Application {
                             if (logs[i].intersects(frog)) {
                                 frog.setOnLog(true);
                                 TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), frog.getImageView());
-                                if (logs[i].lane.sens == 0) {
+                                if (logs[i].lane.direction == 0) {
                                     trans.setByX(-speed_h);
                                     if (frog.getX() >= -50) {
                                         frog.setLocation((int) (frog.getX() - speed_h), (int) frog.getY());
@@ -346,7 +346,7 @@ public class IHM extends Application {
                                 if (logs[i].intersects(frog2)) {
                                     frog2.setOnLog(true);
                                     TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), frog2.getImageView());
-                                    if (logs[i].lane.sens == 0) {
+                                    if (logs[i].lane.direction == 0) {
                                         trans.setByX(-speed_h);
                                         if (frog2.getX() >= -50) {
                                             frog2.setLocation((int) (frog2.getX() - speed_h), (int) frog2.getY());

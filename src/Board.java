@@ -72,7 +72,7 @@ public class Board extends ArrayList<Lane> {
      * @param type_lane This int characterizes the lane. A type-0 Lane is a road, a type-1 Lane is a river and a type-2 Lane is a safe lane.
      */
     public void addLane(int cnt, int type_lane) {
-        Lane lane = new Lane(cnt, this, true, cnt%2, 1, Math.random(), type_lane);
+        Lane lane = new Lane(cnt, this,  cnt%2, 1, Math.random(), type_lane);
         this.add(lane);
         this.gridPane.addColumn(0, lane.getImageView());
     }
@@ -88,7 +88,7 @@ public class Board extends ArrayList<Lane> {
      * This method inverts the order of the Lanes before adding a new one and eventually put it back in order
      */
     public void decalage() {
-        Lane lane = new Lane(0, this, true, 1, 1, Math.random(), 2);
+        Lane lane = new Lane(0, this, 1, 1, Math.random(), 2);
 
         this.invert();
         this.add(lane);
