@@ -43,7 +43,6 @@ public class Frog extends Rectangle {
      */
     public Frog(int X, int Y, int l_case, int nb_case, String img) {
         super(X, Y, l_case, l_case);
-//        this.dead = false;
         this.l_case = l_case;
         this.nb_case = nb_case;
         try {
@@ -64,6 +63,14 @@ public class Frog extends Rectangle {
      */
     public ImageView getImageView() {
         return imageView;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public int getEtage() {
+        return etage;
     }
 
     /**
@@ -109,7 +116,9 @@ public class Frog extends Rectangle {
         if (this.l_case*this.nb_case>this.getY()+this.l_case) {
             trans.play();
             this.setLocation((int)this.getX(), (int) ((int)this.getY()+this.l_case));
-            this.etage -= 1;
+            if (this.etage>0) {
+                this.etage -= 1;
+            }
 //        } else {
 //            this.dead = true;
         }
