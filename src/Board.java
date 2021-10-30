@@ -70,8 +70,8 @@ public class Board extends ArrayList<Lane> {
      * @return the time as a float
      */
     public float getChronoToFloat() {
-        Long time = this.chrono.getElapsedCenti();
-        return time/100+time%100;
+        float time = this.chrono.getElapsedCenti();
+        return time/100;
     }
 
     /**

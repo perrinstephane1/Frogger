@@ -67,6 +67,6 @@ public class Score implements Comparable<Score> {
      * This method returns the name and the time as a String
      */
     public String toString() {
-        return this.name+" : "+this.time+"s";
+        return this.name+": "+this.time+"s";
     }
 }
