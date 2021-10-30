@@ -43,6 +43,11 @@ public class Plateau extends ArrayList<Piste> {
         return text_chrono;
     }
 
+    public float getChronoToFloat() {
+        Long time = this.chrono.getElapsedCenti();
+        return time/100+time%100;
+    }
+
     public void addPiste(int cnt, int type_piste) {
         Piste piste = new Piste(cnt, this, true, cnt%2, 1, Math.random(), type_piste);
         this.add(piste);

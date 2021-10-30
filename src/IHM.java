@@ -18,7 +18,6 @@ import javafx.scene.text.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -36,6 +35,7 @@ public class IHM extends Application {
     private final Voiture[] voitures = new Voiture[100];
     private final Log[] logs = new Log[100];
     private int difficulte = 1;
+    private HallOfFame hallOfFame = new HallOfFame();
 
 
 
@@ -299,7 +299,6 @@ public class IHM extends Application {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-
                         for (int i = 1; i < compteur_log + 1; i++) {
                             int numero_piste = (int) (frog.getY()/l_case);
                             if (logs[i].intersects(frog)) {
@@ -334,6 +333,7 @@ public class IHM extends Application {
                         if (numero_piste == 0) {
                             plateau.chrono.stop();
                             primaryStage.setScene(victoryScene());
+
                         }
 
                         if (plateau.get(numero_piste).type_piste == 1 && !(frog.isOnLog())){ // if the frog is on the river and not on a log
@@ -414,7 +414,8 @@ public class IHM extends Application {
         Stage primaryStage= new Stage();
         scene.setFill(Color.BLACK);
 
-
+        this.hallOfFame.load("D:\\SOIA_2A\\java\\Frogger\\Scores.txt");
+        this.hallOfFame.display();
 
 
         EventHandler<KeyEvent> keyListener = e -> {
@@ -558,7 +559,11 @@ public class IHM extends Application {
         GridPane victoryWindow = new GridPane();
         Text victoryText = new Text("Victory !");
         plateau.chrono.stop();
-        this.saveScore(plateau.getChrono().getText());
+        this.hallOfFame.display();
+        this.hallOfFame.addScore("test", plateau.getChronoToFloat());
+        this.hallOfFame.display();
+        this.hallOfFame.save();
+//        this.saveScore(plateau.getChrono().getText());
         Text yourScore = new Text(plateau.getChrono().getText());
         Text newGameText = new Text("New Game ?");
         Scene victoryScene = new Scene(victoryWindow, l_case*nb_case, l_case*nb_case);
@@ -580,21 +585,5 @@ public class IHM extends Application {
         victoryWindow.add(newGameText, 0, 2);
 
         return victoryScene;
-    }
-
-    private void saveScore(String score) {
-        PrintWriter pw = null;
-        try {
-            pw = new PrintWriter(new FileWriter("Scores"));
-            pw.println(score);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                pw.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
