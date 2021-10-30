@@ -49,7 +49,7 @@ public class Lane {
             this.setImageView("routemieuxJAUNE.png");
         } else if (this.type_lane == 1){  // If it is a river
             this.setImageView("river.png");
-        } else if (this.type_lane == 2){  // If it is the beginning
+        } else if (this.type_lane == 2){  // If it is a safe lane
             this.setImageView("debut.png");
         } else if (this.type_lane == 3) {
             this.gridPane.add(p.getChrono(), ii, 0);

@@ -135,7 +135,7 @@ public class Frog extends Rectangle {
 //    public void auto_down(int speed) {
 //        TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
 //        trans.setByY(speed);
-//        this.Y += speed;
+//        this.setLocation(this.getX(), this.getY() + speed); //TODO setLocation marche pas mais je sais pas pourquoi
 //        trans.play();
 //    }
 

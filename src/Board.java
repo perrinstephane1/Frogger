@@ -25,9 +25,9 @@ public class Board extends ArrayList<Lane> {
 
     /**
      * This method is the constructor
-     * @param root
-     * @param nb_case
-     * @param l_case
+     * @param root This Group corresponds to //TODO group ?
+     * @param nb_case This int corresponds to the number of lane (river, road, safe lane) composing the game
+     * @param l_case This int corresponds to the length in pixels of a square on the game windows
      */
     public Board(Group root, int nb_case, double l_case) {
         this.root = root;
@@ -49,27 +49,44 @@ public class Board extends ArrayList<Lane> {
 
     }
 
+    /**
+     * This method returns the time for which the player has been playing
+     */
     public Text getChrono() {
         Long time = this.chrono.getElapsedCenti();
         Text text_chrono = new Text("Time : "+time/100+","+time%100+" s");
         return text_chrono;
     }
 
+    /**
+     * This method returns the time as a float
+     */
     public float getChronoToFloat() {
         Long time = this.chrono.getElapsedCenti();
         return time/100+time%100;
     }
 
+    /**
+     * This method adds a new Lane in the Board
+     * @param cnt This int is the number given to the Lane as an ID.
+     * @param type_lane This int characterizes the lane. A type-0 Lane is a road, a type-1 Lane is a river and a type-2 Lane is a safe lane.
+     */
     public void addLane(int cnt, int type_lane) {
         Lane lane = new Lane(cnt, this, true, cnt%2, 1, Math.random(), type_lane);
         this.add(lane);
         this.gridPane.addColumn(0, lane.getImageView());
     }
 
+    /**
+     * This method returns a GridPane
+     */
     public GridPane getGridPane() {
         return this.gridPane;
     }
 
+    /**
+     * This method inverts the order of the Lanes before adding a new one and eventually put it back in order
+     */
     public void decalage() {
         Lane lane = new Lane(0, this, true, 1, 1, Math.random(), 2);
 
@@ -83,7 +100,9 @@ public class Board extends ArrayList<Lane> {
             this.gridPane.addColumn(0, this.get(ii).getImageView());
         }
     }
-
+    /**
+     * This method inverts the order of the Lanes before adding a new one and eventually put it back in order
+     */
     public void auto_down(int speed) {
         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getGridPane());
         assert (this.size()==this.gridPane.getChildren().size());
@@ -99,7 +118,9 @@ public class Board extends ArrayList<Lane> {
             trans.play();
         }
     }
-
+    /**
+     * This method inverts the order of the Lanes in the Board
+     */
     public void invert() {
         ArrayList<Lane> temp = new ArrayList<Lane>();
         int n  = this.size();

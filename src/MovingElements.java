@@ -93,7 +93,10 @@ public class MovingElements extends Rectangle {
         }
     }
 
-
+    /**
+     * This method moves the element downwards at a certain speed with the lanes in infinite mode
+     * @param speed This int determmines the speed at which the element will move
+     */
     public void auto_down(int speed) {
 
         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
