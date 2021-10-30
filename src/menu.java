@@ -233,8 +233,10 @@ public class menu extends Application {
         // setting the scene
         Scene scene = new Scene(gridPane,275,337);
         scene.setFill(Color.BLUE);
+        primaryStage.setResizable(false);
         primaryStage.setTitle("Frogger");
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
@@ -290,10 +292,12 @@ public class menu extends Application {
             public void handle(ActionEvent event) {
                 stage.close();
                 //TODO lancer le vrai jeu
+                //IHM.launch(); commande à trouver
             }
         });
         stage.setTitle("Avant de commencer à jouer...");
         stage.setScene(new Scene(gridPane, 600, 150));
+        stage.setResizable(false);
         stage.show();
     }
 }
