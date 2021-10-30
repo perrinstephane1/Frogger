@@ -7,7 +7,14 @@ import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-
+/**
+ * This class represents the human-machine interface
+ * @author Williams HOARAU
+ * @author Louis JOGUET
+ * @author Aurelien PARAIRE
+ * @author Stephane PERRIN
+ *
+ */
 public class Frog extends Rectangle {
     private boolean onLog = false;
     private ImageView imageView;
