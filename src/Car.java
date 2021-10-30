@@ -3,16 +3,16 @@ import javafx.scene.Scene;
 import javafx.util.Duration;
 
 
-public class Voiture extends Truc_mobile {
+public class Car extends MovingElements {
 
-    public Voiture(Piste piste, Scene scene, int l_case) {
-        super(piste, scene, l_case, piste.taille_obstacle);
+    public Car(Lane lane, Scene scene, int l_case) {
+        super(lane, scene, l_case, lane.taille_obstacle);
 
-        if(piste.taille_obstacle == 1.0){
+        if(lane.taille_obstacle == 1.0){
             this.setImageView("car11.png");
-        } else if (piste.taille_obstacle == 2.0){
+        } else if (lane.taille_obstacle == 2.0){
             this.setImageView("car22.png");
-        } else if (piste.taille_obstacle == 3.0){
+        } else if (lane.taille_obstacle == 3.0){
             this.setImageView("car33.png");
         }
     }

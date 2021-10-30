@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
-public class Partie {
-    private ArrayList<Plateau> plateaux;
+public class Game {
+    private ArrayList<Board> boards;
     private double score;
     private double temps;
 }

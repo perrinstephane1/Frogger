@@ -18,9 +18,6 @@ import javafx.scene.text.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -39,7 +36,7 @@ public class IHM extends Application {
     private double speed_h = 6;
     protected int compteur_voiture = 0;
     protected int compteur_log = 0;
-    private final Voiture[] voitures = new Voiture[100];
+    private final Car[] cars = new Car[100];
     private final Log[] logs = new Log[100];
     private int difficulte = 1;
     private HallOfFame hallOfFame = new HallOfFame();
@@ -50,7 +47,7 @@ public class IHM extends Application {
 
     Group root = new Group();
     Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*(this.nb_case+1));
-    Plateau plateau = new Plateau(root, this.nb_case, this.l_case);
+    Board board = new Board(root, this.nb_case, this.l_case);
 
 
 
@@ -152,7 +149,7 @@ public class IHM extends Application {
             @Override
             public void handle(ActionEvent event) {
                 Label explication = new Label("Ce jeu vous permet de jouer avec plusieurs niveaux de difficulté : \n" +
-                        "1. Le mode débutant dans lequel les voitures et rondins ne vont pas très vite \n" +
+                        "1. Le mode débutant dans lequel les cars et rondins ne vont pas très vite \n" +
                         "2. Le mode intermédiaire dans lequel ils se déplacent plus vite \n" +
                         "3. Le mode expert dans lequel ils n'iront jamais ausis vite !!  \n");
                 Button OKbutton = new Button("OK");
@@ -323,11 +320,11 @@ public class IHM extends Application {
                     @Override
                     public void run() {
                         for (int i = 1; i < compteur_log + 1; i++) {
-                            int numero_piste = (int) (frog.getY() / l_case);
+                            int numero_lane = (int) (frog.getY() / l_case);
                             if (logs[i].intersects(frog)) {
                                 frog.setOnLog(true);
                                 TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), frog.getImageView());
-                                if (logs[i].piste.sens == 0) {
+                                if (logs[i].lane.sens == 0) {
                                     trans.setByX(-speed_h);
                                     if (frog.getX() >= -50) {
                                         frog.setLocation((int) (frog.getX() - speed_h), (int) frog.getY());
@@ -340,16 +337,16 @@ public class IHM extends Application {
                                         trans.play();
                                     }
                                 }
-                            } else if (plateau.get(numero_piste).type_piste != 1) {
+                            } else if (board.get(numero_lane).type_lane != 1) {
                                 frog.setOnLog(false);
                             }
 
                             if (joueurs) {
-                                int numero_piste2 = (int) (frog2.getY() / l_case);
+                                int numero_lane2 = (int) (frog2.getY() / l_case);
                                 if (logs[i].intersects(frog2)) {
                                     frog2.setOnLog(true);
                                     TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), frog2.getImageView());
-                                    if (logs[i].piste.sens == 0) {
+                                    if (logs[i].lane.sens == 0) {
                                         trans.setByX(-speed_h);
                                         if (frog2.getX() >= -50) {
                                             frog2.setLocation((int) (frog2.getX() - speed_h), (int) frog2.getY());
@@ -362,7 +359,7 @@ public class IHM extends Application {
                                             trans.play();
                                         }
                                     }
-                                } else if (plateau.get(numero_piste2).type_piste != 1) {
+                                } else if (board.get(numero_lane2).type_lane != 1) {
                                     frog2.setOnLog(false);
                                 }
                             }
@@ -370,14 +367,14 @@ public class IHM extends Application {
                             logs[i].move(speed_h);
                         }
                         for (int i = 1; i < compteur_voiture + 1; i++) {
-                            voitures[i].move(speed_h);
-                            if (voitures[i].intersects(frog)) {
+                            cars[i].move(speed_h);
+                            if (cars[i].intersects(frog)) {
                                 timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                                 timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                                 primaryStage.setScene(deadScene());
                             }
                             if (joueurs) {
-                                if (voitures[i].intersects(frog) || voitures[i].intersects(frog2)) {
+                                if (cars[i].intersects(frog) || cars[i].intersects(frog2)) {
                                     timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                                     timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                                     primaryStage.setScene(deadScene());
@@ -385,18 +382,18 @@ public class IHM extends Application {
                             }
                         }
 
-                        int numero_piste = (int) (frog.getY() / l_case);
-                        int numero_piste2 = (int) (frog2.getY() / l_case);
+                        int numero_lane = (int) (frog.getY() / l_case);
+                        int numero_lane2 = (int) (frog2.getY() / l_case);
 
 
                         if (joueurs) {
-                            if (numero_piste == 0 && numero_piste2 == 0) {
-                                plateau.chrono.stop();
+                            if (numero_lane == 0 && numero_lane2 == 0) {
+                                board.chrono.stop();
                                 timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                                 timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                                 primaryStage.setScene(victoryScene());
                             }
-                            if ((plateau.get(numero_piste).type_piste == 1 && !(frog.isOnLog())) || (plateau.get(numero_piste2).type_piste == 1 && !(frog2.isOnLog()))) { // if the frog is on the river and not on a log
+                            if ((board.get(numero_lane).type_lane == 1 && !(frog.isOnLog())) || (board.get(numero_lane2).type_lane == 1 && !(frog2.isOnLog()))) { // if the frog is on the river and not on a log
                                 timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                                 timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                                 primaryStage.setScene(deadScene());
@@ -408,16 +405,16 @@ public class IHM extends Application {
                             }
                         }
                         else{
-                            if (numero_piste == 0 ) {
+                            if (numero_lane == 0 ) {
                                 timer.cancel();
-                                plateau.chrono.stop();
+                                board.chrono.stop();
                                 timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                                 timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
-                                hallOfFame.addScore(name1, plateau.getChronoToFloat());
+                                hallOfFame.addScore(name1, board.getChronoToFloat());
                                 hallOfFame.display();
                                 primaryStage.setScene(victoryScene());
                             }
-                            if (plateau.get(numero_piste).type_piste == 1 && !(frog.isOnLog())){ // if the frog is on the river and not on a log
+                            if (board.get(numero_lane).type_lane == 1 && !(frog.isOnLog())){ // if the frog is on the river and not on a log
                                 timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                                 timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                                 primaryStage.setScene(deadScene());
@@ -444,39 +441,39 @@ public class IHM extends Application {
      * This method display the timer at the bottom of the game window
      */
     private void displayTime() {
-        Text txt = plateau.getChrono();
+        Text txt = board.getChrono();
         txt.setFont(new Font(l_case*0.8));
         txt.setWrappingWidth(nb_case*l_case);
         txt.setTextAlignment(TextAlignment.CENTER);
         txt.setFill(Color.BROWN);
         txt.setStrokeWidth(1);
         txt.setStroke(Color.BLUE);
-        plateau.get(nb_case).gridPane.getChildren().set(0, txt);
+        board.get(nb_case).gridPane.getChildren().set(0, txt);
     }
 
     /**
      * This method intitialize every car required for the game
-     * @param voitures This Voiture[] contains all the cars generated on the map
+     * @param cars This Car[] contains all the cars generated on the map
      * @param nombre_voiture This int corresponds to the number of cars on the map
      * */
-    public void initCar(Voiture[] voitures, int nombre_voiture) {
-        for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
+    public void initCar(Car[] cars, int nombre_voiture) {
+        for (int i = board.nb_lanes/2 +1; i < board.nb_lanes; i++) {
             for (int j = 0; j<nombre_voiture; j++){
                 compteur_voiture += 1;
-                voitures[compteur_voiture] = new Voiture(plateau.get(i),scene, this.l_case);
+                cars[compteur_voiture] = new Car(board.get(i),scene, this.l_case);
                 boolean collisions_car = true;
                 while(collisions_car){
-                    if (compteur_voiture ==2 && voitures[compteur_voiture-1].intersects(voitures[compteur_voiture])){// checks for collisions
-                        voitures[compteur_voiture] = new Voiture(plateau.get(i), scene, this.l_case);
+                    if (compteur_voiture ==2 && cars[compteur_voiture-1].intersects(cars[compteur_voiture])){// checks for collisions
+                        cars[compteur_voiture] = new Car(board.get(i), scene, this.l_case);
                     }
-                    if (compteur_voiture >=3 && (voitures[compteur_voiture-2].intersects(voitures[compteur_voiture]) || voitures[compteur_voiture-1].intersects(voitures[compteur_voiture]) )    ){// checks for collisions
-                        voitures[compteur_voiture] = new Voiture(plateau.get(i), scene, this.l_case);
+                    if (compteur_voiture >=3 && (cars[compteur_voiture-2].intersects(cars[compteur_voiture]) || cars[compteur_voiture-1].intersects(cars[compteur_voiture]) )    ){// checks for collisions
+                        cars[compteur_voiture] = new Car(board.get(i), scene, this.l_case);
                     }
                     else{
                         collisions_car = false;
                     }
                 }
-                root.getChildren().add(voitures[compteur_voiture].getImageView());
+                root.getChildren().add(cars[compteur_voiture].getImageView());
             }
         }
     }
@@ -487,17 +484,17 @@ public class IHM extends Application {
      * @param nombre_log This int corresponds to the number of logs on the map
      */
     public void initLog(Log[] logs,  int nombre_log) {
-        for (int i = 2; i < plateau.nb_pistes/2 + 1; i++) { // Start at number 2 because Number 1 is a safe lane
+        for (int i = 2; i < board.nb_lanes/2 + 1; i++) { // Start at number 2 because Number 1 is a safe lane
             for (int j = 0; j<nombre_log; j++) {
                 compteur_log += 1;
-                logs[compteur_log] = new Log(plateau.get(i), scene, this.l_case);
+                logs[compteur_log] = new Log(board.get(i), scene, this.l_case);
                 boolean collisions_log = true;
                 while(collisions_log){
                     if (compteur_log >=2 && logs[compteur_log-1].intersects(logs[compteur_log])){// checks for collisions
-                        logs[compteur_log] = new Log(plateau.get(i), scene, this.l_case);
+                        logs[compteur_log] = new Log(board.get(i), scene, this.l_case);
                     }
                     if (compteur_log >=3 && (logs[compteur_log-2].intersects(logs[compteur_log]) || logs[compteur_log-1].intersects(logs[compteur_log]) )    ){// checks for collisions
-                        logs[compteur_log] = new Log(plateau.get(i), scene, this.l_case);
+                        logs[compteur_log] = new Log(board.get(i), scene, this.l_case);
                     }
                     else{
                         collisions_log = false;
@@ -524,8 +521,8 @@ public class IHM extends Application {
         this.hallOfFame.display();
 
         EventHandler<KeyEvent> keyListener = e -> {
-            if (!plateau.chrono.isRunning) {
-                plateau.chrono.start();
+            if (!board.chrono.isRunning) {
+                board.chrono.start();
             }
             if(e.getCode()== KeyCode.UP){
                 frog.up();
@@ -544,29 +541,29 @@ public class IHM extends Application {
             } else if (e.getCode()==KeyCode.Q){
                 frog2.left();
             } else if (e.getCode()==KeyCode.SPACE) {
-                plateau.auto_down((int) speed_down);
-                for (int i = plateau.nb_pistes/2 +1; i < plateau.nb_pistes; i++) {
-                    this.voitures[i - plateau.nb_pistes / 2].auto_down((int) speed_down);
+                board.auto_down((int) speed_down);
+                for (int i = board.nb_lanes/2 +1; i < board.nb_lanes; i++) {
+                    this.cars[i - board.nb_lanes / 2].auto_down((int) speed_down);
                 }
             }
         };
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
-        root.getChildren().add(plateau.getGridPane());
+        root.getChildren().add(board.getGridPane());
 
         difficulte = dif_i;
         if (difficulte ==3){ // expert
             speed_h = 6;
             initLog(logs, 1);
-            initCar(voitures, 3);
+            initCar(cars, 3);
         }else if (difficulte ==2){ // intermediaire
             speed_h = 4;
             initLog(logs, 2);
-            initCar(voitures, 2);
+            initCar(cars, 2);
         }else{ // debutant
             speed_h = 3;
             initLog(logs, 2);
-            initCar(voitures, 1);
+            initCar(cars, 1);
         }
         update_state(primaryStage, joueurs, name1, name2);
 
@@ -681,9 +678,9 @@ public class IHM extends Application {
     private Scene victoryScene() {
         GridPane victoryWindow = new GridPane();
         Text victoryText = new Text("Victory !");
-        plateau.chrono.stop();
+        board.chrono.stop();
         this.hallOfFame.save();
-        Text yourScore = new Text(plateau.getChrono().getText());
+        Text yourScore = new Text(board.getChrono().getText());
         Text newGameText = new Text("New Game ?");
         Scene victoryScene = new Scene(victoryWindow, l_case*nb_case, l_case*nb_case);
         victoryWindow.setAlignment(Pos.CENTER);

@@ -8,32 +8,32 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class Piste {
+public class Lane {
     protected boolean hostile;
     protected double sens;
     protected double vitesse;
     protected double taille_obstacle;
-    protected double longueur_piste;
+    protected double longueur_lane;
     protected double longueur_bloc;
-    protected int numero_piste;
+    protected int numero_lane;
     protected double densite;
     protected boolean arrivee; // si c'est la dernière ligne c'est FINI
     protected ImageView imageView;
     protected GridPane gridPane = new GridPane();
-    protected int type_piste;
-    protected Plateau plateau;
+    protected int type_lane;
+    protected Board board;
 
 
 
-    public Piste(int ii, Plateau p, boolean hostile, double sens, double vitesse, double densite, int type_piste) {
-        this.plateau = p;
+    public Lane(int ii, Board p, boolean hostile, double sens, double vitesse, double densite, int type_lane) {
+        this.board = p;
         this.vitesse = vitesse;
         this.sens = sens;
 
-        this.longueur_bloc = p.h_piste;
-        this.longueur_piste = p.nb_pistes * p.h_piste;
-        this.numero_piste = ii;
-        this.type_piste = type_piste;
+        this.longueur_bloc = p.h_lane;
+        this.longueur_lane = p.nb_lanes * p.h_lane;
+        this.numero_lane = ii;
+        this.type_lane = type_lane;
 
         if (densite < 0.33) {
             this.taille_obstacle = 1;
@@ -45,13 +45,13 @@ public class Piste {
             this.taille_obstacle = 3;
         }
 
-        if (this.type_piste == 0){ // If it is a road
+        if (this.type_lane == 0){ // If it is a road
             this.setImageView("routemieuxJAUNE.png");
-        } else if (this.type_piste == 1){  // If it is a river
+        } else if (this.type_lane == 1){  // If it is a river
             this.setImageView("river.png");
-        } else if (this.type_piste == 2){  // If it is the beginning
+        } else if (this.type_lane == 2){  // If it is the beginning
             this.setImageView("debut.png");
-        } else if (this.type_piste == 3) {
+        } else if (this.type_lane == 3) {
             this.gridPane.add(p.getChrono(), ii, 0);
 
         }
@@ -59,12 +59,12 @@ public class Piste {
 
     private void setImageView(String file) {
         try {
-            for (int jj = 0; jj < this.plateau.nb_pistes; jj++) {
+            for (int jj = 0; jj < this.board.nb_lanes; jj++) {
                 Image image = new Image(new FileInputStream(file));
                 this.imageView = new ImageView(image);
-                this.imageView.setFitHeight(this.plateau.h_piste);
-                this.imageView.setFitWidth(this.plateau.h_piste);
-                this.gridPane.add(this.imageView, jj, this.numero_piste);
+                this.imageView.setFitHeight(this.board.h_lane);
+                this.imageView.setFitWidth(this.board.h_lane);
+                this.gridPane.add(this.imageView, jj, this.numero_lane);
             }
         } catch (FileNotFoundException e) {
             System.out.println(e);
@@ -73,7 +73,7 @@ public class Piste {
 
 
     public List getParametre() {
-        return Arrays.asList(this.vitesse, this.sens, this.taille_obstacle, this.longueur_bloc, this.longueur_piste, this.numero_piste, this.densite, this.type_piste);
+        return Arrays.asList(this.vitesse, this.sens, this.taille_obstacle, this.longueur_bloc, this.longueur_lane, this.numero_lane, this.densite, this.type_lane);
     }
 
     public GridPane getImageView() {
