@@ -90,7 +90,7 @@ public class Lane {
     }
 
     /**
-     * This method returns an array with the Lan parameters
+     * This method returns an array with the Lane parameters
      */
     public List getParametre() {
         return Arrays.asList(this.speed, this.direction, this.taille_obstacle, this.longueur_bloc, this.longueur_lane, this.numero_lane, this.density, this.type_lane);

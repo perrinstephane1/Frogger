@@ -63,7 +63,6 @@ public class MovingElements extends Rectangle {
             String adresse = file;
             if (this.lane.direction == 0) {
                 adresse = file.replace(".png", "_r.png");
-//                System.out.println(adresse);
             }
             Image image = new Image(new FileInputStream(adresse));
             this.imageView = new ImageView(image);
