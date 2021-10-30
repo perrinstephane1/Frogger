@@ -2,9 +2,22 @@ import javafx.animation.TranslateTransition;
 import javafx.scene.Scene;
 import javafx.util.Duration;
 
-
+/**
+ * This class represents a car on the board
+ * @author Williams HOARAU
+ * @author Louis JOGUET
+ * @author Aurelien PARAIRE
+ * @author Stephane PERRIN
+ *
+ */
 public class Car extends MovingElements {
 
+    /**
+     * This method is the constructor
+     * @param l_case This int corresponds to the length in pixels of a square on the game windows.
+     * @param lane This Lane corresponds to a lane in the game (river, road or safe lane).
+     * @param scene This Scene will be used in the class MovingElements to get its height and width for the game parameters
+     * */
     public Car(Lane lane, Scene scene, int l_case) {
         super(lane, scene, l_case, lane.taille_obstacle);
 
@@ -16,11 +29,4 @@ public class Car extends MovingElements {
             this.setImageView("car33.png");
         }
     }
-
-    public void auto_down(int speed) {
-        TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
-        trans.setByY(speed);
-        trans.play();
-    }
-
 }

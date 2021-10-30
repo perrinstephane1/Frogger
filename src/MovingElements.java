@@ -31,9 +31,9 @@ public class MovingElements extends Rectangle {
 
     /**
      * This method is the constructor
-     * @param lane This Lane corresponds to a lane in the game (river, road or safe lane).
-     * @param scene This Scene is used to get its height and width for the game parameters.
      * @param l_case This int corresponds to the length in pixels of a square on the game windows.
+     * @param lane This Lane corresponds to a lane in the game (river, road or safe lane).
+     * @param scene This Scene will be used in the class MovingElements to get its height and width for the game parameters
      * @param taille_obstacle This double is the length of a MovingElement (1, 2 or 3).
      */
     public MovingElements(Lane lane, Scene scene, int l_case, double taille_obstacle) {
