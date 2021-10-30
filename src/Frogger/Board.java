@@ -1,3 +1,5 @@
+package Frogger;
+
 import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
 import javafx.scene.layout.GridPane;

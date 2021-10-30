@@ -1,3 +1,5 @@
+package Frogger;
+
 import javafx.scene.Scene;
 
 /**

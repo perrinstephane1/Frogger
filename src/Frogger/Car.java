@@ -1,6 +1,6 @@
-import javafx.animation.TranslateTransition;
+package Frogger;
+
 import javafx.scene.Scene;
-import javafx.util.Duration;
 
 /**
  * This class represents a car on the board

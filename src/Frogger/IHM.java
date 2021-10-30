@@ -1,3 +1,5 @@
+package Frogger;
+
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -488,7 +490,7 @@ public class IHM extends Application {
      * @param logs This Log[] contains all the logs generated on the map
      * @param nombre_log This int corresponds to the number of logs on the map
      */
-    public void initLog(Log[] logs,  int nombre_log) {
+    public void initLog(Log[] logs, int nombre_log) {
         for (int i = 2; i < board.nb_case/2 + 1; i++) { // Start at number 2 because Number 1 is a safe lane
             for (int j = 0; j<nombre_log; j++) {
                 log_count += 1;

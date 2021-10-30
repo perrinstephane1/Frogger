@@ -1,4 +1,7 @@
+package Frogger;
+
 import java.util.ArrayList;
+
 /**
  * This class represents TODO ?
  * @author Williams HOARAU

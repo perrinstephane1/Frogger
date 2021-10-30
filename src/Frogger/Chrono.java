@@ -1,3 +1,5 @@
+package Frogger;
+
 /**
  * This class represents the human-machine interface
  * @author Williams HOARAU
