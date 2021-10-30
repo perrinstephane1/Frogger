@@ -18,13 +18,21 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  */
 public class MovingElements extends Rectangle {
-    protected double taille_obstacle;
+    /** Size of obstacles on a Lane*/
+    protected double obstacle_size;
+//    /**  */
 //    protected double speed;
+    /** Direction of obstacles on a Lane*/
     protected double direction;
+    /** Length in pixels of a square on the game windows */
     protected double l_case;
+    /** Scene */
     protected Scene scene;
-    protected int in_plateau = 1; //1 : on the board, 0 : out
+//    /** Not in use yet */
+//    protected int in_plateau = 1; //1 : on the board, 0 : out
+    /** Lane in the game (river, road or safe lane) */
     protected Lane lane;
+    /** ImageView */
     protected ImageView imageView;
 
 
@@ -33,20 +41,20 @@ public class MovingElements extends Rectangle {
      * @param l_case This int corresponds to the length in pixels of a square on the game windows.
      * @param lane This Lane corresponds to a lane in the game (river, road or safe lane).
      * @param scene This Scene will be used in the class MovingElements to get its height and width for the game parameters
-     * @param taille_obstacle This double is the length of a MovingElement (1, 2 or 3).
+     * @param obstacle_size This double is the length of a MovingElement (1, 2 or 3).
      */
-    public MovingElements(Lane lane, Scene scene, int l_case, double taille_obstacle) {
-        super(0, 0, (int) (taille_obstacle*l_case), l_case);
+    public MovingElements(Lane lane, Scene scene, int l_case, double obstacle_size) {
+        super(0, 0, (int) (obstacle_size*l_case), l_case);
         int position_min = 0;
         int position_max = (int) lane.longueur_lane;
         int position_start = ThreadLocalRandom.current().nextInt(position_min, position_max + 1);
 
-        this.setLocation(position_start,  (lane.numero_lane-1)*(int) lane.longueur_bloc);
+        this.setLocation(position_start,  (lane.numero_lane-1)*(int) lane.l_case);
 
-        this.in_plateau = in_plateau;
+//        this.in_plateau = in_plateau;
         this.lane = lane;
         this.direction = lane.direction;
-        this.taille_obstacle = lane.taille_obstacle;
+        this.obstacle_size = lane.obstacle_size;
         this.scene = scene;
         this.l_case = l_case; //(this.scene.getHeight()/lane.p.nb_case)
     }
@@ -66,7 +74,7 @@ public class MovingElements extends Rectangle {
             this.imageView = new ImageView(image);
             this.imageView.setX(this.getX());
             this.imageView.setY(this.getY());
-            this.imageView.setFitWidth(this.l_case * lane.taille_obstacle + 10);
+            this.imageView.setFitWidth(this.l_case * lane.obstacle_size + 10);
             this.imageView.setFitHeight(this.l_case);
             this.imageView.setPreserveRatio(false);
         } catch (FileNotFoundException var7) {
@@ -93,8 +101,8 @@ public class MovingElements extends Rectangle {
 
             if (this.getX() >= this.scene.getWidth()) {
                 // if the object goes off the scene, its position is re-init
-                trans.setByX(-this.scene.getWidth()-this.taille_obstacle*this.l_case);
-                this.setLocation((int) (this.getX()-this.scene.getWidth()-this.taille_obstacle*this.l_case), (int)this.getY());
+                trans.setByX(-this.scene.getWidth()-this.obstacle_size*this.l_case);
+                this.setLocation((int) (this.getX()-this.scene.getWidth()-this.obstacle_size*this.l_case), (int)this.getY());
             }
             else{// if the object is still on the window, it can continue to move
                 trans.setByX(speed);
@@ -103,9 +111,9 @@ public class MovingElements extends Rectangle {
             trans.play();
         }
         else{
-            if (this.getX() + this.taille_obstacle*this.l_case < 0) {
+            if (this.getX() + this.obstacle_size*this.l_case < 0) {
                 // if the object goes off the scene, its position is re-init
-                trans.setByX(this.scene.getWidth()+this.taille_obstacle*this.l_case);
+                trans.setByX(this.scene.getWidth()+this.obstacle_size*this.l_case);
                 this.setLocation((int)this.scene.getWidth(), (int)this.getY());
             }
             else{ // if the object is still on the window, it can continue to move

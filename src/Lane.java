@@ -16,15 +16,22 @@ import java.util.List;
  *
  */
 public class Lane {
-    protected boolean hostile;
+//    /** */
+//    protected boolean hostile;
+    /** Direction of obstacles on a Lane*/
     protected double direction;
+    /** Speed of obstacles on a Lane*/
     protected double speed;
-    protected double taille_obstacle;
+    /** Size of obstacles on a Lane*/
+    protected double obstacle_size;
+    /** Length of a Lane */
     protected double longueur_lane;
-    protected double longueur_bloc;
+    /** Length in pixels of a square on the game windows */
+    protected double l_case;
     protected int numero_lane;
     protected double density;
-    protected boolean arrivee; // si c'est la dernière ligne c'est FINI
+//    /** */
+//    protected boolean arrivee; // si c'est la dernière ligne c'est FINI
     protected ImageView imageView;
     protected GridPane gridPane = new GridPane();
     protected int type_lane;
@@ -44,19 +51,19 @@ public class Lane {
         this.board = p;
         this.speed = speed;
         this.direction = direction;
-        this.longueur_bloc = p.l_case;
+        this.l_case = p.l_case;
         this.longueur_lane = p.nb_case * p.l_case;
         this.numero_lane = ii;
         this.type_lane = type_lane;
 
         if (density < 0.33) {
-            this.taille_obstacle = 1;
+            this.obstacle_size = 1;
         }
         else if (density < 0.66) {
-            this.taille_obstacle = 2;
+            this.obstacle_size = 2;
         }
         else{
-            this.taille_obstacle = 3;
+            this.obstacle_size = 3;
         }
         if (this.type_lane == 0){ // If it is a road
             this.setImageView("routemieuxJAUNE.png");
@@ -88,14 +95,16 @@ public class Lane {
     }
 
     /**
-     * This method returns an array with the Lan parameters
+     * This method returns an array with the Lane parameters
+     * @return an Array with the Lane parameters
      */
     public List getParametre() {
-        return Arrays.asList(this.speed, this.direction, this.taille_obstacle, this.longueur_bloc, this.longueur_lane, this.numero_lane, this.density, this.type_lane);
+        return Arrays.asList(this.speed, this.direction, this.obstacle_size, this.l_case, this.longueur_lane, this.numero_lane, this.density, this.type_lane);
     }
 
     /**
      * This method returns an ImageView.
+     * @return an ImageView
      */
     public GridPane getImageView() {
         return this.gridPane;

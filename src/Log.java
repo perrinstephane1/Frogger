@@ -19,13 +19,13 @@ public class Log extends MovingElements {
      * @param scene This Scene will be used in the class MovingElements to get its height and width for the game parameters
      * */
     public Log(Lane lane, Scene scene, int l_case) {
-        super(lane, scene, l_case, lane.taille_obstacle);
+        super(lane, scene, l_case, lane.obstacle_size);
         this.lane = lane;
-        if(lane.taille_obstacle == 1.0){
+        if(lane.obstacle_size == 1.0){
             this.setImageView("nenuphar.png");
-        } else if (lane.taille_obstacle == 2.0){
+        } else if (lane.obstacle_size == 2.0){
             this.setImageView("log22.png");
-        } else if (lane.taille_obstacle == 3.0){
+        } else if (lane.obstacle_size == 3.0){
             this.setImageView("log.png");
         }
     }
