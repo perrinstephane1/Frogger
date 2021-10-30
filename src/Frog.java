@@ -34,9 +34,6 @@ public class Frog extends Rectangle {
         }
     }
 
-    public Frog(int X, int Y, int l_case, int nb_case) {
-        this(X, Y, l_case, nb_case, "frog8bit.png");
-    }
 
     public ImageView getImageView() {
         return imageView;

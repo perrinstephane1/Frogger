@@ -45,8 +45,8 @@ public class IHM extends Application {
     private int difficulte = 1;
 
 
-    Frog frog = new Frog((this.nb_case) * this.l_case /2 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case);
-    Frog frog2 = new Frog(0 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case);
+    Frog frog = new Frog((this.nb_case) * this.l_case /2 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case, "frog8bit.png");
+    Frog frog2 = new Frog(0 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case, "frog8bit2.png");
 
     Group root = new Group();
     Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*(this.nb_case+1));
