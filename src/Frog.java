@@ -58,6 +58,7 @@ public class Frog extends Rectangle {
 
     /**
      * This method returns an ImageView
+     * @return an ImageView
      */
     public ImageView getImageView() {
         return imageView;
@@ -65,6 +66,7 @@ public class Frog extends Rectangle {
 
     /**
      * This method returns true if the frog is on a log and false otherwise
+     * @return true if the frog is on a log and false otherwise
      */
     public boolean isOnLog() {
         return onLog;
