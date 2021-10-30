@@ -9,7 +9,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.concurrent.ThreadLocalRandom;
 
-
+/**
+ * This class represents a moving element on the board
+ * @author Williams HOARAU
+ * @author Louis JOGUET
+ * @author Aurelien PARAIRE
+ * @author Stephane PERRIN
+ *
+ */
 public class MovingElements extends Rectangle {
     protected double taille_obstacle;
     protected double vitesse;
@@ -17,7 +24,7 @@ public class MovingElements extends Rectangle {
     protected boolean hostile;
     protected double l_case;
     protected Scene scene;
-    protected int in_plateau = 1; //1 : sur le board, 0 : out
+    protected int in_plateau = 1; //1 : on the board, 0 : out
     protected Lane lane;
     protected ImageView imageView;
 
