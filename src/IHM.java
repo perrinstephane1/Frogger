@@ -373,14 +373,14 @@ public class IHM extends Application {
                         for (int i = 1; i < compteur_voiture + 1; i++) {
                             voitures[i].move(speed_h);
                             if (voitures[i].intersects(frog)) {
-                                System.out.println("Arret du game");
-                                timer.cancel();
+                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                                 primaryStage.setScene(deadScene());
                             }
                             if (joueurs) {
                                 if (voitures[i].intersects(frog) || voitures[i].intersects(frog2)) {
-                                    System.out.println("Arret du game");
-                                    timer.cancel();
+                                    timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                                    timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                                     primaryStage.setScene(deadScene());
                                 }
                             }
@@ -397,36 +397,36 @@ public class IHM extends Application {
                         if (joueurs) {
                             if (numero_piste == 0 && numero_piste2 == 0) {
                                 plateau.chrono.stop();
-                                System.out.println("Arret du game");
-                                timer.cancel();
+                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                                 primaryStage.setScene(victoryScene());
                             }
                             if ((plateau.get(numero_piste).type_piste == 1 && !(frog.isOnLog())) || (plateau.get(numero_piste2).type_piste == 1 && !(frog2.isOnLog()))) { // if the frog is on the river and not on a log
-                                System.out.println("Arret du game");
-                                timer.cancel();
+                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                                 primaryStage.setScene(deadScene());
                             }
                             if ((frog.getX() < -l_case || frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) || (frog2.getX() < -l_case || frog2.getX() > l_case * nb_case || frog2.getY() < 0 || frog2.getY() > l_case * nb_case)) { //if the frig is out of map
-                                System.out.println("Arret du game");
-                                timer.cancel();
+                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                                 primaryStage.setScene(deadScene());
                             }
                         }
                         else{
                             if (numero_piste == 0 ) {
-                                System.out.println("Arret du game");
-                                timer.cancel();
                                 plateau.chrono.stop();
+                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                                 primaryStage.setScene(victoryScene());
                             }
                             if (plateau.get(numero_piste).type_piste == 1 && !(frog.isOnLog())){ // if the frog is on the river and not on a log
-                                System.out.println("Arret du game");
-                                timer.cancel();
+                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                                 primaryStage.setScene(deadScene());
                             }
                             if (frog.getX() < -l_case|| frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) { //if the frig is out of map
-                                System.out.println("Arret du game");
-                                timer.cancel();
+                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                                 primaryStage.setScene(deadScene());
                             }
                         }
