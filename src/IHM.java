@@ -311,7 +311,7 @@ public class IHM extends Application {
     /**
      * This method updates the position of all the moving components of the game (frog, logs and cars) and the timer of the player
      * This method also verify is the frog is not hit by a car, on the river. If it is the case, the game ends
-     * @param primaryStage This Stage is what ? TODO
+     * @param primaryStage This Stage is the window on which the game is displayed
      * @param joueurs This boolean determines if the game is in single or two player mode
      */
     public void update_state(Stage primaryStage, boolean joueurs){
