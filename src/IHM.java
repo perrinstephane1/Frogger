@@ -316,7 +316,7 @@ public class IHM extends Application {
      */
     public void update_state(Stage primaryStage, boolean joueurs){
         new Timer().scheduleAtFixedRate(new TimerTask() {
-        @Override
+            @Override
             public void run() {
                 Platform.runLater(new Runnable() {
                     @Override
@@ -383,27 +383,32 @@ public class IHM extends Application {
                         int numero_piste = (int) (frog.getY() / l_case);
                         int numero_piste2 = (int) (frog2.getY() / l_case);
 
-                        if (numero_piste == 0 && numero_piste2 == 0) {
-                            plateau.chrono.stop();
-                            primaryStage.setScene(victoryScene());
-                        }
 
-                        if (plateau.get(numero_piste).type_piste == 1 && !(frog.isOnLog())){ // if the frog is on the river and not on a log
-                            primaryStage.setScene(deadScene());
-                        }
-                        if (frog.getX() < -l_case|| frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) { //if the frig is out of map
-                            primaryStage.setScene(deadScene());
-                        }
 //                        if (frog.dead) {
 //                            primaryStage.setScene(deadScene());
 //                        }
 
                         if (joueurs) {
-
+                            if (numero_piste == 0 && numero_piste2 == 0) {
+                                plateau.chrono.stop();
+                                primaryStage.setScene(victoryScene());
+                            }
                             if ((plateau.get(numero_piste).type_piste == 1 && !(frog.isOnLog())) || (plateau.get(numero_piste2).type_piste == 1 && !(frog2.isOnLog()))) { // if the frog is on the river and not on a log
                                 primaryStage.setScene(deadScene());
                             }
                             if ((frog.getX() < -l_case || frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) || (frog2.getX() < -l_case || frog2.getX() > l_case * nb_case || frog2.getY() < 0 || frog2.getY() > l_case * nb_case)) { //if the frig is out of map
+                                primaryStage.setScene(deadScene());
+                            }
+                        }
+                        else{
+                            if (numero_piste == 0 ) {
+                                plateau.chrono.stop();
+                                primaryStage.setScene(victoryScene());
+                            }
+                            if (plateau.get(numero_piste).type_piste == 1 && !(frog.isOnLog())){ // if the frog is on the river and not on a log
+                                primaryStage.setScene(deadScene());
+                            }
+                            if (frog.getX() < -l_case|| frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) { //if the frig is out of map
                                 primaryStage.setScene(deadScene());
                             }
                         }
