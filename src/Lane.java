@@ -1,5 +1,3 @@
-package com.company;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -35,12 +33,12 @@ public class Lane {
 
     /**
      * This method is the constructor
-     * @param ii This int is the number given to the com.company.Lane as an ID.
-     * @param p This com.company.Board is the one in which the com.company.Lane will be put
-     * @param direction This double gives the direction of the com.company.Lane (0 : from right to left. 1 : from left to right)
+     * @param ii This int is the number given to the Lane as an ID.
+     * @param p This Board is the one in which the Lane will be put
+     * @param direction This double gives the direction of the Lane (0 : from right to left. 1 : from left to right)
      * @param speed This double is the speed at which the MovingElement is moving.
-     * @param density This double determines the probability of having cars on the com.company.Lane
-     * @param type_lane This int characterizes the lane. A type-0 com.company.Lane is a road, a type-1 com.company.Lane is a river and a type-2 com.company.Lane is a safe lane.
+     * @param density This double determines the probability of having cars on the Lane
+     * @param type_lane This int characterizes the lane. A type-0 Lane is a road, a type-1 Lane is a river and a type-2 Lane is a safe lane.
      */
     public Lane(int ii, Board p, double direction, double speed, double density, int type_lane) {
         this.board = p;

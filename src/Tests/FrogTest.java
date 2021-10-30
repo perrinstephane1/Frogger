@@ -1,6 +1,3 @@
-package Tests;
-
-import com.company.Frog;
 import junit.framework.TestCase;
 
 
@@ -8,7 +5,7 @@ public class FrogTest extends TestCase {
     public void testInit() {
         Frog frog = new Frog(50, 50, 20, 10, "frog8bit.png");
         assertNotNull(frog);
-        assertSame("com.company.Frog", frog.getClass().getTypeName());
+        assertSame("Frog", frog.getClass().getTypeName());
     }
 
     public void testGetter() {

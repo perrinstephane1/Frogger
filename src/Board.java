@@ -1,5 +1,3 @@
-package com.company;
-
 import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
 import javafx.scene.layout.GridPane;
@@ -69,9 +67,9 @@ public class Board extends ArrayList<Lane> {
     }
 
     /**
-     * This method adds a new com.company.Lane in the com.company.Board
-     * @param cnt This int is the number given to the com.company.Lane as an ID.
-     * @param type_lane This int characterizes the lane. A type-0 com.company.Lane is a road, a type-1 com.company.Lane is a river and a type-2 com.company.Lane is a safe lane.
+     * This method adds a new Lane in the Board
+     * @param cnt This int is the number given to the Lane as an ID.
+     * @param type_lane This int characterizes the lane. A type-0 Lane is a road, a type-1 Lane is a river and a type-2 Lane is a safe lane.
      */
     public void addLane(int cnt, int type_lane) {
         Lane lane = new Lane(cnt, this,  cnt%2, 1, Math.random(), type_lane);
@@ -121,7 +119,7 @@ public class Board extends ArrayList<Lane> {
         }
     }
     /**
-     * This method inverts the order of the Lanes in the com.company.Board
+     * This method inverts the order of the Lanes in the Board
      */
     public void invert() {
         ArrayList<Lane> temp = new ArrayList<Lane>();

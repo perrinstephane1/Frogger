@@ -1,5 +1,3 @@
-package com.company;
-
 import javafx.animation.TranslateTransition;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -34,8 +32,8 @@ public class MovingElements extends Rectangle {
     /**
      * This method is the constructor
      * @param l_case This int corresponds to the length in pixels of a square on the game windows.
-     * @param lane This com.company.Lane corresponds to a lane in the game (river, road or safe lane).
-     * @param scene This Scene will be used in the class com.company.MovingElements to get its height and width for the game parameters
+     * @param lane This Lane corresponds to a lane in the game (river, road or safe lane).
+     * @param scene This Scene will be used in the class MovingElements to get its height and width for the game parameters
      * @param taille_obstacle This double is the length of a MovingElement (1, 2 or 3).
      */
     public MovingElements(Lane lane, Scene scene, int l_case, double taille_obstacle) {
@@ -85,7 +83,7 @@ public class MovingElements extends Rectangle {
     }
 
     /**
-     * This method moves the element on the side regarding the direction of the com.company.Lane. If the element goes out of the window, it goes back to the beginning.
+     * This method moves the element on the side regarding the direction of the Lane. If the element goes out of the window, it goes back to the beginning.
       * @param speed This double is the speed at which the MovingElement is moving.
      */
     public void move(double speed) {

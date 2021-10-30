@@ -1,5 +1,3 @@
-package com.company;
-
 /**
  * This class represents the human-machine interface
  * @author Williams HOARAU
@@ -52,7 +50,7 @@ public class Score implements Comparable<Score> {
 
     /**
      * This method compares the different times
-     * @param other com.company.Score to compare with
+     * @param other Score to compare with
      */
     @Override
     public int compareTo(Score other) {

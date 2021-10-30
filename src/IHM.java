@@ -1,5 +1,3 @@
-package com.company;
-
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -455,7 +453,7 @@ public class IHM extends Application {
 
     /**
      * This method intitialize every car required for the game
-     * @param cars This com.company.Car[] contains all the cars generated on the map
+     * @param cars This Car[] contains all the cars generated on the map
      * @param nombre_voiture This int corresponds to the number of cars on the map
      * */
     public void initCar(Car[] cars, int nombre_voiture) {
@@ -482,7 +480,7 @@ public class IHM extends Application {
 
     /**
      * This method intitialize every log required for the game
-     * @param logs This com.company.Log[] contains all the logs generated on the map
+     * @param logs This Log[] contains all the logs generated on the map
      * @param nombre_log This int corresponds to the number of logs on the map
      */
     public void initLog(Log[] logs,  int nombre_log) {
@@ -683,7 +681,7 @@ public class IHM extends Application {
         board.chrono.stop();
         this.hallOfFame.save();
         Text yourScore = new Text(board.getChrono().getText());
-        Text newGameText = new Text("New com.company.Game ?");
+        Text newGameText = new Text("New Game ?");
         Scene victoryScene = new Scene(victoryWindow, l_case*nb_case, l_case*nb_case);
         victoryWindow.setAlignment(Pos.CENTER);
         victoryText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, l_case));

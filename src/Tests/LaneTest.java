@@ -1,7 +1,7 @@
 //package Tests;
 //
-//import com.company.Board;
-//import com.company.Lane;
+//import Board;
+//import Lane;
 //import javafx.scene.Group;
 //import junit.framework.TestCase;
 //

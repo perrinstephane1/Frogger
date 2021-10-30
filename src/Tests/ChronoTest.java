@@ -1,6 +1,3 @@
-package Tests;
-
-import com.company.Chrono;
 
 import junit.framework.TestCase;
 
@@ -9,7 +6,7 @@ public class ChronoTest extends TestCase {
     public void testInit() {
         Chrono chrono = new Chrono();
         assertNotNull(chrono);
-        assertSame("com.company.Chrono", chrono.getClass().getTypeName());
+        assertSame("Chrono", chrono.getClass().getTypeName());
     }
 
     public void testStartStop() {
