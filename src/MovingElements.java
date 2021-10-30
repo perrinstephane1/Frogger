@@ -22,8 +22,13 @@ public class MovingElements extends Rectangle {
     protected ImageView imageView;
 
 
-
-
+    /**
+     * This method is the constructor
+     * @param lane This Lane corresponds to a lane in the game (river, road or safe lane).
+     * @param scene This Scene is used to get its height and width for the game parameters.
+     * @param l_case This int corresponds to the length in pixels of a square on the game windows.
+     * @param taille_obstacle This double is the length of a MovingElement (1, 2 or 3).
+     */
     public MovingElements(Lane lane, Scene scene, int l_case, double taille_obstacle) {
         super(0, 0, (int) (taille_obstacle*l_case), l_case);
         int position_min = 0;
@@ -40,6 +45,10 @@ public class MovingElements extends Rectangle {
         this.l_case = l_case; //(this.scene.getHeight()/lane.p.nb_case)
     }
 
+    /**
+     * This method returns sets the image on the game window.
+     * @param file This String corresponds to the image file to be showed in the game.
+     */
     public void setImageView(String file) {
         try {
             String adresse = file;
@@ -60,20 +69,27 @@ public class MovingElements extends Rectangle {
         }
     }
 
+    /**
+     * This method returns an ImageView.
+     */
     public ImageView getImageView() {
         return imageView;
     }
 
+    /**
+     * This method moves the element on the side regarding the direction of the Lane. If the element goes out of the window, it goes back to the beginning.
+      * @param speed This double is the speed at which the MovingElement is moving.
+     */
     public void move(double speed) {
         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
         if (this.sens == 1) {
 
             if (this.getX() >= this.scene.getWidth()) {
+                // if the object goes off the scene, its position is re-init
                 trans.setByX(-this.scene.getWidth()-this.taille_obstacle*this.l_case);
                 this.setLocation((int) (this.getX()-this.scene.getWidth()-this.taille_obstacle*this.l_case), (int)this.getY());
-                // if the object goes off the scene, its position is re-init
             }
-            else{
+            else{// if the object is still on the window, it can continue to move
                 trans.setByX(speed);
                 this.setLocation((int) (this.getX()+speed), (int)this.getY());
             }
@@ -81,11 +97,11 @@ public class MovingElements extends Rectangle {
         }
         else{
             if (this.getX() + this.taille_obstacle*this.l_case < 0) {
+                // if the object goes off the scene, its position is re-init
                 trans.setByX(this.scene.getWidth()+this.taille_obstacle*this.l_case);
                 this.setLocation((int)this.scene.getWidth(), (int)this.getY());
-                // if the object goes off the scene, its position is re-init
             }
-            else{
+            else{ // if the object is still on the window, it can continue to move
                 trans.setByX(-speed);
                 this.setLocation((int) (this.getX()-speed), (int)this.getY());
             }
@@ -94,8 +110,8 @@ public class MovingElements extends Rectangle {
     }
 
     /**
-     * This method moves the element downwards at a certain speed with the lanes in infinite mode
-     * @param speed This int determmines the speed at which the element will move
+     * This method moves the element downwards at a certain speed with the lanes in infinite mode.
+     * @param speed This int determmines the speed at which the element will move.
      */
     public void auto_down(int speed) {
 
