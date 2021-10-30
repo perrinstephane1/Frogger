@@ -66,8 +66,9 @@ public class HallOfFame extends ArrayList<Score> {
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader(file));
-            String st;
+            String st = null;
             while ((st = br.readLine()) != null) {
+                st.replace(" ", "");
                 String[] temp = st.split(":");
                 temp[1] = temp[1].replace("s", "");
                 this.addScore(temp[0], Float.valueOf(temp[1]));
