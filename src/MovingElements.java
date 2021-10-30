@@ -19,9 +19,8 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class MovingElements extends Rectangle {
     protected double taille_obstacle;
-    protected double speed;
+//    protected double speed;
     protected double direction;
-    protected boolean hostile;
     protected double l_case;
     protected Scene scene;
     protected int in_plateau = 1; //1 : on the board, 0 : out

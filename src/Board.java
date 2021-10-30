@@ -15,6 +15,7 @@ import java.util.ArrayList;
  *
  */
 public class Board extends ArrayList<Lane> {
+    /** Group */
     private Group root;
     /** Number of Lanes */
     protected int nb_case;
