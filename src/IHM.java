@@ -314,7 +314,7 @@ public class IHM extends Application {
      * @param primaryStage This Stage is the window on which the game is displayed
      * @param joueurs This boolean determines if the game is in single or two player mode
      */
-    public void update_state(Stage primaryStage, boolean joueurs){
+    public void update_state(Stage primaryStage, boolean joueurs, String name1, String name2){
         Timer timer =  new Timer();
         TimerTask timertask = new TimerTask() {
             @Override
@@ -322,7 +322,6 @@ public class IHM extends Application {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println("i run ");
                         for (int i = 1; i < compteur_log + 1; i++) {
                             int numero_piste = (int) (frog.getY() / l_case);
                             if (logs[i].intersects(frog)) {
@@ -373,13 +372,11 @@ public class IHM extends Application {
                         for (int i = 1; i < compteur_voiture + 1; i++) {
                             voitures[i].move(speed_h);
                             if (voitures[i].intersects(frog)) {
-                                System.out.println("Arret du game");
                                 timer.cancel();
                                 primaryStage.setScene(deadScene());
                             }
                             if (joueurs) {
                                 if (voitures[i].intersects(frog) || voitures[i].intersects(frog2)) {
-                                    System.out.println("Arret du game");
                                     timer.cancel();
                                     primaryStage.setScene(deadScene());
                                 }
@@ -389,10 +386,6 @@ public class IHM extends Application {
                         int numero_piste = (int) (frog.getY() / l_case);
                         int numero_piste2 = (int) (frog2.getY() / l_case);
 
-
-//                        if (frog.dead) {
-//                            primaryStage.setScene(deadScene());
-//                        }
 
                         if (joueurs) {
                             if (numero_piste == 0 && numero_piste2 == 0) {
@@ -414,9 +407,10 @@ public class IHM extends Application {
                         }
                         else{
                             if (numero_piste == 0 ) {
-                                System.out.println("Arret du game");
                                 timer.cancel();
                                 plateau.chrono.stop();
+                                hallOfFame.addScore(name1, plateau.getChronoToFloat());
+                                hallOfFame.display();
                                 primaryStage.setScene(victoryScene());
                             }
                             if (plateau.get(numero_piste).type_piste == 1 && !(frog.isOnLog())){ // if the frog is on the river and not on a log
@@ -525,7 +519,6 @@ public class IHM extends Application {
         this.hallOfFame.load("Scores.txt");
         this.hallOfFame.display();
 
-
         EventHandler<KeyEvent> keyListener = e -> {
             if (!plateau.chrono.isRunning) {
                 plateau.chrono.start();
@@ -571,11 +564,11 @@ public class IHM extends Application {
             initLog(logs, 2);
             initCar(voitures, 1);
         }
-        update_state(primaryStage, joueurs);
+        update_state(primaryStage, joueurs, name1, name2);
 
         root.getChildren().add(frog.getImageView());
         if (joueurs){
-            root.getChildren().add(frog2.getImageView()); // TODO changer en cas de 1 joueur
+            root.getChildren().add(frog2.getImageView());
         }
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
@@ -685,11 +678,7 @@ public class IHM extends Application {
         GridPane victoryWindow = new GridPane();
         Text victoryText = new Text("Victory !");
         plateau.chrono.stop();
-        this.hallOfFame.display();
-        this.hallOfFame.addScore("test", plateau.getChronoToFloat());
-        this.hallOfFame.display();
         this.hallOfFame.save();
-//        this.saveScore(plateau.getChrono().getText());
         Text yourScore = new Text(plateau.getChrono().getText());
         Text newGameText = new Text("New Game ?");
         Scene victoryScene = new Scene(victoryWindow, l_case*nb_case, l_case*nb_case);
