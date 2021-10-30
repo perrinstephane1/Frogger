@@ -6,33 +6,45 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 
-
+/**
+ * This class represents the ArrayList in which is store all the Lanes of the game
+ * @author Williams HOARAU
+ * @author Louis JOGUET
+ * @author Aurelien PARAIRE
+ * @author Stephane PERRIN
+ *
+ */
 public class Board extends ArrayList<Lane> {
     private Group root;
-    protected int nb_lanes;
-    protected double h_lane;
+    protected int nb_case;
+    protected double l_case;
     protected double l_lane;
     protected GridPane gridPane = new GridPane();
-    protected int cnt_decalage = (int)this.h_lane;
+    protected int cnt_decalage = (int)this.l_case;
     public Chrono chrono = new Chrono();
 
-
-    public Board(Group root, int nb_lanes, double h_lane) {
+    /**
+     * This method is the constructor
+     * @param root
+     * @param nb_case
+     * @param l_case
+     */
+    public Board(Group root, int nb_case, double l_case) {
         this.root = root;
-        this.nb_lanes = nb_lanes;
-        this.h_lane = h_lane;
-        this.l_lane = this.h_lane*this.nb_lanes;
+        this.nb_case = nb_case;
+        this.l_case = l_case;
+        this.l_lane = this.l_case*this.nb_case;
 
         this.addLane(0, 2); // Top safe lane
 
-        for (int ii=1; ii<this.nb_lanes/2; ii++) { // River lanes
+        for (int ii=1; ii<this.nb_case/2; ii++) { // River lanes
             this.addLane(ii, 1);
         }
-        for (int ii=this.nb_lanes/2; ii<this.nb_lanes-1; ii++) { // Road lanes
+        for (int ii=this.nb_case/2; ii<this.nb_case-1; ii++) { // Road lanes
             this.addLane(ii, 0);
         }
-        this.addLane(this.nb_lanes-1, 2); // Bottom safe lane
-        this.addLane(this.nb_lanes-2, 3);
+        this.addLane(this.nb_case-1, 2); // Bottom safe lane
+        this.addLane(this.nb_case-2, 3);
 
 
     }
@@ -77,8 +89,8 @@ public class Board extends ArrayList<Lane> {
         assert (this.size()==this.gridPane.getChildren().size());
         System.out.println("nbr lanes : "+this.size());
         if (cnt_decalage>=0) {
-            cnt_decalage = cnt_decalage-(int)this.h_lane+speed;
-            trans.setByY(-this.h_lane+speed);
+            cnt_decalage = cnt_decalage-(int)this.l_case+speed;
+            trans.setByY(-this.l_case+speed);
             trans.play();
             this.decalage();
         } else {

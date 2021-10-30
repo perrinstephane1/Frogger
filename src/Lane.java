@@ -30,8 +30,8 @@ public class Lane {
         this.vitesse = vitesse;
         this.sens = sens;
 
-        this.longueur_bloc = p.h_lane;
-        this.longueur_lane = p.nb_lanes * p.h_lane;
+        this.longueur_bloc = p.l_case;
+        this.longueur_lane = p.nb_case * p.l_case;
         this.numero_lane = ii;
         this.type_lane = type_lane;
 
@@ -59,11 +59,11 @@ public class Lane {
 
     private void setImageView(String file) {
         try {
-            for (int jj = 0; jj < this.board.nb_lanes; jj++) {
+            for (int jj = 0; jj < this.board.nb_case; jj++) {
                 Image image = new Image(new FileInputStream(file));
                 this.imageView = new ImageView(image);
-                this.imageView.setFitHeight(this.board.h_lane);
-                this.imageView.setFitWidth(this.board.h_lane);
+                this.imageView.setFitHeight(this.board.l_case);
+                this.imageView.setFitWidth(this.board.l_case);
                 this.gridPane.add(this.imageView, jj, this.numero_lane);
             }
         } catch (FileNotFoundException e) {

@@ -457,7 +457,7 @@ public class IHM extends Application {
      * @param nombre_voiture This int corresponds to the number of cars on the map
      * */
     public void initCar(Car[] cars, int nombre_voiture) {
-        for (int i = board.nb_lanes/2 +1; i < board.nb_lanes; i++) {
+        for (int i = board.nb_case/2 +1; i < board.nb_case; i++) {
             for (int j = 0; j<nombre_voiture; j++){
                 compteur_voiture += 1;
                 cars[compteur_voiture] = new Car(board.get(i),scene, this.l_case);
@@ -484,7 +484,7 @@ public class IHM extends Application {
      * @param nombre_log This int corresponds to the number of logs on the map
      */
     public void initLog(Log[] logs,  int nombre_log) {
-        for (int i = 2; i < board.nb_lanes/2 + 1; i++) { // Start at number 2 because Number 1 is a safe lane
+        for (int i = 2; i < board.nb_case/2 + 1; i++) { // Start at number 2 because Number 1 is a safe lane
             for (int j = 0; j<nombre_log; j++) {
                 compteur_log += 1;
                 logs[compteur_log] = new Log(board.get(i), scene, this.l_case);
@@ -542,8 +542,8 @@ public class IHM extends Application {
                 frog2.left();
             } else if (e.getCode()==KeyCode.SPACE) {
                 board.auto_down((int) speed_down);
-                for (int i = board.nb_lanes/2 +1; i < board.nb_lanes; i++) {
-                    this.cars[i - board.nb_lanes / 2].auto_down((int) speed_down);
+                for (int i = board.nb_case/2 +1; i < board.nb_case; i++) {
+                    this.cars[i - board.nb_case / 2].auto_down((int) speed_down);
                 }
             }
         };

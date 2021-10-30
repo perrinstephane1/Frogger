@@ -37,7 +37,7 @@ public class MovingElements extends Rectangle {
         this.sens = lane.sens;
         this.taille_obstacle = lane.taille_obstacle;
         this.scene = scene;
-        this.l_case = l_case; //(this.scene.getHeight()/lane.p.nb_lanes)
+        this.l_case = l_case; //(this.scene.getHeight()/lane.p.nb_case)
     }
 
     public void setImageView(String file) {

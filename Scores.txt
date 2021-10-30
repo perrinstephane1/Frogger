@@ -1,5 +1,5 @@
-test   : 52.0s
-test   : 52.0s
-test   : 52.0s
-test   : 52.0s
-louis : 85.0s
+Joueur 1 : 27.0s
+Joueur 1  : 45.0s
+test     : 52.0s
+test     : 52.0s
+test     : 52.0s
