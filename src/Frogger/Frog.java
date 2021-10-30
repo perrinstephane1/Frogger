@@ -1,3 +1,5 @@
+package Frogger;
+
 import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,12 +18,19 @@ import java.io.FileNotFoundException;
  *
  */
 public class Frog extends Rectangle {
+    /** True if the frog is on a log and is false otherwise */
     private boolean onLog = false;
+    /** ImageView */
     private ImageView imageView;
-    protected boolean dead;
+//    /** If the frog is dead or not */
+//    protected boolean dead;
+    /** Length in pixels of a square on the game windows */
     private double l_case;
+    /** Number of lane (river, road, safe lane) composing the game*/
     private int nb_case;
+    /** Score of the player */
     private int score = 0;
+    /** Number of the Lane on which the player is */
     private int etage = 0;
 
     /**
@@ -50,6 +59,7 @@ public class Frog extends Rectangle {
 
     /**
      * This method returns an ImageView
+     * @return an ImageView
      */
     public ImageView getImageView() {
         return imageView;
@@ -65,6 +75,7 @@ public class Frog extends Rectangle {
 
     /**
      * This method returns true if the frog is on a log and false otherwise
+     * @return true if the frog is on a log and false otherwise
      */
     public boolean isOnLog() {
         return onLog;

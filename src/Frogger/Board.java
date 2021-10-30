@@ -1,3 +1,5 @@
+package Frogger;
+
 import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
 import javafx.scene.layout.GridPane;
@@ -15,12 +17,19 @@ import java.util.ArrayList;
  *
  */
 public class Board extends ArrayList<Lane> {
+    /** Group */
     private Group root;
+    /** Number of Lanes */
     protected int nb_case;
+    /** Length of a single square */
     protected double l_case;
+    /** Length of a Lane */
     protected double l_lane;
+    /** GridPane */
     protected GridPane gridPane = new GridPane();
+    /** Not in use yet */
     protected int cnt_decalage = (int)this.l_case;
+    /** Chronometer */
     public Chrono chrono = new Chrono();
 
     /**
@@ -51,6 +60,7 @@ public class Board extends ArrayList<Lane> {
 
     /**
      * This method returns the time for which the player has been playing
+     * @return the time for which the player has been playing
      */
     public Text getChrono() {
         Long time = this.chrono.getElapsedCenti();
@@ -60,6 +70,7 @@ public class Board extends ArrayList<Lane> {
 
     /**
      * This method returns the time as a float
+     * @return the time as a float
      */
     public float getChronoToFloat() {
         float time = this.chrono.getElapsedCenti();
@@ -79,6 +90,7 @@ public class Board extends ArrayList<Lane> {
 
     /**
      * This method returns a GridPane
+     * @return a GridPane
      */
     public GridPane getGridPane() {
         return this.gridPane;
@@ -102,6 +114,7 @@ public class Board extends ArrayList<Lane> {
     }
     /**
      * This method inverts the order of the Lanes before adding a new one and eventually put it back in order
+     * @param speed This double is the speed at which the MovingElement is moving.
      */
     public void auto_down(int speed) {
         TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getGridPane());
@@ -131,5 +144,4 @@ public class Board extends ArrayList<Lane> {
             this.set(ii, temp.get(ii));
         }
     }
-
 }

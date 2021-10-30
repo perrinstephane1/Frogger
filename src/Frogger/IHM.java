@@ -1,3 +1,5 @@
+package Frogger;
+
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -34,8 +36,10 @@ public class IHM extends Application {
     private final int nb_case=12;
     private final double speed_down = 1;
     private double speed_h = 6;
-    protected int compteur_voiture = 0;
-    protected int compteur_log = 0;
+    /** Number of cars in the game */
+    protected int car_count = 0;
+    /** Number of logs in the game */
+    protected int log_count = 0;
     private final Car[] cars = new Car[100];
     private final Log[] logs = new Log[100];
     private int difficulte = 1;
@@ -54,6 +58,7 @@ public class IHM extends Application {
 
     /**
      * Method to launch the game
+     * @param args args
      */
     public static void main(String[] args) {
         launch(args);
@@ -310,6 +315,8 @@ public class IHM extends Application {
      * This method also verify is the frog is not hit by a car, on the river. If it is the case, the game ends
      * @param primaryStage This Stage is the window on which the game is displayed
      * @param joueurs This boolean determines if the game is in single or two player mode
+     * @param name1 This String is the name of the first player
+     * @param name2 This String is the name of the second player
      */
     public void update_state(Stage primaryStage, boolean joueurs, String name1, String name2){
         Timer timer =  new Timer();
@@ -319,7 +326,7 @@ public class IHM extends Application {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = 1; i < compteur_log + 1; i++) {
+                        for (int i = 1; i < log_count + 1; i++) {
                             int numero_lane = (int) (frog.getY() / l_case);
                             if (logs[i].intersects(frog)) {
                                 frog.setOnLog(true);
@@ -366,7 +373,7 @@ public class IHM extends Application {
 
                             logs[i].move(speed_h);
                         }
-                        for (int i = 1; i < compteur_voiture + 1; i++) {
+                        for (int i = 1; i < car_count + 1; i++) {
                             cars[i].move(speed_h);
                             if (cars[i].intersects(frog)) {
                                 timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
@@ -459,21 +466,21 @@ public class IHM extends Application {
     public void initCar(Car[] cars, int nombre_voiture) {
         for (int i = board.nb_case/2 +1; i < board.nb_case; i++) {
             for (int j = 0; j<nombre_voiture; j++){
-                compteur_voiture += 1;
-                cars[compteur_voiture] = new Car(board.get(i),scene, this.l_case);
+                car_count += 1;
+                cars[car_count] = new Car(board.get(i),scene, this.l_case);
                 boolean collisions_car = true;
                 while(collisions_car){
-                    if (compteur_voiture ==2 && cars[compteur_voiture-1].intersects(cars[compteur_voiture])){// checks for collisions
-                        cars[compteur_voiture] = new Car(board.get(i), scene, this.l_case);
+                    if (car_count ==2 && cars[car_count-1].intersects(cars[car_count])){// checks for collisions
+                        cars[car_count] = new Car(board.get(i), scene, this.l_case);
                     }
-                    if (compteur_voiture >=3 && (cars[compteur_voiture-2].intersects(cars[compteur_voiture]) || cars[compteur_voiture-1].intersects(cars[compteur_voiture]) )    ){// checks for collisions
-                        cars[compteur_voiture] = new Car(board.get(i), scene, this.l_case);
+                    if (car_count >=3 && (cars[car_count-2].intersects(cars[car_count]) || cars[car_count-1].intersects(cars[car_count]) )    ){// checks for collisions
+                        cars[car_count] = new Car(board.get(i), scene, this.l_case);
                     }
                     else{
                         collisions_car = false;
                     }
                 }
-                root.getChildren().add(cars[compteur_voiture].getImageView());
+                root.getChildren().add(cars[car_count].getImageView());
             }
         }
     }
@@ -483,24 +490,24 @@ public class IHM extends Application {
      * @param logs This Log[] contains all the logs generated on the map
      * @param nombre_log This int corresponds to the number of logs on the map
      */
-    public void initLog(Log[] logs,  int nombre_log) {
+    public void initLog(Log[] logs, int nombre_log) {
         for (int i = 2; i < board.nb_case/2 + 1; i++) { // Start at number 2 because Number 1 is a safe lane
             for (int j = 0; j<nombre_log; j++) {
-                compteur_log += 1;
-                logs[compteur_log] = new Log(board.get(i), scene, this.l_case);
+                log_count += 1;
+                logs[log_count] = new Log(board.get(i), scene, this.l_case);
                 boolean collisions_log = true;
                 while(collisions_log){
-                    if (compteur_log >=2 && logs[compteur_log-1].intersects(logs[compteur_log])){// checks for collisions
-                        logs[compteur_log] = new Log(board.get(i), scene, this.l_case);
+                    if (log_count >=2 && logs[log_count-1].intersects(logs[log_count])){// checks for collisions
+                        logs[log_count] = new Log(board.get(i), scene, this.l_case);
                     }
-                    if (compteur_log >=3 && (logs[compteur_log-2].intersects(logs[compteur_log]) || logs[compteur_log-1].intersects(logs[compteur_log]) )    ){// checks for collisions
-                        logs[compteur_log] = new Log(board.get(i), scene, this.l_case);
+                    if (log_count >=3 && (logs[log_count-2].intersects(logs[log_count]) || logs[log_count-1].intersects(logs[log_count]) )    ){// checks for collisions
+                        logs[log_count] = new Log(board.get(i), scene, this.l_case);
                     }
                     else{
                         collisions_log = false;
                     }
                 }
-                root.getChildren().add(logs[compteur_log].getImageView());
+                root.getChildren().add(logs[log_count].getImageView());
             }
         }
     }
