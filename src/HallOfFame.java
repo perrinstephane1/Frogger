@@ -23,7 +23,7 @@ public class HallOfFame extends ArrayList<Score> {
         if (this.size()<5) {
             this.add(score);
             this.sort(Comparator.naturalOrder());
-        } else if (score.compareTo(this.get(4))>0) {
+        } else if (score.compareTo(this.get(4))<0) {
             this.add(score);
             this.sort(Comparator.naturalOrder());
             this.remove(5);
