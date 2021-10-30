@@ -78,6 +78,7 @@ public class MovingElements extends Rectangle {
 
     /**
      * This method returns an ImageView.
+     * @return an ImageView
      */
     public ImageView getImageView() {
         return imageView;
