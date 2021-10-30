@@ -2,7 +2,21 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/**
+ * This class represents and array containing the scores of the game
+ * @author Williams HOARAU
+ * @author Louis JOGUET
+ * @author Aurelien PARAIRE
+ * @author Stephane PERRIN
+ *
+ */
 public class HallOfFame extends ArrayList<Score> {
+
+    /**
+     * This method
+     * @param pseudo This String is the pseudo chosen by the player.
+     * @param time This float corresponds to the time it took the player to finish the game
+     */
     public void addScore(String pseudo, float time) {
         Score score = new Score(time, pseudo);
         this.sort(Comparator.naturalOrder());
@@ -16,10 +30,16 @@ public class HallOfFame extends ArrayList<Score> {
         }
     }
 
+    /**
+     * This method shows the 5 best times ever made in the game
+     */
     public void display() {
         System.out.println(this);
     }
 
+    /**
+     * This method saves the time the player took to finish the game
+     */
     public void save() {
         PrintWriter pw = null;
         try {
@@ -38,6 +58,10 @@ public class HallOfFame extends ArrayList<Score> {
         }
     }
 
+    /**
+     * This method loads the file that contains the times the players took to finish the game
+     * @param file This String is the name of the text file used to store the times the players took to finish the game
+     */
     public void load(String file) {
         BufferedReader br = null;
         try {
