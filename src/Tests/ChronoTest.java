@@ -1,4 +1,6 @@
+package Tests;
 
+import Frogger.Chrono;
 import junit.framework.TestCase;
 
 
@@ -6,7 +8,7 @@ public class ChronoTest extends TestCase {
     public void testInit() {
         Chrono chrono = new Chrono();
         assertNotNull(chrono);
-        assertSame("Chrono", chrono.getClass().getTypeName());
+        assertSame("Frogger.Chrono", chrono.getClass().getTypeName());
     }
 
     public void testStartStop() {
