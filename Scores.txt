@@ -1,5 +1,5 @@
 Maxime: 10.0s
 Theo: 10.5s
+Joueur 1: 11.05s
+Joueur 1: 13.09s
 Louis: 20.5s
-Thomas: 26.7s
-Nikita: 150.4s

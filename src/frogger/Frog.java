@@ -1,4 +1,4 @@
-package Frogger;
+package frogger;
 
 import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;

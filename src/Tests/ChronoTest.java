@@ -1,6 +1,6 @@
 package Tests;
 
-import Frogger.Chrono;
+import frogger.Chrono;
 import junit.framework.TestCase;
 
 

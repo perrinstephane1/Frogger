@@ -1,4 +1,4 @@
-package Frogger;
+package frogger;
 
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
@@ -32,8 +32,8 @@ import java.util.TimerTask;
  *
  */
 public class IHM extends Application {
-    private final int l_case=50;
-    private final int nb_case=12;
+    private int l_case=50;
+    private int nb_case=12;
     private final double speed_down = 1;
     private double speed_h = 6;
     /** Number of cars in the game */
@@ -42,16 +42,14 @@ public class IHM extends Application {
     protected int log_count = 0;
     private final Car[] cars = new Car[100];
     private final Log[] logs = new Log[100];
-    private int difficulte = 1;
-    private HallOfFame hallOfFame = new HallOfFame();
+    private final HallOfFame hallOfFame = new HallOfFame();
 
 
-    Frog frog = new Frog((this.nb_case) * this.l_case /2 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case, "frog8bit.png");
-    Frog frog2 = new Frog(0 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case, "frog8bit2.png");
-
-    Group root = new Group();
-    Scene scene = new Scene(root, this.l_case*this.nb_case, this.l_case*(this.nb_case+1));
-    Board board = new Board(root, this.nb_case, this.l_case);
+    private Frog frog;
+    private Frog frog2;
+    private Group root;
+    private Scene scene;
+    private Board board;
 
 
 
@@ -72,7 +70,7 @@ public class IHM extends Application {
     @Override
     public void start(Stage primaryStage) {
         // Premières choses
-        Menu frogger = new Menu("Frogger");
+        Menu frogger = new Menu("frogger");
         MenuItem infos = new MenuItem("Informations");
         MenuItem quit = new MenuItem("Quitter");
         SeparatorMenuItem separator1= new SeparatorMenuItem();
@@ -96,24 +94,7 @@ public class IHM extends Application {
                         "en haut de l'écran sans vous faire écraser par une voiture ni tomber dans l'eau. Les rondins vous porteront pour " +
                         "traverser la rivière. \n" +
                         "BONNE CHANCE !!");
-                Button OKbutton = new Button("OK");
-
-                GridPane gridPane = new GridPane();
-                gridPane.setPadding(new javafx.geometry.Insets(10,10,0,10));
-                explication.setWrapText(true);
-                gridPane.add(explication,0,0);
-                gridPane.add(OKbutton,0,1);
-                GridPane.setHalignment(OKbutton,HPos.CENTER);
-                Stage stage = new Stage();
-                OKbutton.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        stage.close();
-                    }
-                });
-                stage.setTitle("Aide : informations");
-                stage.setScene(new Scene(gridPane, 350, 250));
-                stage.show();
+                helpInfo(explication);
             }
         });
         quit.setAccelerator(KeyCombination.keyCombination("Ctrl+X"));
@@ -130,24 +111,7 @@ public class IHM extends Application {
                         "Le mode à un joueur se joue simplement avec les flèches directionnelles.\n" +
                         "Le mode multijoueur vera s'affronter deux joueurs, un dont l'écran sera à gauche et qui utilisera QZSD" +
                         " et l'autre qui utilisera les flèches directionnelles à droite.");
-                Button OKbutton = new Button("OK");
-
-                GridPane gridPane = new GridPane();
-                gridPane.setPadding(new javafx.geometry.Insets(10,10,0,10));
-                explication.setWrapText(true);
-                gridPane.add(explication,0,0);
-                gridPane.add(OKbutton,0,1);
-                GridPane.setHalignment(OKbutton,HPos.CENTER);
-                Stage stage = new Stage();
-                OKbutton.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        stage.close();
-                    }
-                });
-                stage.setTitle("Aide : informations");
-                stage.setScene(new Scene(gridPane, 300, 175));
-                stage.show();
+                helpInfo(explication);
             }
         });
         diff.setOnAction(new EventHandler<ActionEvent>() {
@@ -157,24 +121,7 @@ public class IHM extends Application {
                         "1. Le mode débutant dans lequel les cars et rondins ne vont pas très vite \n" +
                         "2. Le mode intermédiaire dans lequel ils se déplacent plus vite \n" +
                         "3. Le mode expert dans lequel ils n'iront jamais ausis vite !!  \n");
-                Button OKbutton = new Button("OK");
-
-                GridPane gridPane = new GridPane();
-                gridPane.setPadding(new javafx.geometry.Insets(10,10,0,10));
-                explication.setWrapText(true);
-                gridPane.add(explication,0,0);
-                gridPane.add(OKbutton,0,1);
-                GridPane.setHalignment(OKbutton,HPos.CENTER);
-                Stage stage = new Stage();
-                OKbutton.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        stage.close();
-                    }
-                });
-                stage.setTitle("Aide : informations");
-                stage.setScene(new Scene(gridPane, 400, 175));
-                stage.show();
+                helpInfo(explication);
             }
         });
         mode.setOnAction(new EventHandler<ActionEvent>() {
@@ -183,24 +130,7 @@ public class IHM extends Application {
                 Label explication = new Label("Ce jeu vous permet de jouer de deux façons différentes : \n" +
                         "1. Le mode FINI se termine dès que vous arrivez en haut de l'écran. \n" +
                         "2. Le mode INFINI ne se termine que lorsque votre grenouille meurt.");
-                Button OKbutton = new Button("OK");
-
-                GridPane gridPane = new GridPane();
-                gridPane.setPadding(new javafx.geometry.Insets(10,10,0,10));
-                explication.setWrapText(true);
-                gridPane.add(explication,0,0);
-                gridPane.add(OKbutton,0,1);
-                GridPane.setHalignment(OKbutton,HPos.CENTER);
-                Stage stage = new Stage();
-                OKbutton.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        stage.close();
-                    }
-                });
-                stage.setTitle("Aide : informations");
-                stage.setScene(new Scene(gridPane, 250, 150));
-                stage.show();
+                helpInfo(explication);
             }
         });
 
@@ -215,13 +145,13 @@ public class IHM extends Application {
         gridPane.setVgap(4);
         gridPane.setAlignment(Pos.CENTER);
         Label n_joueur = new Label("Nombre de joueurs");
-        ChoiceBox<Integer> choix_joueurs = new ChoiceBox<Integer>();
+        ChoiceBox<Integer> choix_joueurs = new ChoiceBox<>();
         choix_joueurs.getItems().addAll(1,2);
         Label mode1 = new Label("Mode de jeu");
-        ChoiceBox<String> choix_mode = new ChoiceBox<String>();
+        ChoiceBox<String> choix_mode = new ChoiceBox<>();
         choix_mode.getItems().addAll("Fini", "Infini");
         Label diffi = new Label("Difficulté");
-        ChoiceBox<String> choix_diff= new ChoiceBox<String>();
+        ChoiceBox<String> choix_diff= new ChoiceBox<>();
         choix_diff.getItems().addAll("Débutant","Intermédiaire","Expert");
         Button play=new Button("PLAY");
         play.setTextFill(Color.RED);
@@ -248,7 +178,7 @@ public class IHM extends Application {
                     fini_test = (choix_mode.getValue().equals("Fini"));
                 } catch (Exception e) {
                     fini_test = true;
-                } ;
+                }
                 boolean fini=fini_test;
 
                 String dif="";
@@ -261,7 +191,7 @@ public class IHM extends Application {
                 } catch (Exception e) {
                     dif="Débutant";
                 }
-                int dif_i=1;
+                int dif_i;
                 switch (dif){
                     case "Débutant":
                         dif_i=1;
@@ -304,7 +234,7 @@ public class IHM extends Application {
         // setting the scene
         Scene scene = new Scene(gridPane,275,337);
         scene.setFill(Color.BLUE);
-        primaryStage.setTitle("Frogger");
+        primaryStage.setTitle("frogger");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
@@ -490,10 +420,10 @@ public class IHM extends Application {
      * @param nombre_log This int corresponds to the number of logs on the map
      */
     public void initLog(Log[] logs, int nombre_log) {
-        for (int i = 2; i < board.nb_case/2 + 1; i++) { // Start at number 2 because Number 1 is a safe lane
+        for (int i = 2; i < this.board.nb_case/2 + 1; i++) { // Start at number 2 because Number 1 is a safe lane
             for (int j = 0; j<nombre_log; j++) {
                 log_count += 1;
-                logs[log_count] = new Log(board.get(i), scene, this.l_case);
+                logs[log_count] = new Log(this.board.get(i), this.scene, this.l_case);
                 boolean collisions_log = true;
                 while(collisions_log){
                     if (log_count >=2 && logs[log_count-1].intersects(logs[log_count])){// checks for collisions
@@ -506,7 +436,7 @@ public class IHM extends Application {
                         collisions_log = false;
                     }
                 }
-                root.getChildren().add(logs[log_count].getImageView());
+                this.root.getChildren().add(logs[log_count].getImageView());
             }
         }
     }
@@ -520,8 +450,16 @@ public class IHM extends Application {
      *
      */
     public void joue(boolean joueurs, String name1, String name2, int dif_i){
+
+        this.frog = new Frog((this.nb_case) * this.l_case /2 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case, "frog8bit.png");
+        this.frog2 = new Frog(0 , (this.nb_case -1)* this.l_case, this.l_case, this.nb_case, "frog8bit2.png");
+
+        this.root = new Group();
+        this.scene = new Scene(this.root, this.l_case*this.nb_case, this.l_case*(this.nb_case+1));
+        this.board = new Board(this.root, this.nb_case, this.l_case);
+
         Stage primaryStage= new Stage();
-        scene.setFill(Color.BLACK);
+        this.scene.setFill(Color.BLACK);
 
         this.hallOfFame.load("Scores.txt");
         this.hallOfFame.display();
@@ -546,23 +484,17 @@ public class IHM extends Application {
                 frog2.right();
             } else if (e.getCode()==KeyCode.Q){
                 frog2.left();
-            } else if (e.getCode()==KeyCode.SPACE) {
-                board.auto_down((int) speed_down);
-                for (int i = board.nb_case/2 +1; i < board.nb_case; i++) {
-                    this.cars[i - board.nb_case / 2].auto_down((int) speed_down);
-                }
             }
         };
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
         root.getChildren().add(board.getGridPane());
 
-        difficulte = dif_i;
-        if (difficulte ==3){ // expert
+        if (dif_i ==3){ // expert
             speed_h = 6;
             initLog(logs, 1);
             initCar(cars, 3);
-        }else if (difficulte ==2){ // intermediaire
+        }else if (dif_i ==2){ // intermediaire
             speed_h = 4;
             initLog(logs, 2);
             initCar(cars, 2);
@@ -599,6 +531,8 @@ public class IHM extends Application {
         TextField nom2 = new TextField("Joueur 2");
         Label exp_2 = new Label("Ce joueur jouera avec les touches QWSD");
         Button play = new Button("START PLAYING");
+        ChoiceBox<Integer> n_r = new ChoiceBox<>();
+        ChoiceBox<Integer> l_r = new ChoiceBox<>();
 
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new javafx.geometry.Insets(0,10,0,10));
@@ -622,16 +556,15 @@ public class IHM extends Application {
         if (fini){
             Label b_routes = new Label("Nombre de routes");
             Label n_rivieres = new Label("Largeur de la rivière");
-            ChoiceBox<Integer> n_r = new ChoiceBox<Integer>();
-            n_r.getItems().addAll(1,2,3,4);
-            ChoiceBox<Integer> l_r = new ChoiceBox<Integer>();
-            l_r.getItems().addAll(1,2,3,4);
+            n_r.getItems().addAll(8,10,12,15, 20, 25, 30);
+            l_r.getItems().addAll(30,50,70);
             gridPane.add(b_routes,0,3);
             GridPane.setHalignment(b_routes,HPos.RIGHT);
             gridPane.add(n_r,1,3);
             gridPane.add(n_rivieres ,3,3);
             GridPane.setHalignment(n_rivieres,HPos.RIGHT);
             gridPane.add(l_r,4,3);
+
         }
         gridPane.add(play,2,8,1,1);
         GridPane.setHalignment(play,HPos.CENTER);
@@ -653,6 +586,17 @@ public class IHM extends Application {
                 } catch(Exception e) {
                     name2="Joueur 2";
                 }
+                try {
+                    nb_case = n_r.getValue();
+                } catch (Exception e) {
+                    nb_case = 10;
+                }
+                try {
+                    l_case = l_r.getValue();
+                } catch (Exception e) {
+                    l_case = 50;
+                }
+
                 joue(joueurs,name1,name2,dif_i);
 
             }
@@ -707,5 +651,26 @@ public class IHM extends Application {
         victoryWindow.add(newGameText, 0, 2);
 
         return victoryScene;
+    }
+
+    private void helpInfo(Label explication) {
+        Button OKbutton = new Button("OK");
+
+        GridPane gridPane = new GridPane();
+        gridPane.setPadding(new javafx.geometry.Insets(10,10,0,10));
+        explication.setWrapText(true);
+        gridPane.add(explication,0,0);
+        gridPane.add(OKbutton,0,1);
+        GridPane.setHalignment(OKbutton,HPos.CENTER);
+        Stage stage = new Stage();
+        OKbutton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                stage.close();
+            }
+        });
+        stage.setTitle("Aide : informations");
+        stage.setScene(new Scene(gridPane, 350, 250));
+        stage.show();
     }
 }

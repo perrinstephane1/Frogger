@@ -1,4 +1,4 @@
-package Frogger;
+package frogger;
 
 import java.io.*;
 import java.util.ArrayList;

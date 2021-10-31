@@ -1,6 +1,4 @@
-package Frogger;
-
-import java.util.Objects;
+package frogger;
 
 /**
  * This class represents the score
