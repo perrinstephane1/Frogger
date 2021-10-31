@@ -10,7 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 /**
- * This class represents the human-machine interface
+ * This class represents the frog
  * @author Williams HOARAU
  * @author Louis JOGUET
  * @author Aurelien PARAIRE

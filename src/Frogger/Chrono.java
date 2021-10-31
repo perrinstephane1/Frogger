@@ -1,7 +1,7 @@
 package Frogger;
 
 /**
- * This class represents the human-machine interface
+ * This class represents the chronometer
  * @author Williams HOARAU
  * @author Louis JOGUET
  * @author Aurelien PARAIRE
