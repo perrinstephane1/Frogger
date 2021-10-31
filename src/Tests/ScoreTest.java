@@ -18,6 +18,6 @@ public class ScoreTest extends TestCase {
         Score score_4 = new Score(13.05f, "Theo");
         assertTrue(score_1.compareTo(score_2)>0);
         assertTrue(score_1.compareTo(score_3)<0);
-        assertTrue(score_2.compareTo(score_2)==0);
+        assertEquals(0, score_2.compareTo(score_4));
     }
 }
