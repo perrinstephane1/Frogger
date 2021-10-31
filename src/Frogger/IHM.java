@@ -413,7 +413,6 @@ public class IHM extends Application {
                         }
                         else{
                             if (numero_lane == 0 ) {
-                                timer.cancel();
                                 board.chrono.stop();
                                 timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                                 timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
