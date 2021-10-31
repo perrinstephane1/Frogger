@@ -25,9 +25,9 @@ public class Frog extends Rectangle {
 //    /** If the frog is dead or not */
 //    protected boolean dead;
     /** Length in pixels of a square on the game windows */
-    private double l_case;
+    private final double l_case;
     /** Number of lane (river, road, safe lane) composing the game*/
-    private int nb_case;
+    private final int nb_case;
     /** Score of the player */
     private int score = 0;
     /** Number of the Lane on which the player is */

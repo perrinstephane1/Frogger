@@ -685,7 +685,7 @@ public class IHM extends Application {
         GridPane victoryWindow = new GridPane();
         Text victoryText = new Text("Victory !");
         board.chrono.stop();
-        this.hallOfFame.save();
+        this.hallOfFame.save("Scores.txt");
         Text yourScore = new Text(board.getChrono().getText());
         Text newGameText = new Text("New Game ?");
         Scene victoryScene = new Scene(victoryWindow, l_case*nb_case, l_case*nb_case);

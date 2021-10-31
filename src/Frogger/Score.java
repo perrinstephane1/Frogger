@@ -1,5 +1,7 @@
 package Frogger;
 
+import java.util.Objects;
+
 /**
  * This class represents the score
  * @author Williams HOARAU
