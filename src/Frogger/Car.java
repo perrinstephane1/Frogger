@@ -18,8 +18,8 @@ public class Car extends MovingElements {
      * @param lane This Lane corresponds to a lane in the game (river, road or safe lane).
      * @param scene This Scene will be used in the class MovingElements to get its height and width for the game parameters
      * */
-    public Car(Lane lane, Scene scene, int l_case) {
-        super(lane, scene, l_case, lane.obstacle_size);
+    public Car(Lane lane, Scene scene, int l_case, boolean starting) {
+        super(lane, scene, l_case, lane.obstacle_size, starting);
 
         if(lane.obstacle_size == 1.0){
             this.setImageView("car11.png");

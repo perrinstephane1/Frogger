@@ -62,6 +62,7 @@ public class Lane {
         this.l_case = p.l_case;
         this.longueur_lane = p.nb_case * p.l_case;
         this.numero_lane = ii;
+        this.density = density;
         this.type_lane = type_lane;
 
         if (density < 0.33) {

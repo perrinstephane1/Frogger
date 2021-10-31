@@ -139,16 +139,16 @@ public class Frog extends Rectangle {
         }
     }
 
-//    /**
-//     * This method moves the element downwards at a certain speed with the lanes in infinite mode
-//     * @param speed This int determmines the speed at which the element will move
-//     */
-//    public void auto_down(int speed) {
-//        TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
-//        trans.setByY(speed);
-//        this.setLocation(this.getX(), this.getY() + speed); //TODO setLocation marche pas mais je sais pas pourquoi
-//        trans.play();
-//    }
+    /**
+     * This method moves the element downwards at a certain speed with the lanes in infinite mode
+     * @param speed This int determmines the speed at which the element will move
+     */
+    public void auto_down(int speed) {
+        TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), this.getImageView());
+        trans.setByY(speed);
+        this.setLocation((int) this.getX(), (int) (this.getY() + speed));
+        trans.play();
+    }
 
 
 }

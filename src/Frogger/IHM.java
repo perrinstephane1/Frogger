@@ -376,14 +376,15 @@ public class IHM extends Application {
                         for (int i = 1; i < car_count + 1; i++) {
                             cars[i].move(speed_h);
                             if (cars[i].intersects(frog)) {
-                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
-                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
-                                primaryStage.setScene(deadScene());
+                                //timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                                //timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
+//                                primaryStage.setScene(deadScene());
+                                System.out.println("voiture collision");
                             }
                             if (joueurs) {
                                 if (cars[i].intersects(frog) || cars[i].intersects(frog2)) {
-                                    timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
-                                    timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
+                                    //timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                                    //timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                                     primaryStage.setScene(deadScene());
                                 }
                             }
@@ -396,40 +397,41 @@ public class IHM extends Application {
                         if (joueurs) {
                             if (numero_lane == 0 && numero_lane2 == 0) {
                                 board.chrono.stop();
-                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
-                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
+                                //timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                                //timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                                 primaryStage.setScene(victoryScene());
                             }
                             if ((board.get(numero_lane).type_lane == 1 && !(frog.isOnLog())) || (board.get(numero_lane2).type_lane == 1 && !(frog2.isOnLog()))) { // if the frog is on the river and not on a log
-                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
-                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
+                                //timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                                //timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                                 primaryStage.setScene(deadScene());
                             }
                             if ((frog.getX() < -l_case || frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) || (frog2.getX() < -l_case || frog2.getX() > l_case * nb_case || frog2.getY() < 0 || frog2.getY() > l_case * nb_case)) { //if the frig is out of map
-                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
-                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
+                                //timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                                //timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                                 primaryStage.setScene(deadScene());
                             }
                         }
                         else{
                             if (numero_lane == 0 ) {
-                                timer.cancel();
                                 board.chrono.stop();
-                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
-                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
+                                //timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                                //timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                                 hallOfFame.addScore(name1, board.getChronoToFloat());
                                 hallOfFame.display();
                                 primaryStage.setScene(victoryScene());
                             }
                             if (board.get(numero_lane).type_lane == 1 && !(frog.isOnLog())){ // if the frog is on the river and not on a log
-                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
-                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
-                                primaryStage.setScene(deadScene());
+                                //timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                                //timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
+//                                primaryStage.setScene(deadScene());
+                                System.out.println( "noyé" );
                             }
                             if (frog.getX() < -l_case|| frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) { //if the frig is out of map
-                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
-                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
-                                primaryStage.setScene(deadScene());
+                                //timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                                //timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
+//                                primaryStage.setScene(deadScene());
+                                System.out.println("hors game");
                             }
                         }
 
@@ -437,11 +439,34 @@ public class IHM extends Application {
 
                         frog.setOnLog(false);
                         frog2.setOnLog(false);
+                        board.auto_down((int) speed_down);
+                        for (int i = 1; i<= car_count; i++){
+                            cars[i].auto_down((int)speed_down);
+                        }
+                        for (int i = 1; i<= log_count; i++){
+                            logs[i].auto_down((int)speed_down);
+                        }
+                        frog.auto_down((int) speed_down);
                     }
                 });
             }
         };
         timer.scheduleAtFixedRate(timertask, 0, 50);
+
+        Timer timerbis = new Timer();
+        TimerTask timerTaskbis = new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        addElement();
+                    }
+                });
+            }
+        };
+        timerbis.scheduleAtFixedRate(timerTaskbis, 0,4000); // Timer pour ajout de véhicule
+
     }
 
     /**
@@ -467,14 +492,14 @@ public class IHM extends Application {
         for (int i = board.nb_case/2 +1; i < board.nb_case; i++) {
             for (int j = 0; j<nombre_voiture; j++){
                 car_count += 1;
-                cars[car_count] = new Car(board.get(i),scene, this.l_case);
+                cars[car_count] = new Car(board.get(i),scene, this.l_case, false);
                 boolean collisions_car = true;
                 while(collisions_car){
                     if (car_count ==2 && cars[car_count-1].intersects(cars[car_count])){// checks for collisions
-                        cars[car_count] = new Car(board.get(i), scene, this.l_case);
+                        cars[car_count] = new Car(board.get(i), scene, this.l_case, false);
                     }
                     if (car_count >=3 && (cars[car_count-2].intersects(cars[car_count]) || cars[car_count-1].intersects(cars[car_count]) )    ){// checks for collisions
-                        cars[car_count] = new Car(board.get(i), scene, this.l_case);
+                        cars[car_count] = new Car(board.get(i), scene, this.l_case, false);
                     }
                     else{
                         collisions_car = false;
@@ -484,9 +509,56 @@ public class IHM extends Application {
             }
         }
     }
+    public void addElement() {
+        for (int i = 1; i < board.nb_case; i++) {
+            Lane lane = board.get(i);
+            System.out.println("Add Element");
+            if (lane.type_lane == 0){ // if it is a road;
+                double proba = Math.random();
+                System.out.println(proba);
+                System.out.println(lane.density);
+                if (proba < lane.density){ // if the condition on the probability to have a new car is verified
+                    System.out.println("new car my man !");
+                    car_count += 1;
+                    cars[car_count] = new Car(lane,scene, this.l_case, true); //With positioning
+
+                    root.getChildren().add(cars[car_count].getImageView());
+                }
+            }
+            else if (lane.type_lane == 1){ // if it is a river;
+                double proba = Math.random();
+                System.out.println(proba);
+                System.out.println(lane.density);
+                if (proba< lane.density){ // if the condition on the probability to have a new car is verified
+                    System.out.println("new log my man !");
+                    log_count += 1;
+                    logs[log_count] = new Log(lane,scene, this.l_case, true); //With positioning
+
+                    root.getChildren().add(logs[log_count].getImageView());
+                }
+            }
+//            for (int j = 0; j<nombre_voiture; j++){
+//                car_count += 1;
+//                cars[car_count] = new Car(board.get(i),scene, this.l_case);
+//                boolean collisions_car = true;
+//                while(collisions_car){
+//                    if (car_count ==2 && cars[car_count-1].intersects(cars[car_count])){// checks for collisions
+//                        cars[car_count] = new Car(board.get(i), scene, this.l_case);
+//                    }
+//                    if (car_count >=3 && (cars[car_count-2].intersects(cars[car_count]) || cars[car_count-1].intersects(cars[car_count]) )    ){// checks for collisions
+//                        cars[car_count] = new Car(board.get(i), scene, this.l_case);
+//                    }
+//                    else{
+//                        collisions_car = false;
+//                    }
+//                }
+//                root.getChildren().add(cars[car_count].getImageView());
+//            }
+        }
+    }
 
     /**
-     * This method intitialize every log required for the game
+     * This method initialize every log required for the game
      * @param logs This Log[] contains all the logs generated on the map
      * @param nombre_log This int corresponds to the number of logs on the map
      */
@@ -494,14 +566,14 @@ public class IHM extends Application {
         for (int i = 2; i < board.nb_case/2 + 1; i++) { // Start at number 2 because Number 1 is a safe lane
             for (int j = 0; j<nombre_log; j++) {
                 log_count += 1;
-                logs[log_count] = new Log(board.get(i), scene, this.l_case);
+                logs[log_count] = new Log(board.get(i), scene, this.l_case, false);
                 boolean collisions_log = true;
                 while(collisions_log){
                     if (log_count >=2 && logs[log_count-1].intersects(logs[log_count])){// checks for collisions
-                        logs[log_count] = new Log(board.get(i), scene, this.l_case);
+                        logs[log_count] = new Log(board.get(i), scene, this.l_case, false);
                     }
                     if (log_count >=3 && (logs[log_count-2].intersects(logs[log_count]) || logs[log_count-1].intersects(logs[log_count]) )    ){// checks for collisions
-                        logs[log_count] = new Log(board.get(i), scene, this.l_case);
+                        logs[log_count] = new Log(board.get(i), scene, this.l_case, false);
                     }
                     else{
                         collisions_log = false;
@@ -551,6 +623,7 @@ public class IHM extends Application {
                 board.auto_down((int) speed_down);
                 for (int i = board.nb_case/2 +1; i < board.nb_case; i++) {
                     this.cars[i - board.nb_case / 2].auto_down((int) speed_down);
+//                    frog.auto_down((int) speed_down);
                 }
             }
         };

@@ -45,13 +45,24 @@ public class MovingElements extends Rectangle {
      * @param scene This Scene will be used in the class MovingElements to get its height and width for the game parameters
      * @param obstacle_size This double is the length of a MovingElement (1, 2 or 3).
      */
-    public MovingElements(Lane lane, Scene scene, int l_case, double obstacle_size) {
+    public MovingElements(Lane lane, Scene scene, int l_case, double obstacle_size, boolean starting) {
         super(0, 0, (int) (obstacle_size*l_case), l_case);
         int position_min = 0;
         int position_max = (int) lane.longueur_lane;
         int position_start = ThreadLocalRandom.current().nextInt(position_min, position_max + 1);
 
-        this.setLocation(position_start,  (lane.numero_lane-1)*(int) lane.l_case);
+        if (starting){
+            if (lane.direction == 1){
+                this.setLocation((int)(0 - lane.obstacle_size * l_case - 10),  (lane.numero_lane-1)*(int) lane.l_case);
+            }
+            else{
+                this.setLocation((int)scene.getWidth(),  (lane.numero_lane-1)*(int) lane.l_case);
+            }
+
+        }
+        else{
+            this.setLocation(position_start,  (lane.numero_lane-1)*(int) lane.l_case);
+        }
 
 //        this.in_plateau = in_plateau;
         this.lane = lane;
@@ -103,8 +114,8 @@ public class MovingElements extends Rectangle {
 
             if (this.getX() >= this.scene.getWidth()) {
                 // if the object goes off the scene, its position is re-init
-                trans.setByX(-this.scene.getWidth()-this.obstacle_size*this.l_case);
-                this.setLocation((int) (this.getX()-this.scene.getWidth()-this.obstacle_size*this.l_case), (int)this.getY());
+//                trans.setByX(-this.scene.getWidth()-this.obstacle_size*this.l_case);
+//                this.setLocation((int) (this.getX()-this.scene.getWidth()-this.obstacle_size*this.l_case), (int)this.getY());
             }
             else{// if the object is still on the window, it can continue to move
                 trans.setByX(speed);
@@ -113,10 +124,10 @@ public class MovingElements extends Rectangle {
             trans.play();
         }
         else{
-            if (this.getX() + this.obstacle_size*this.l_case < 0) {
+            if (this.getX() + this.obstacle_size*this.l_case + 10 < 0) {
                 // if the object goes off the scene, its position is re-init
-                trans.setByX(this.scene.getWidth()+this.obstacle_size*this.l_case);
-                this.setLocation((int)this.scene.getWidth(), (int)this.getY());
+//                trans.setByX(this.scene.getWidth()+this.obstacle_size*this.l_case);
+//                this.setLocation((int)this.scene.getWidth(), (int)this.getY());
             }
             else{ // if the object is still on the window, it can continue to move
                 trans.setByX(-speed);
