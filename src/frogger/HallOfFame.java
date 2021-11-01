@@ -106,7 +106,7 @@ public class HallOfFame extends ArrayList<Score> {
         String time1;
         String name1;
         for (int i=0;i<5;i++){
-            Label name=new Label(String.valueOf(this.get(i).getName()));
+            Label name=new Label(String.valueOf(this.get(i).getName())+" : ");
             Label time=new Label(String.valueOf(this.get(i).getTime()));
             gridPane.add(name,0,i+1);
             gridPane.add(time,1,i+1);
