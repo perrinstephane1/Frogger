@@ -7,7 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
           <root url="file://C:/Program Files/JetBrains/javafx-sdk-17.0.0.1/lib" />
@@ -17,6 +17,7 @@
         <jarDirectory url="file://C:/Program Files/JetBrains/javafx-sdk-17.0.0.1/lib" recursive="false" />
       </library>
     </orderEntry>
+<<<<<<< Updated upstream
     <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="module-library">
       <library>
@@ -44,5 +45,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="java" level="project" />
+=======
+>>>>>>> Stashed changes
   </component>
 </module>
