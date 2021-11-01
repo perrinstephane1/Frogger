@@ -248,7 +248,7 @@ public class IHM extends Application {
      * @param name1 This String is the name of the first player
      * @param name2 This String is the name of the second player
      */
-    public void update_state(Stage primaryStage, boolean joueurs, String name1, String name2){
+    public void update_state(Stage primaryStage, boolean joueurs, String name1, String name2,int dif){
         Timer timer =  new Timer();
         TimerTask timertask = new TimerTask() {
             @Override
@@ -308,13 +308,15 @@ public class IHM extends Application {
                             if (cars[i].intersects(frog)) {
                                 timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                                 timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
-                                primaryStage.setScene(deadScene());
+                                //primaryStage.setScene(deadScene());
+                                death(primaryStage,joueurs,true,dif);
                             }
                             if (joueurs) {
                                 if (cars[i].intersects(frog) || cars[i].intersects(frog2)) {
                                     timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                                     timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
-                                    primaryStage.setScene(deadScene());
+                                    //primaryStage.setScene(deadScene());
+                                    death(primaryStage,joueurs,true,dif);
                                 }
                             }
                         }
@@ -328,17 +330,20 @@ public class IHM extends Application {
                                 board.chrono.stop();
                                 timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                                 timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
-                                primaryStage.setScene(victoryScene());
+                                //primaryStage.setScene(victoryScene());
+                                victory(primaryStage,joueurs,true,dif);
                             }
                             if ((board.get(numero_lane).type_lane == 1 && !(frog.isOnLog())) || (board.get(numero_lane2).type_lane == 1 && !(frog2.isOnLog()))) { // if the frog is on the river and not on a log
                                 timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                                 timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
-                                primaryStage.setScene(deadScene());
+                                //primaryStage.setScene(deadScene());
+                                death(primaryStage,joueurs,true,dif);
                             }
                             if ((frog.getX() < -l_case || frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) || (frog2.getX() < -l_case || frog2.getX() > l_case * nb_case || frog2.getY() < 0 || frog2.getY() > l_case * nb_case)) { //if the frig is out of map
                                 timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                                 timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
-                                primaryStage.setScene(deadScene());
+                                //primaryStage.setScene(deadScene());
+                                death(primaryStage,joueurs,true,dif);
                             }
                         }
                         else{
@@ -348,17 +353,20 @@ public class IHM extends Application {
                                 timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                                 hallOfFame.addScore(name1, board.getChronoToFloat());
                                 hallOfFame.display();
-                                primaryStage.setScene(victoryScene());
+                                //primaryStage.setScene(victoryScene());
+                                victory(primaryStage,joueurs,true,dif);
                             }
                             if (board.get(numero_lane).type_lane == 1 && !(frog.isOnLog())){ // if the frog is on the river and not on a log
                                 timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                                 timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
-                                primaryStage.setScene(deadScene());
+                                //primaryStage.setScene(deadScene());
+                                death(primaryStage,joueurs,true,dif);
                             }
                             if (frog.getX() < -l_case|| frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) { //if the frig is out of map
                                 timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                                 timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
-                                primaryStage.setScene(deadScene());
+                                //primaryStage.setScene(deadScene());
+                                death(primaryStage,joueurs,true,dif);
                             }
                         }
 
@@ -503,7 +511,7 @@ public class IHM extends Application {
             initLog(logs, 2);
             initCar(cars, 1);
         }
-        update_state(primaryStage, joueurs, name1, name2);
+        update_state(primaryStage, joueurs, name1, name2,dif_i);
 
         root.getChildren().add(frog.getImageView());
         if (joueurs){
@@ -673,4 +681,119 @@ public class IHM extends Application {
         stage.setScene(new Scene(gridPane, 350, 250));
         stage.show();
     }
+
+    private void death(Stage primaryStage,boolean joueurs,boolean fini,int dif) {
+        Stage stage=new Stage();
+
+        GridPane deadwindow = new GridPane();
+        Text deadText = new Text("You're dead !");
+        Button restartButton=new Button("PLAY AGAIN");
+        Button menuButton=new Button("Retourner au menu");
+        Button HallOfFame=new Button("Hall of Fame");
+        Button quit=new Button("QUITTER");
+        Scene deadScene = new Scene(deadwindow, 450, 200);
+        //deadScene.setFill(Color.RED);
+
+        deadwindow.setAlignment(Pos.CENTER);
+        deadText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, this.l_case));
+        deadText.setWrappingWidth(this.l_case*this.nb_case);
+        deadText.setTextAlignment(TextAlignment.CENTER);
+        restartButton.setTextAlignment(TextAlignment.CENTER);
+        deadwindow.add(deadText, 0, 0,1,1);
+        deadwindow.add(restartButton, 0, 1);
+        deadwindow.add(menuButton,0,2);
+        deadwindow.add(HallOfFame,0,3);
+        deadwindow.add(quit,0,4);
+        GridPane.setHalignment(restartButton,HPos.CENTER);
+        GridPane.setHalignment(menuButton,HPos.CENTER);
+        GridPane.setHalignment(HallOfFame,HPos.CENTER);
+        GridPane.setHalignment(quit,HPos.CENTER);
+        stage.setScene(deadScene);
+        stage.setTitle("Défaite");
+        stage.setResizable(false);
+        stage.show();
+        //setting the buttons
+        quit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.exit(0);
+            }
+        });
+        //TODO Hall of Fame button
+        menuButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                stage.close();
+                primaryStage.close();
+                //TODO il faut trouver comment faire ça : main(null);
+            }
+        });
+        restartButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                primaryStage.close();
+                stage.close();
+                avant_commencer(joueurs,fini,dif);
+            }
+        });
+    }
+    private void victory(Stage primaryStage,boolean joueurs,boolean fini,int dif){
+        Stage stage=new Stage();
+        GridPane victoryWindow = new GridPane();
+        board.chrono.stop();
+        this.hallOfFame.save("Scores.txt");
+        Text yourScore = new Text(board.getChrono().getText());
+        Scene victoryScene = new Scene(victoryWindow, l_case*nb_case, l_case*nb_case);
+        Text winText = new Text("You have won !");
+        Button restartButton=new Button("PLAY AGAIN");
+        Button menuButton=new Button("Retourner au menu");
+        Button HallOfFame=new Button("Hall of Fame");
+        Button quit=new Button("QUITTER");
+        //deadScene.setFill(Color.GREEN);
+        victoryWindow.setAlignment(Pos.CENTER);
+        winText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, this.l_case));
+        winText.setWrappingWidth(this.l_case*this.nb_case);
+        winText.setTextAlignment(TextAlignment.CENTER);
+        restartButton.setTextAlignment(TextAlignment.CENTER);
+        victoryWindow.add(winText, 0, 0,1,1);
+        victoryWindow.add(restartButton, 0, 1);
+        victoryWindow.add(menuButton,0,2);
+        victoryWindow.add(HallOfFame,0,3);
+        victoryWindow.add(quit,0,4);
+        GridPane.setHalignment(restartButton,HPos.CENTER);
+        GridPane.setHalignment(menuButton,HPos.CENTER);
+        GridPane.setHalignment(HallOfFame,HPos.CENTER);
+        GridPane.setHalignment(quit,HPos.CENTER);
+        stage.setScene(victoryScene);
+        stage.setTitle("Victoire");
+        stage.setResizable(false);
+        stage.show();
+        //setting the buttons
+        quit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.exit(0);
+            }
+        });
+        //TODO Hall of Fame button
+        menuButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                stage.close();
+                primaryStage.close();
+                //TODO il faut trouver comment faire ça : main(null);
+            }
+        });
+        restartButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                primaryStage.close();
+                stage.close();
+                avant_commencer(joueurs,fini,dif);
+            }
+        });
+
+
+    }
 }
+
