@@ -1,6 +1,6 @@
 package Tests;
 
-import frogger.Frog;
+import Frogger.Frog;
 import junit.framework.TestCase;
 
 

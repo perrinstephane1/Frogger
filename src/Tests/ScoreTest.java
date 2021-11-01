@@ -1,6 +1,6 @@
 package Tests;
 
-import frogger.Score;
+import Frogger.Score;
 import junit.framework.TestCase;
 
 public class ScoreTest extends TestCase {
