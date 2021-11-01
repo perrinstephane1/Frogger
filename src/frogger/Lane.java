@@ -21,9 +21,9 @@ public class Lane {
 //    /** */
 //    protected boolean hostile;
     /** Direction of obstacles on a Lane*/
-    protected double direction;
+    public double direction;
     /** Speed of obstacles on a Lane*/
-    protected double speed;
+    public double speed;
     /** Size of obstacles on a Lane*/
     protected double obstacle_size;
     /** Length of a Lane */
@@ -31,7 +31,7 @@ public class Lane {
     /** Length in pixels of a square on the game windows */
     protected double l_case;
     /** Number given to the Lane as an ID */
-    protected int numero_lane;
+    public int numero_lane;
     /** Probability of having cars on the Lane */
     protected double density;
 //    /** */
@@ -41,7 +41,7 @@ public class Lane {
     /** GridPane */
     protected GridPane gridPane = new GridPane();
     /** Characterizes the lane. A type-0 Lane is a road, a type-1 Lane is a river and a type-2 Lane is a safe lane.*/
-    protected int type_lane;
+    public int type_lane;
     /** Board */
     protected Board board;
 

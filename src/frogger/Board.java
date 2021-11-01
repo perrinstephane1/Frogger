@@ -1,4 +1,4 @@
-package Frogger;
+package frogger;
 
 import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * @author Stephane PERRIN
  *
  */
-public class Board extends ArrayList<Lane> {
+public class Board extends ArrayList<frogger.Lane> {
     /** Group */
     private Group root;
     /** Number of Lanes */
@@ -30,7 +30,7 @@ public class Board extends ArrayList<Lane> {
     /** Not in use yet */
     protected int cnt_decalage = (int)this.l_case;
     /** Chronometer */
-    public Chrono chrono = new Chrono();
+    public frogger.Chrono chrono = new frogger.Chrono();
 
     /**
      * This method is the constructor
