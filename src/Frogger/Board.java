@@ -26,7 +26,7 @@ public class Board extends ArrayList<Lane> {
     /** Length of a Lane */
     protected double l_lane;
     /** GridPane */
-    protected GridPane gridPane = new GridPane();
+    public GridPane gridPane = new GridPane();
     /** Not in use yet */
     protected int cnt_decalage = (int)this.l_case;
     /** Chronometer */
@@ -54,8 +54,6 @@ public class Board extends ArrayList<Lane> {
         }
         this.addLane(this.nb_case-1, 2); // Bottom safe lane
         this.addLane(this.nb_case-2, 3);
-
-
     }
 
     /**
