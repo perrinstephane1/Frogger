@@ -16,9 +16,9 @@ import java.util.ArrayList;
  * @author Stephane PERRIN
  *
  */
-public class Board extends ArrayList<Lane> {
+public class Board extends ArrayList<frogger.Lane> {
     /** Group */
-    private final Group root;
+    private Group root;
     /** Number of Lanes */
     protected int nb_case;
     /** Length of a single square */
@@ -26,11 +26,11 @@ public class Board extends ArrayList<Lane> {
     /** Length of a Lane */
     protected double l_lane;
     /** GridPane */
-    protected GridPane gridPane = new GridPane();
+    public GridPane gridPane = new GridPane();
     /** Not in use yet */
     protected int cnt_decalage = (int)this.l_case;
     /** Chronometer */
-    public Chrono chrono = new Chrono();
+    public frogger.Chrono chrono = new frogger.Chrono();
 
     /**
      * This method is the constructor

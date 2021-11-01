@@ -1,5 +1,5 @@
-Maxime: 10.0s
-Theo: 10.5s
-Joueur 1: 11.05s
-Joueur 1: 13.09s
-Louis: 20.5s
+Joueur 1: 6.72s
+Joueur 1: 6.86s
+Joueur 1: 8.37s
+Joueur 1: 8.69s
+Joueur 1: 9.32s

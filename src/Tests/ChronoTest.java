@@ -8,7 +8,7 @@ public class ChronoTest extends TestCase {
     public void testInit() {
         Chrono chrono = new Chrono();
         assertNotNull(chrono);
-        assertSame("Frogger.Chrono", chrono.getClass().getTypeName());
+        assertSame("frogger.Chrono", chrono.getClass().getTypeName());
     }
 
     public void testStartStop() {
