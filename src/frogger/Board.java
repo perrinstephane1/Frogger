@@ -1,7 +1,6 @@
 package frogger;
 
 import javafx.animation.TranslateTransition;
-import javafx.scene.Group;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -21,8 +20,6 @@ public class Board extends ArrayList<frogger.Lane> {
     protected final int nb_case;
     /** Length of a single square */
     protected double l_case;
-    /** Length of a Lane */
-    protected final double l_lane;
     /** GridPane */
     public final GridPane gridPane = new GridPane();
     /** Not in use yet */
@@ -32,15 +29,12 @@ public class Board extends ArrayList<frogger.Lane> {
 
     /**
      * This method is the constructor
-     * @param root This Group corresponds to //TODO group ?
      * @param nb_case This int corresponds to the number of lane (river, road, safe lane) composing the game
      * @param l_case This int corresponds to the length in pixels of a square on the game windows
      */
-    public Board(Group root, int nb_case, double l_case) {
-        /** Group */
+    public Board(int nb_case, double l_case) {
         this.nb_case = nb_case;
         this.l_case = l_case;
-        this.l_lane = this.l_case*this.nb_case;
 
         this.addLane(0, 2); // Top safe lane
 
@@ -52,7 +46,6 @@ public class Board extends ArrayList<frogger.Lane> {
         }
         this.addLane(this.nb_case-1, 2); // Bottom safe lane
         this.addLane(this.nb_case-2, 3);
-
 
     }
 
@@ -103,7 +96,6 @@ public class Board extends ArrayList<frogger.Lane> {
         this.add(lane);
         this.invert();
 
-        int n = this.size();
         this.gridPane.getChildren().clear();
         for (Lane value : this) {
             this.gridPane.addColumn(0, value.getImageView());

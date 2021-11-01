@@ -469,7 +469,7 @@ public class IHM extends Application {
 
         this.root = new Group();
         this.scene = new Scene(this.root, this.l_case*this.nb_case, this.l_case*(this.nb_case+1));
-        this.board = new Board(this.root, this.nb_case, this.l_case);
+        this.board = new Board(this.nb_case, this.l_case);
 
         Stage primaryStage= new Stage();
         this.scene.setFill(Color.BLACK);
