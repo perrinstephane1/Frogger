@@ -469,7 +469,7 @@ public class IHM extends Application {
 
         this.root = new Group();
         this.scene = new Scene(this.root, this.l_case*this.nb_case, this.l_case*(this.nb_case+1));
-        this.board = new Board(this.root, this.nb_case, this.l_case);
+        this.board = new Board(this.nb_case, this.l_case);
 
         Stage primaryStage= new Stage();
         this.scene.setFill(Color.BLACK);
@@ -706,9 +706,8 @@ public class IHM extends Application {
         GridPane victoryWindow = new GridPane();
         board.chrono.stop();
         this.hallOfFame.save("Scores.txt");
-        Text yourScore = new Text(board.getChrono().getText());
         Scene victoryScene = new Scene(victoryWindow, l_case*nb_case, l_case*nb_case);
-        Text winText = new Text("You have won !");
+        Text winText = new Text("You have won in "+board.getChronoToFloat()+"s !");
         Button restartButton=new Button("PLAY AGAIN");
         Button menuButton=new Button("Retourner au menu");
         Button HallOfFame=new Button("Hall of Fame");

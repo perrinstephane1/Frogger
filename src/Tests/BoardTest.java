@@ -2,7 +2,6 @@ package Tests;
 import frogger.Board;
 import frogger.Lane;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import junit.framework.TestCase;
 
@@ -18,7 +17,7 @@ public class BoardTest extends TestCase {
     public void testInit(){
         int l_case=50;
         int nb_case=12;
-        Board board = new Board(root, nb_case, l_case);
+        Board board = new Board(nb_case, l_case);
         assertNotNull(board);
         assertSame("frogger.Board", board.getClass().getTypeName());
     }
@@ -26,7 +25,7 @@ public class BoardTest extends TestCase {
     public void testgetChrono() throws InterruptedException {
         int l_case=50;
         int nb_case=12;
-        Board board = new Board(root, nb_case, l_case);
+        Board board = new Board(nb_case, l_case);
         board.chrono.start();
         Thread.sleep(1000);
         board.chrono.stop();
@@ -37,7 +36,7 @@ public class BoardTest extends TestCase {
     public void testgetChronoToFloat() throws InterruptedException {
         int l_case=50;
         int nb_case=12;
-        Board board = new Board(root, nb_case, l_case);
+        Board board = new Board(nb_case, l_case);
         board.chrono.start();
         Thread.sleep(1000);
         board.chrono.stop();
@@ -49,7 +48,7 @@ public class BoardTest extends TestCase {
     public void testaddLane(){
         int l_case=50;
         int nb_case=12;
-        Board board = new Board(root, nb_case, l_case);
+        Board board = new Board(nb_case, l_case);
         Lane lane = new Lane(13, board,  13%2, 1, Math.random(), 1);
         board.add(lane);
         assertEquals(1.0, board.get(13).direction);
