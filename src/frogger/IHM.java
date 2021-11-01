@@ -65,7 +65,7 @@ public class IHM extends Application {
     /**
      * This method launches the first menu of the application.
      * This menu allows the player to choose the game mode (1 or 2 player), the game mode (normal or infinite) and the difficulty (3 levels)
-     * The menu also proposes an help on how to use the game and gives information about the developers
+     * The menu also proposes a help on how to use the game and gives information about the developers
      */
     @Override
     public void start(Stage primaryStage) {
@@ -692,50 +692,8 @@ public class IHM extends Application {
         Button HallOfFame=new Button("Hall of Fame");
         Button quit=new Button("QUITTER");
         Scene deadScene = new Scene(deadwindow, 450, 200);
-        //deadScene.setFill(Color.RED);
 
-        deadwindow.setAlignment(Pos.CENTER);
-        deadText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, this.l_case));
-        deadText.setWrappingWidth(this.l_case*this.nb_case);
-        deadText.setTextAlignment(TextAlignment.CENTER);
-        restartButton.setTextAlignment(TextAlignment.CENTER);
-        deadwindow.add(deadText, 0, 0,1,1);
-        deadwindow.add(restartButton, 0, 1);
-        deadwindow.add(menuButton,0,2);
-        deadwindow.add(HallOfFame,0,3);
-        deadwindow.add(quit,0,4);
-        GridPane.setHalignment(restartButton,HPos.CENTER);
-        GridPane.setHalignment(menuButton,HPos.CENTER);
-        GridPane.setHalignment(HallOfFame,HPos.CENTER);
-        GridPane.setHalignment(quit,HPos.CENTER);
-        stage.setScene(deadScene);
-        stage.setTitle("Défaite");
-        stage.setResizable(false);
-        stage.show();
-        //setting the buttons
-        quit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.exit(0);
-            }
-        });
-        //TODO Hall of Fame button
-        menuButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                stage.close();
-                primaryStage.close();
-                //TODO il faut trouver comment faire ça : main(null);
-            }
-        });
-        restartButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                primaryStage.close();
-                stage.close();
-                avant_commencer(joueurs,fini,dif);
-            }
-        });
+        paramScene(deadwindow, deadText, restartButton, menuButton, HallOfFame, quit, stage, deadScene, primaryStage, joueurs, fini, dif, "Défaite");
     }
     private void victory(Stage primaryStage,boolean joueurs,boolean fini,int dif){
         Stage stage=new Stage();
@@ -749,23 +707,27 @@ public class IHM extends Application {
         Button menuButton=new Button("Retourner au menu");
         Button HallOfFame=new Button("Hall of Fame");
         Button quit=new Button("QUITTER");
-        //deadScene.setFill(Color.GREEN);
-        victoryWindow.setAlignment(Pos.CENTER);
-        winText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, this.l_case));
-        winText.setWrappingWidth(this.l_case*this.nb_case);
-        winText.setTextAlignment(TextAlignment.CENTER);
+        paramScene(victoryWindow, winText, restartButton, menuButton, HallOfFame, quit, stage, victoryScene, primaryStage, joueurs, fini, dif, "Victoire");
+
+    }
+
+    private void paramScene(GridPane window, Text text, Button restartButton, Button menuButton, Button HallOfFame, Button quit, Stage stage, Scene scene, Stage primaryStage, Boolean joueurs, Boolean fini, Integer dif, String title) {
+        window.setAlignment(Pos.CENTER);
+        text.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, this.l_case));
+        text.setWrappingWidth(this.l_case*this.nb_case);
+        text.setTextAlignment(TextAlignment.CENTER);
         restartButton.setTextAlignment(TextAlignment.CENTER);
-        victoryWindow.add(winText, 0, 0,1,1);
-        victoryWindow.add(restartButton, 0, 1);
-        victoryWindow.add(menuButton,0,2);
-        victoryWindow.add(HallOfFame,0,3);
-        victoryWindow.add(quit,0,4);
+        window.add(text, 0, 0,1,1);
+        window.add(restartButton, 0, 1);
+        window.add(menuButton,0,2);
+        window.add(HallOfFame,0,3);
+        window.add(quit,0,4);
         GridPane.setHalignment(restartButton,HPos.CENTER);
         GridPane.setHalignment(menuButton,HPos.CENTER);
         GridPane.setHalignment(HallOfFame,HPos.CENTER);
         GridPane.setHalignment(quit,HPos.CENTER);
-        stage.setScene(victoryScene);
-        stage.setTitle("Victoire");
+        stage.setScene(scene);
+        stage.setTitle(title);
         stage.setResizable(false);
         stage.show();
         //setting the buttons
@@ -792,8 +754,6 @@ public class IHM extends Application {
                 avant_commencer(joueurs,fini,dif);
             }
         });
-
-
     }
 }
 

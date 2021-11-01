@@ -1,5 +1,5 @@
-Joueur 1: 6.72s
-Joueur 1: 6.86s
-Joueur 1: 8.37s
-Joueur 1: 8.69s
-Joueur 1: 9.32s
+Joueur 1: 4.31s
+Joueur 1: 4.31s
+Joueur 1: 5.27s
+Joueur 1: 5.27s
+Joueur 1: 6.32s
