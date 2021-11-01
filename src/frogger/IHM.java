@@ -285,6 +285,8 @@ public class IHM extends Application {
     }
 
     public void menu(){
+        this.hallOfFame.load("Scores.txt");
+
         Stage primaryStage=new Stage();
         // Premières choses
         Menu frogger = new Menu("frogger");
@@ -477,8 +479,7 @@ public class IHM extends Application {
         Stage primaryStage= new Stage();
         this.scene.setFill(Color.BLACK);
 
-        this.hallOfFame.load("Scores.txt");
-        this.hallOfFame.display();
+
 
         EventHandler<KeyEvent> keyListener = e -> {
             if (!board.chrono.isRunning) {
