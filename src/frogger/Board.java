@@ -1,4 +1,4 @@
-package frogger;
+package Frogger;
 
 import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class Board extends ArrayList<Lane> {
     /** Group */
-    private final Group root;
+    private Group root;
     /** Number of Lanes */
     protected int nb_case;
     /** Length of a single square */
@@ -26,7 +26,7 @@ public class Board extends ArrayList<Lane> {
     /** Length of a Lane */
     protected double l_lane;
     /** GridPane */
-    protected GridPane gridPane = new GridPane();
+    public GridPane gridPane = new GridPane();
     /** Not in use yet */
     protected int cnt_decalage = (int)this.l_case;
     /** Chronometer */

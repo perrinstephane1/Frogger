@@ -1,6 +1,6 @@
 package Tests;
 
-import frogger.HallOfFame;
+import Frogger.HallOfFame;
 import junit.framework.TestCase;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
