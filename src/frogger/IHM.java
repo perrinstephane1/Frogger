@@ -40,7 +40,7 @@ public class IHM extends Application {
     protected int car_count = 0;
     /** Number of logs in the game */
     protected int log_count = 0;
-    private final Car[] cars = new Car[100];
+    private Car[] cars = new Car[100];
     private final Log[] logs = new Log[100];
     private final HallOfFame hallOfFame = new HallOfFame();
 
@@ -138,6 +138,7 @@ public class IHM extends Application {
                         for (int i = 1; i < car_count + 1; i++) {
                             cars[i].move(speed_h);
                             if (cars[i].intersects(frog)) {
+                                System.out.println("colision");
                                 timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                                 timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                                 //primaryStage.setScene(deadScene());
@@ -233,6 +234,7 @@ public class IHM extends Application {
      * @param nombre_voiture This int corresponds to the number of cars on the map
      * */
     public void initCar(Car[] cars, int nombre_voiture) {
+        car_count = 0;
         for (int i = board.nb_case/2 +1; i < board.nb_case; i++) {
             for (int j = 0; j<nombre_voiture; j++){
                 car_count += 1;
@@ -260,6 +262,7 @@ public class IHM extends Application {
      * @param nombre_log This int corresponds to the number of logs on the map
      */
     public void initLog(Log[] logs, int nombre_log) {
+        log_count = 0;
         for (int i = 2; i < this.board.nb_case/2 + 1; i++) { // Start at number 2 because Number 1 is a safe lane
             for (int j = 0; j<nombre_log; j++) {
                 log_count += 1;
@@ -717,6 +720,7 @@ public class IHM extends Application {
     }
 
     private void paramScene(GridPane window, Text text, Button restartButton, Button menuButton, Button HallOfFame, Button quit, Stage stage, Scene scene, Stage primaryStage, Boolean joueurs, Boolean fini, Integer dif, String title) {
+
         window.setAlignment(Pos.CENTER);
         text.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, this.l_case));
         text.setWrappingWidth(this.l_case*this.nb_case);
