@@ -1,4 +1,4 @@
-package Frogger;
+package frogger;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -41,11 +41,12 @@ public class HallOfFame extends ArrayList<Score> {
 
     /**
      * This method saves the time the player took to finish the game
+     * @param file This String is the name of the text file used to store the times the players took to finish the game
      */
-    public void save() {
+    public void save(String file) {
         PrintWriter pw = null;
         try {
-            pw = new PrintWriter(new FileWriter("Scores.txt"));
+            pw = new PrintWriter(new FileWriter(file));
             for (int ii=0; ii<this.size(); ii++) {
                 pw.println(this.get(ii));
             }

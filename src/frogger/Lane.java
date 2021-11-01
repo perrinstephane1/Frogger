@@ -1,4 +1,4 @@
-package Frogger;
+package frogger;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

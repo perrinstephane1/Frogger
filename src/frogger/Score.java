@@ -1,4 +1,4 @@
-package Frogger;
+package frogger;
 
 /**
  * This class represents the score

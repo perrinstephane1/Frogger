@@ -1,4 +1,4 @@
-package Frogger;
+package frogger;
 
 import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class Board extends ArrayList<Lane> {
     /** Group */
-    private Group root;
+    private final Group root;
     /** Number of Lanes */
     protected int nb_case;
     /** Length of a single square */
