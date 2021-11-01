@@ -760,6 +760,12 @@ public class IHM extends Application {
                 avant_commencer(joueurs,fini,dif);
             }
         });
+        HallOfFame.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                hallOfFame.affiche();
+            }
+        });
     }
 }
 

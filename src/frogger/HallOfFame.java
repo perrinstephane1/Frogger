@@ -1,5 +1,8 @@
 package frogger;
 
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -93,4 +96,23 @@ public class HallOfFame extends ArrayList<Score> {
         }
     }
 
+    public void affiche(){
+        Stage stage=new Stage();
+        GridPane gridPane = new GridPane();
+        Label joueurs= new Label("Player");
+        Label timer=new Label("Time");
+        gridPane.add(joueurs,0,0);
+        gridPane.add(timer,1,0);
+        String time1;
+        String name1;
+        for (int i=0;i<5;i++){
+            Label name=new Label(String.valueOf(this.get(i).getName()));
+            Label time=new Label(String.valueOf(this.get(i).getTime()));
+            gridPane.add(name,0,i+1);
+            gridPane.add(time,1,i+1);
+        }
+        stage.setScene(new Scene(gridPane,200,300));
+        stage.setTitle("Hall of Fame");
+        stage.show();
+    }
 }
