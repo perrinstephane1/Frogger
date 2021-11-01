@@ -22,8 +22,6 @@ public class Frog extends Rectangle {
     private boolean onLog = false;
     /** ImageView */
     private ImageView imageView;
-//    /** If the frog is dead or not */
-//    protected boolean dead;
     /** Length in pixels of a square on the game windows */
     private final double l_case;
     /** Number of lane (river, road, safe lane) composing the game*/

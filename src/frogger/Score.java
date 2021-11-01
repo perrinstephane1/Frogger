@@ -63,13 +63,7 @@ public class Score implements Comparable<Score> {
      */
     @Override
     public int compareTo(Score other) {
-        if (this.time== other.time) {
-            return 0;
-        } else if (this.time < other.time) {
-            return -1;
-        } else {
-            return 1;
-        }
+        return Float.compare(this.time, other.time);
     }
 
     /**

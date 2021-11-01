@@ -52,8 +52,8 @@ public class HallOfFame extends ArrayList<Score> {
         PrintWriter pw = null;
         try {
             pw = new PrintWriter(new FileWriter(file));
-            for (int ii=0; ii<this.size(); ii++) {
-                pw.println(this.get(ii));
+            for (Score score : this) {
+                pw.println(score);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -74,12 +74,12 @@ public class HallOfFame extends ArrayList<Score> {
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader(file));
-            String st = null;
+            String st;
             while ((st = br.readLine()) != null) {
-                st.replace(" ", "");
+//                st.replace(" ", "");
                 String[] temp = st.split(":");
                 temp[1] = temp[1].replace("s", "");
-                this.addScore(temp[0], Float.valueOf(temp[1]));
+                this.addScore(temp[0], Float.parseFloat(temp[1]));
             }
             this.sort(Comparator.naturalOrder());
         } catch (FileNotFoundException e) {
@@ -103,10 +103,8 @@ public class HallOfFame extends ArrayList<Score> {
         Label timer=new Label("Time");
         gridPane.add(joueurs,0,0);
         gridPane.add(timer,1,0);
-        String time1;
-        String name1;
         for (int i=0;i<this.size();i++){
-            Label name=new Label(String.valueOf(this.get(i).getName())+" : ");
+            Label name=new Label(this.get(i).getName()+" : ");
             Label time=new Label(String.valueOf(this.get(i).getTime()));
             gridPane.add(name,0,i+1);
             gridPane.add(time,1,i+1);

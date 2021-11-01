@@ -21,19 +21,15 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class MovingElements extends Rectangle {
     /** Size of obstacles on a Lane*/
-    protected double obstacle_size;
-//    /**  */
-//    protected double speed;
+    protected final double obstacle_size;
     /** Direction of obstacles on a Lane*/
-    protected double direction;
+    protected final double direction;
     /** Length in pixels of a square on the game windows */
-    protected double l_case;
+    protected final double l_case;
     /** Scene */
-    protected Scene scene;
-//    /** Not in use yet */
-//    protected int in_plateau = 1; //1 : on the board, 0 : out
+    protected final Scene scene;
     /** Lane in the game (river, road or safe lane) */
-    protected Lane lane;
+    protected final Lane lane;
     /** ImageView */
     protected ImageView imageView;
 
@@ -53,7 +49,6 @@ public class MovingElements extends Rectangle {
 
         this.setLocation(position_start,  (lane.numero_lane-1)*(int) lane.l_case);
 
-//        this.in_plateau = in_plateau;
         this.lane = lane;
         this.direction = lane.direction;
         this.obstacle_size = lane.obstacle_size;
@@ -109,7 +104,6 @@ public class MovingElements extends Rectangle {
                 trans.setByX(speed);
                 this.setLocation((int) (this.getX()+speed), (int)this.getY());
             }
-            trans.play();
         }
         else{
             if (this.getX() + this.obstacle_size*this.l_case < 0) {
@@ -121,8 +115,8 @@ public class MovingElements extends Rectangle {
                 trans.setByX(-speed);
                 this.setLocation((int) (this.getX()-speed), (int)this.getY());
             }
-            trans.play();
         }
+        trans.play();
     }
 
     /**

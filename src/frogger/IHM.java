@@ -3,7 +3,6 @@ package frogger;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -34,13 +33,12 @@ import java.util.TimerTask;
 public class IHM extends Application {
     private int l_case=50;
     private int nb_case=12;
-    private final double speed_down = 1;
     private double speed_h = 6;
     /** Number of cars in the game */
     protected int car_count = 0;
     /** Number of logs in the game */
     protected int log_count = 0;
-    private Car[] cars = new Car[100];
+    private final Car[] cars = new Car[100];
     private final Log[] logs = new Log[100];
     private final HallOfFame hallOfFame = new HallOfFame();
 
@@ -85,129 +83,126 @@ public class IHM extends Application {
         TimerTask timertask = new TimerTask() {
             @Override
             public void run() {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int i = 1; i < log_count + 1; i++) {
-                            int numero_lane = (int) (frog.getY() / l_case);
-                            if (logs[i].intersects(frog)) {
-                                frog.setOnLog(true);
-                                TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), frog.getImageView());
+                Platform.runLater(() -> {
+                    for (int i = 1; i < log_count + 1; i++) {
+                        int numero_lane = (int) (frog.getY() / l_case);
+                        if (logs[i].intersects(frog)) {
+                            frog.setOnLog(true);
+                            TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), frog.getImageView());
+                            if (logs[i].lane.direction == 0) {
+                                trans.setByX(-speed_h);
+                                if (frog.getX() >= -50) {
+                                    frog.setLocation((int) (frog.getX() - speed_h), (int) frog.getY());
+                                    trans.play();
+                                }
+                            } else {
+                                trans.setByX(speed_h);
+                                if (frog.getX() <= scene.getWidth()) {
+                                    frog.setLocation((int) (frog.getX() + speed_h), (int) frog.getY());
+                                    trans.play();
+                                }
+                            }
+                        } else if (board.get(numero_lane).type_lane != 1) {
+                            frog.setOnLog(false);
+                        }
+
+                        if (joueurs) {
+                            int numero_lane2 = (int) (frog2.getY() / l_case);
+                            if (logs[i].intersects(frog2)) {
+                                frog2.setOnLog(true);
+                                TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), frog2.getImageView());
                                 if (logs[i].lane.direction == 0) {
                                     trans.setByX(-speed_h);
-                                    if (frog.getX() >= -50) {
-                                        frog.setLocation((int) (frog.getX() - speed_h), (int) frog.getY());
+                                    if (frog2.getX() >= -50) {
+                                        frog2.setLocation((int) (frog2.getX() - speed_h), (int) frog2.getY());
                                         trans.play();
                                     }
                                 } else {
                                     trans.setByX(speed_h);
-                                    if (frog.getX() <= scene.getWidth()) {
-                                        frog.setLocation((int) (frog.getX() + speed_h), (int) frog.getY());
+                                    if (frog2.getX() <= scene.getWidth()) {
+                                        frog2.setLocation((int) (frog2.getX() + speed_h), (int) frog2.getY());
                                         trans.play();
                                     }
                                 }
-                            } else if (board.get(numero_lane).type_lane != 1) {
-                                frog.setOnLog(false);
-                            }
-
-                            if (joueurs) {
-                                int numero_lane2 = (int) (frog2.getY() / l_case);
-                                if (logs[i].intersects(frog2)) {
-                                    frog2.setOnLog(true);
-                                    TranslateTransition trans = new TranslateTransition(Duration.seconds(0.001), frog2.getImageView());
-                                    if (logs[i].lane.direction == 0) {
-                                        trans.setByX(-speed_h);
-                                        if (frog2.getX() >= -50) {
-                                            frog2.setLocation((int) (frog2.getX() - speed_h), (int) frog2.getY());
-                                            trans.play();
-                                        }
-                                    } else {
-                                        trans.setByX(speed_h);
-                                        if (frog2.getX() <= scene.getWidth()) {
-                                            frog2.setLocation((int) (frog2.getX() + speed_h), (int) frog2.getY());
-                                            trans.play();
-                                        }
-                                    }
-                                } else if (board.get(numero_lane2).type_lane != 1) {
-                                    frog2.setOnLog(false);
-                                }
-                            }
-
-                            logs[i].move(speed_h);
-                        }
-                        for (int i = 1; i < car_count + 1; i++) {
-                            cars[i].move(speed_h);
-                            if (cars[i].intersects(frog)) {
-                                System.out.println("colision");
-                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
-                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
-                                //primaryStage.setScene(deadScene());
-                                death(primaryStage,joueurs,true,dif);
-                            }
-                            if (joueurs) {
-                                if (cars[i].intersects(frog) || cars[i].intersects(frog2)) {
-                                    timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
-                                    timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
-                                    //primaryStage.setScene(deadScene());
-                                    death(primaryStage,joueurs,true,dif);
-                                }
+                            } else if (board.get(numero_lane2).type_lane != 1) {
+                                frog2.setOnLog(false);
                             }
                         }
 
-                        int numero_lane = (int) (frog.getY() / l_case);
-                        int numero_lane2 = (int) (frog2.getY() / l_case);
-
-
-                        if (joueurs) {
-                            if (numero_lane == 0 && numero_lane2 == 0) {
-                                board.chrono.stop();
-                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
-                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
-                                //primaryStage.setScene(victoryScene());
-                                victory(primaryStage,joueurs,true,dif);
-                            }
-                            if ((board.get(numero_lane).type_lane == 1 && !(frog.isOnLog())) || (board.get(numero_lane2).type_lane == 1 && !(frog2.isOnLog()))) { // if the frog is on the river and not on a log
-                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
-                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
-                                //primaryStage.setScene(deadScene());
-                                death(primaryStage,joueurs,true,dif);
-                            }
-                            if ((frog.getX() < -l_case || frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) || (frog2.getX() < -l_case || frog2.getX() > l_case * nb_case || frog2.getY() < 0 || frog2.getY() > l_case * nb_case)) { //if the frig is out of map
-                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
-                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
-                                //primaryStage.setScene(deadScene());
-                                death(primaryStage,joueurs,true,dif);
-                            }
-                        }
-                        else{
-                            if (numero_lane == 0 ) {
-                                board.chrono.stop();
-                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
-                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
-                                hallOfFame.addScore(name1, board.getChronoToFloat());
-                                hallOfFame.display();
-                                //primaryStage.setScene(victoryScene());
-                                victory(primaryStage,joueurs,true,dif);
-                            }
-                            if (board.get(numero_lane).type_lane == 1 && !(frog.isOnLog())){ // if the frog is on the river and not on a log
-                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
-                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
-                                //primaryStage.setScene(deadScene());
-                                death(primaryStage,joueurs,true,dif);
-                            }
-                            if (frog.getX() < -l_case|| frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) { //if the frig is out of map
-                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
-                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
-                                //primaryStage.setScene(deadScene());
-                                death(primaryStage,joueurs,true,dif);
-                            }
-                        }
-
-                        displayTime();
-
-                        frog.setOnLog(false);
-                        frog2.setOnLog(false);
+                        logs[i].move(speed_h);
                     }
+                    for (int i = 1; i < car_count + 1; i++) {
+                        cars[i].move(speed_h);
+                        if (cars[i].intersects(frog)) {
+                            System.out.println("colision");
+                            timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                            timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
+                            //primaryStage.setScene(deadScene());
+                            death(primaryStage,joueurs,true,dif);
+                        }
+                        if (joueurs) {
+                            if (cars[i].intersects(frog) || cars[i].intersects(frog2)) {
+                                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                                timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
+                                //primaryStage.setScene(deadScene());
+                                death(primaryStage,joueurs,true,dif);
+                            }
+                        }
+                    }
+
+                    int numero_lane = (int) (frog.getY() / l_case);
+                    int numero_lane2 = (int) (frog2.getY() / l_case);
+
+
+                    if (joueurs) {
+                        if (numero_lane == 0 && numero_lane2 == 0) {
+                            board.chrono.stop();
+                            timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                            timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
+                            //primaryStage.setScene(victoryScene());
+                            victory(primaryStage,joueurs,true,dif);
+                        }
+                        if ((board.get(numero_lane).type_lane == 1 && !(frog.isOnLog())) || (board.get(numero_lane2).type_lane == 1 && !(frog2.isOnLog()))) { // if the frog is on the river and not on a log
+                            timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                            timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
+                            //primaryStage.setScene(deadScene());
+                            death(primaryStage,joueurs,true,dif);
+                        }
+                        if ((frog.getX() < -l_case || frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) || (frog2.getX() < -l_case || frog2.getX() > l_case * nb_case || frog2.getY() < 0 || frog2.getY() > l_case * nb_case)) { //if the frig is out of map
+                            timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                            timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
+                            //primaryStage.setScene(deadScene());
+                            death(primaryStage,joueurs,true,dif);
+                        }
+                    }
+                    else{
+                        if (numero_lane == 0 ) {
+                            board.chrono.stop();
+                            timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                            timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
+                            hallOfFame.addScore(name1, board.getChronoToFloat());
+                            hallOfFame.display();
+                            //primaryStage.setScene(victoryScene());
+                            victory(primaryStage,joueurs,true,dif);
+                        }
+                        if (board.get(numero_lane).type_lane == 1 && !(frog.isOnLog())){ // if the frog is on the river and not on a log
+                            timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                            timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
+                            //primaryStage.setScene(deadScene());
+                            death(primaryStage,joueurs,true,dif);
+                        }
+                        if (frog.getX() < -l_case|| frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) { //if the frig is out of map
+                            timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                            timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
+                            //primaryStage.setScene(deadScene());
+                            death(primaryStage,joueurs,true,dif);
+                        }
+                    }
+
+                    displayTime();
+
+                    frog.setOnLog(false);
+                    frog2.setOnLog(false);
                 });
             }
         };
@@ -303,54 +298,37 @@ public class IHM extends Application {
         MenuBar menuBar=new MenuBar(frogger,aide);
 
         //actions du menu
-        infos.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Label explication = new Label("Ce projet a été réalisé par des étudiants en 2ème année à l'ENSTA Bretagne," +
-                        "de spécialité SNS et SOIA. Il a pour objectif de montrer que nous avons une certaine maîtrise du langage " +
-                        "de programmation JAVA et notemment du module JavaFX. \n \n" +
-                        "Nous avons donc créé un jeu 'frogger' dont le but est simple : vous êtes la grenouille et devez vous rendre" +
-                        "en haut de l'écran sans vous faire écraser par une voiture ni tomber dans l'eau. Les rondins vous porteront pour " +
-                        "traverser la rivière. \n" +
-                        "BONNE CHANCE !!");
-                helpInfo(explication);
-            }
+        infos.setOnAction(event -> {
+            Label explication = new Label("Ce projet a été réalisé par des étudiants en 2ème année à l'ENSTA Bretagne," +
+                    "de spécialité SNS et SOIA. Il a pour objectif de montrer que nous avons une certaine maîtrise du langage " +
+                    "de programmation JAVA et notemment du module JavaFX. \n \n" +
+                    "Nous avons donc créé un jeu 'frogger' dont le but est simple : vous êtes la grenouille et devez vous rendre" +
+                    "en haut de l'écran sans vous faire écraser par une voiture ni tomber dans l'eau. Les rondins vous porteront pour " +
+                    "traverser la rivière. \n" +
+                    "BONNE CHANCE !!");
+            helpInfo(explication);
         });
         quit.setAccelerator(KeyCombination.keyCombination("Ctrl+X"));
-        quit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                primaryStage.close();
-            }
+        quit.setOnAction(event -> primaryStage.close());
+        joueurs.setOnAction(event -> {
+            Label explication = new Label("Ce jeu vous permet de jouer à un ou deux joueurs. \n" +
+                    "Le mode à un joueur se joue simplement avec les flèches directionnelles.\n" +
+                    "Le mode multijoueur vera s'affronter deux joueurs, un dont l'écran sera à gauche et qui utilisera QZSD" +
+                    " et l'autre qui utilisera les flèches directionnelles à droite.");
+            helpInfo(explication);
         });
-        joueurs.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Label explication = new Label("Ce jeu vous permet de jouer à un ou deux joueurs. \n" +
-                        "Le mode à un joueur se joue simplement avec les flèches directionnelles.\n" +
-                        "Le mode multijoueur vera s'affronter deux joueurs, un dont l'écran sera à gauche et qui utilisera QZSD" +
-                        " et l'autre qui utilisera les flèches directionnelles à droite.");
-                helpInfo(explication);
-            }
+        diff.setOnAction(event -> {
+            Label explication = new Label("Ce jeu vous permet de jouer avec plusieurs niveaux de difficulté : \n" +
+                    "1. Le mode débutant dans lequel les cars et rondins ne vont pas très vite \n" +
+                    "2. Le mode intermédiaire dans lequel ils se déplacent plus vite \n" +
+                    "3. Le mode expert dans lequel ils n'iront jamais ausis vite !!  \n");
+            helpInfo(explication);
         });
-        diff.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Label explication = new Label("Ce jeu vous permet de jouer avec plusieurs niveaux de difficulté : \n" +
-                        "1. Le mode débutant dans lequel les cars et rondins ne vont pas très vite \n" +
-                        "2. Le mode intermédiaire dans lequel ils se déplacent plus vite \n" +
-                        "3. Le mode expert dans lequel ils n'iront jamais ausis vite !!  \n");
-                helpInfo(explication);
-            }
-        });
-        mode.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Label explication = new Label("Ce jeu vous permet de jouer de deux façons différentes : \n" +
-                        "1. Le mode FINI se termine dès que vous arrivez en haut de l'écran. \n" +
-                        "2. Le mode INFINI ne se termine que lorsque votre grenouille meurt.");
-                helpInfo(explication);
-            }
+        mode.setOnAction(event -> {
+            Label explication = new Label("Ce jeu vous permet de jouer de deux façons différentes : \n" +
+                    "1. Le mode FINI se termine dès que vous arrivez en haut de l'écran. \n" +
+                    "2. Le mode INFINI ne se termine que lorsque votre grenouille meurt.");
+            helpInfo(explication);
         });
 
 
@@ -381,52 +359,46 @@ public class IHM extends Application {
         copyright.setAlignment(Pos.BOTTOM_CENTER);
 
         //TODO faire le PLAY Bouton ^^
-        play.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                primaryStage.close();
-                boolean test;
-                try {
-                    test=choix_joueurs.getValue().equals(2);
-                } catch (Exception e) {
-                    test = false;
-                }
-                boolean deux_joueurs=test;
-                boolean fini_test;
-                try{
-                    fini_test = (choix_mode.getValue().equals("Fini"));
-                } catch (Exception e) {
-                    fini_test = true;
-                }
-                boolean fini=fini_test;
-
-                String dif="";
-                try {
-                    if (choix_diff.getValue()==null){
-                        dif="Débutant";
-                    } else {
-                        dif = choix_diff.getValue();
-                    }
-                } catch (Exception e) {
-                    dif="Débutant";
-                }
-                int dif_i;
-                switch (dif){
-                    case "Débutant":
-                        dif_i=1;
-                        break;
-                    case "Intermédiaire":
-                        dif_i=2;
-                        break;
-                    case "Expert" :
-                        dif_i=3;
-                        break;
-                    default:
-                        dif_i=1;
-                        break;
-                }
-                avant_commencer(deux_joueurs,fini,dif_i);
+        play.setOnAction(event -> {
+            primaryStage.close();
+            boolean test;
+            try {
+                test=choix_joueurs.getValue().equals(2);
+            } catch (Exception e) {
+                test = false;
             }
+            boolean deux_joueurs=test;
+            boolean fini_test;
+            try{
+                fini_test = (choix_mode.getValue().equals("Fini"));
+            } catch (Exception e) {
+                fini_test = true;
+            }
+            boolean fini=fini_test;
+
+            String dif;
+            try {
+                if (choix_diff.getValue()==null){
+                    dif="Débutant";
+                } else {
+                    dif = choix_diff.getValue();
+                }
+            } catch (Exception e) {
+                dif="Débutant";
+            }
+            int dif_i;
+            switch (dif){
+                case "Intermédiaire":
+                    dif_i=2;
+                    break;
+                case "Expert" :
+                    dif_i=3;
+                    break;
+                default:
+                    dif_i=1;
+                    break;
+            }
+            avant_commencer(deux_joueurs,fini,dif_i);
         });
 
         // ajout sur la gridpane
@@ -539,8 +511,7 @@ public class IHM extends Application {
      *
      */
     public void avant_commencer(boolean joueurs, boolean fini, int dif_i){
-        // joueurs = true si 2 joueurs
-        // fini = true si on joue en mode fini
+
         Label pseudo1 = new Label("Pseudo 1");
         TextField nom1 = new TextField("Joueur 1");
         Label exp_1 = new Label("Ce joueur jouera avec les flèches directionnelles");
@@ -586,89 +557,40 @@ public class IHM extends Application {
         gridPane.add(play,2,8,1,1);
         GridPane.setHalignment(play,HPos.CENTER);
         Stage stage = new Stage();
-        play.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                stage.close();
-                //TODO lancer le vrai jeu
-                String name1;
-                try{
-                    name1= String.valueOf(nom1.getCharacters());
-                } catch(Exception e) {
-                    name1="Joueur 1";
-                }
-                String name2;
-                try{
-                    name2= String.valueOf(nom2.getCharacters());
-                } catch(Exception e) {
-                    name2="Joueur 2";
-                }
-                try {
-                    nb_case = n_r.getValue();
-                } catch (Exception e) {
-                    nb_case = 10;
-                }
-                try {
-                    l_case = l_r.getValue();
-                } catch (Exception e) {
-                    l_case = 50;
-                }
-
-                joue(joueurs,name1,name2,dif_i);
-
+        play.setOnAction(event -> {
+            stage.close();
+            //TODO lancer le vrai jeu
+            String name1;
+            try{
+                name1= String.valueOf(nom1.getCharacters());
+            } catch(Exception e) {
+                name1="Joueur 1";
             }
+            String name2;
+            try{
+                name2= String.valueOf(nom2.getCharacters());
+            } catch(Exception e) {
+                name2="Joueur 2";
+            }
+            try {
+                nb_case = n_r.getValue();
+            } catch (Exception e) {
+                nb_case = 10;
+            }
+            try {
+                l_case = l_r.getValue();
+            } catch (Exception e) {
+                l_case = 50;
+            }
+
+            joue(joueurs,name1,name2,dif_i);
+
         });
         stage.setTitle("Avant de commencer à jouer...");
         stage.setScene(new Scene(gridPane, 600, 150));
         stage.show();
     }
 
-    private Scene deadScene() {
-        GridPane deadwindow = new GridPane();
-        Text deadText = new Text("You're dead !");
-        Text restartText = new Text("Restart");
-        Scene deadScene = new Scene(deadwindow, this.l_case*this.nb_case, this.l_case*this.nb_case);
-
-        deadwindow.setAlignment(Pos.CENTER);
-        deadText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, this.l_case));
-        deadText.setWrappingWidth(this.l_case*this.nb_case);
-        deadText.setTextAlignment(TextAlignment.CENTER);
-        restartText.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, this.l_case*0.8));
-        restartText.setWrappingWidth(this.l_case*this.nb_case);
-        restartText.setTextAlignment(TextAlignment.CENTER);
-        deadwindow.add(deadText, 0, 0);
-        deadwindow.add(restartText, 0, 1);
-
-        return deadScene;
-    }
-
-    private Scene victoryScene() {
-        GridPane victoryWindow = new GridPane();
-        Text victoryText = new Text("Victory !");
-        board.chrono.stop();
-        this.hallOfFame.save("Scores.txt");
-        Text yourScore = new Text(board.getChrono().getText());
-        Text newGameText = new Text("New Game ?");
-        Scene victoryScene = new Scene(victoryWindow, l_case*nb_case, l_case*nb_case);
-        victoryWindow.setAlignment(Pos.CENTER);
-        victoryText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, l_case));
-        victoryText.setWrappingWidth(l_case*nb_case);
-        victoryText.setTextAlignment(TextAlignment.CENTER);
-
-        yourScore.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, l_case));
-        yourScore.setWrappingWidth(l_case*nb_case);
-        yourScore.setTextAlignment(TextAlignment.CENTER);
-
-        newGameText.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, l_case*0.8));
-        newGameText.setWrappingWidth(l_case*nb_case);
-        newGameText.setTextAlignment(TextAlignment.CENTER);
-
-        victoryWindow.add(victoryText, 0, 0);
-        victoryWindow.add(yourScore, 0, 1);
-        victoryWindow.add(newGameText, 0, 2);
-
-        return victoryScene;
-    }
 
     private void helpInfo(Label explication) {
         Button OKbutton = new Button("OK");
@@ -680,12 +602,7 @@ public class IHM extends Application {
         gridPane.add(OKbutton,0,1);
         GridPane.setHalignment(OKbutton,HPos.CENTER);
         Stage stage = new Stage();
-        OKbutton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                stage.close();
-            }
-        });
+        OKbutton.setOnAction(event -> stage.close());
         stage.setTitle("Aide : informations");
         stage.setScene(new Scene(gridPane, 350, 250));
         stage.show();
@@ -741,36 +658,20 @@ public class IHM extends Application {
         stage.setResizable(false);
         stage.show();
         //setting the buttons
-        quit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.exit(0);
-            }
-        });
+        quit.setOnAction(event -> System.exit(0));
         //TODO Hall of Fame button
-        menuButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                stage.close();
-                primaryStage.close();
-                menu();
-                //TODO il faut trouver comment faire ça : main(null);
-            }
+        menuButton.setOnAction(event -> {
+            stage.close();
+            primaryStage.close();
+            menu();
+            //TODO il faut trouver comment faire ça : main(null);
         });
-        restartButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                primaryStage.close();
-                stage.close();
-                avant_commencer(joueurs,fini,dif);
-            }
+        restartButton.setOnAction(event -> {
+            primaryStage.close();
+            stage.close();
+            avant_commencer(joueurs,fini,dif);
         });
-        HallOfFame.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                hallOfFame.affiche();
-            }
-        });
+        HallOfFame.setOnAction(event -> hallOfFame.affiche());
     }
 }
 

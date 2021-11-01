@@ -6,8 +6,6 @@ import javafx.scene.layout.GridPane;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * This class represents the human-machine interface
@@ -18,32 +16,26 @@ import java.util.List;
  *
  */
 public class Lane {
-//    /** */
-//    protected boolean hostile;
     /** Direction of obstacles on a Lane*/
-    public double direction;
+    public final double direction;
     /** Speed of obstacles on a Lane*/
-    public double speed;
+    public final double speed;
     /** Size of obstacles on a Lane*/
-    protected double obstacle_size;
+    protected final double obstacle_size;
     /** Length of a Lane */
-    protected double longueur_lane;
+    protected final double longueur_lane;
     /** Length in pixels of a square on the game windows */
-    protected double l_case;
+    protected final double l_case;
     /** Number given to the Lane as an ID */
-    public int numero_lane;
-    /** Probability of having cars on the Lane */
-    protected double density;
-//    /** */
-//    protected boolean arrivee; // si c'est la dernière ligne c'est FINI
+    public final int numero_lane;
     /** ImageView */
     protected ImageView imageView;
     /** GridPane */
-    protected GridPane gridPane = new GridPane();
+    protected final GridPane gridPane = new GridPane();
     /** Characterizes the lane. A type-0 Lane is a road, a type-1 Lane is a river and a type-2 Lane is a safe lane.*/
-    public int type_lane;
+    public final int type_lane;
     /** Board */
-    protected Board board;
+    protected final Board board;
 
 
     /**
@@ -100,14 +92,6 @@ public class Lane {
         } catch (FileNotFoundException e) {
             System.out.println(e);
         }
-    }
-
-    /**
-     * This method returns an array with the Lane parameters
-     * @return an Array with the Lane parameters
-     */
-    public List getParametre() {
-        return Arrays.asList(this.speed, this.direction, this.obstacle_size, this.l_case, this.longueur_lane, this.numero_lane, this.density, this.type_lane);
     }
 
     /**

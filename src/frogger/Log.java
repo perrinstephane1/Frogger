@@ -12,7 +12,7 @@ import javafx.scene.Scene;
  */
 public class Log extends MovingElements {
     /** Lane in the game (river, road or safe lane)*/
-    protected Lane lane;
+    protected final Lane lane;
 
     /**
      * This method is the constructor
