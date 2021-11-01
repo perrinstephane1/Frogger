@@ -65,7 +65,7 @@ public class IHM extends Application {
     /**
      * This method launches the first menu of the application.
      * This menu allows the player to choose the game mode (1 or 2 player), the game mode (normal or infinite) and the difficulty (3 levels)
-     * The menu also proposes an help on how to use the game and gives information about the developers
+     * The menu also proposes a help on how to use the game and gives information about the developers
      */
     @Override
     public void start(Stage primaryStage) {
@@ -279,6 +279,179 @@ public class IHM extends Application {
                 this.root.getChildren().add(logs[log_count].getImageView());
             }
         }
+    }
+
+    public void menu(){
+        Stage primaryStage=new Stage();
+        // Premières choses
+        Menu frogger = new Menu("frogger");
+        MenuItem infos = new MenuItem("Informations");
+        MenuItem quit = new MenuItem("Quitter");
+        SeparatorMenuItem separator1= new SeparatorMenuItem();
+        frogger.getItems().addAll(infos,separator1,quit);
+        Menu aide = new Menu("Aide");
+        MenuItem joueurs=new Menu("Nombre de joueurs");
+        MenuItem diff=new Menu("Difficulté");
+        MenuItem mode=new Menu("Mode de jeu");
+        SeparatorMenuItem separator2= new SeparatorMenuItem();
+        aide.getItems().addAll(joueurs,separator2,diff,mode);
+        MenuBar menuBar=new MenuBar(frogger,aide);
+
+        //actions du menu
+        infos.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Label explication = new Label("Ce projet a été réalisé par des étudiants en 2ème année à l'ENSTA Bretagne," +
+                        "de spécialité SNS et SOIA. Il a pour objectif de montrer que nous avons une certaine maîtrise du langage " +
+                        "de programmation JAVA et notemment du module JavaFX. \n \n" +
+                        "Nous avons donc créé un jeu 'frogger' dont le but est simple : vous êtes la grenouille et devez vous rendre" +
+                        "en haut de l'écran sans vous faire écraser par une voiture ni tomber dans l'eau. Les rondins vous porteront pour " +
+                        "traverser la rivière. \n" +
+                        "BONNE CHANCE !!");
+                helpInfo(explication);
+            }
+        });
+        quit.setAccelerator(KeyCombination.keyCombination("Ctrl+X"));
+        quit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                primaryStage.close();
+            }
+        });
+        joueurs.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Label explication = new Label("Ce jeu vous permet de jouer à un ou deux joueurs. \n" +
+                        "Le mode à un joueur se joue simplement avec les flèches directionnelles.\n" +
+                        "Le mode multijoueur vera s'affronter deux joueurs, un dont l'écran sera à gauche et qui utilisera QZSD" +
+                        " et l'autre qui utilisera les flèches directionnelles à droite.");
+                helpInfo(explication);
+            }
+        });
+        diff.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Label explication = new Label("Ce jeu vous permet de jouer avec plusieurs niveaux de difficulté : \n" +
+                        "1. Le mode débutant dans lequel les cars et rondins ne vont pas très vite \n" +
+                        "2. Le mode intermédiaire dans lequel ils se déplacent plus vite \n" +
+                        "3. Le mode expert dans lequel ils n'iront jamais ausis vite !!  \n");
+                helpInfo(explication);
+            }
+        });
+        mode.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Label explication = new Label("Ce jeu vous permet de jouer de deux façons différentes : \n" +
+                        "1. Le mode FINI se termine dès que vous arrivez en haut de l'écran. \n" +
+                        "2. Le mode INFINI ne se termine que lorsque votre grenouille meurt.");
+                helpInfo(explication);
+            }
+        });
+
+
+        // création de la gridpane
+        GridPane gridPane=new GridPane();
+        // Pour contrôler les écarts à partir d'en haut/gauche/droite/bas
+        //gridPane.setPadding(new javafx.geometry.Insets(0,0,0,1));
+        //Pour fixer la largeur d'une colonne
+        //gridPane.getColumnConstraints().add(new ColumnConstraints(100));
+        gridPane.setHgap(6);
+        gridPane.setVgap(4);
+        gridPane.setAlignment(Pos.CENTER);
+        Label n_joueur = new Label("Nombre de joueurs");
+        ChoiceBox<Integer> choix_joueurs = new ChoiceBox<>();
+        choix_joueurs.getItems().addAll(1,2);
+        Label mode1 = new Label("Mode de jeu");
+        ChoiceBox<String> choix_mode = new ChoiceBox<>();
+        choix_mode.getItems().addAll("Fini", "Infini");
+        Label diffi = new Label("Difficulté");
+        ChoiceBox<String> choix_diff= new ChoiceBox<>();
+        choix_diff.getItems().addAll("Débutant","Intermédiaire","Expert");
+        Button play=new Button("PLAY");
+        play.setTextFill(Color.RED);
+        play.setFont(Font.font ("Calibri",80));
+        Label copyright = new Label(" © Williams HOARAU, Louis JOGUET, Aurélien PARAIRE & Stéphane PERRIN \n" +
+                "Promotion ENSTA Bretagne 2021");
+        copyright.setWrapText(true);
+        copyright.setAlignment(Pos.BOTTOM_CENTER);
+
+        //TODO faire le PLAY Bouton ^^
+        play.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                primaryStage.close();
+                boolean test;
+                try {
+                    test=choix_joueurs.getValue().equals(2);
+                } catch (Exception e) {
+                    test = false;
+                }
+                boolean deux_joueurs=test;
+                boolean fini_test;
+                try{
+                    fini_test = (choix_mode.getValue().equals("Fini"));
+                } catch (Exception e) {
+                    fini_test = true;
+                }
+                boolean fini=fini_test;
+
+                String dif="";
+                try {
+                    if (choix_diff.getValue()==null){
+                        dif="Débutant";
+                    } else {
+                        dif = choix_diff.getValue();
+                    }
+                } catch (Exception e) {
+                    dif="Débutant";
+                }
+                int dif_i;
+                switch (dif){
+                    case "Débutant":
+                        dif_i=1;
+                        break;
+                    case "Intermédiaire":
+                        dif_i=2;
+                        break;
+                    case "Expert" :
+                        dif_i=3;
+                        break;
+                    default:
+                        dif_i=1;
+                        break;
+                }
+                avant_commencer(deux_joueurs,fini,dif_i);
+            }
+        });
+
+        // ajout sur la gridpane
+        gridPane.add(n_joueur,1,1);
+        GridPane.setHalignment(n_joueur,HPos.RIGHT);
+        gridPane.add(choix_joueurs,2,1);
+        GridPane.setHalignment(choix_joueurs, HPos.LEFT);
+        gridPane.add(mode1,1,3);
+        GridPane.setHalignment(mode1,HPos.RIGHT);
+        gridPane.add(choix_mode,2,3);
+        GridPane.setHalignment(choix_mode, HPos.LEFT);
+        gridPane.add(diffi,1,5);
+        GridPane.setHalignment(diffi,HPos.RIGHT);
+        gridPane.add(choix_diff,2,5);
+        GridPane.setHalignment(choix_diff, HPos.LEFT);
+        gridPane.add(play,0,7,3,1);
+        GridPane.setHalignment(play, HPos.CENTER);
+        gridPane.add(copyright,1,8,2,1);
+
+        //ajout du menu
+        //gridPane.getChildren().add(menuBar);
+        gridPane.add(menuBar,0,0,3,1);
+        //gridPane.add(menuBar1,1,1);
+        // setting the scene
+        Scene scene = new Scene(gridPane,275,337);
+        scene.setFill(Color.BLUE);
+        primaryStage.setTitle("frogger");
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
     }
 
     /**
@@ -524,51 +697,8 @@ public class IHM extends Application {
         Button HallOfFame=new Button("Hall of Fame");
         Button quit=new Button("QUITTER");
         Scene deadScene = new Scene(deadwindow, 450, 200);
-        //deadScene.setFill(Color.RED);
 
-        deadwindow.setAlignment(Pos.CENTER);
-        deadText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, this.l_case));
-        deadText.setWrappingWidth(this.l_case*this.nb_case);
-        deadText.setTextAlignment(TextAlignment.CENTER);
-        restartButton.setTextAlignment(TextAlignment.CENTER);
-        deadwindow.add(deadText, 0, 0,1,1);
-        deadwindow.add(restartButton, 0, 1);
-        deadwindow.add(menuButton,0,2);
-        deadwindow.add(HallOfFame,0,3);
-        deadwindow.add(quit,0,4);
-        GridPane.setHalignment(restartButton,HPos.CENTER);
-        GridPane.setHalignment(menuButton,HPos.CENTER);
-        GridPane.setHalignment(HallOfFame,HPos.CENTER);
-        GridPane.setHalignment(quit,HPos.CENTER);
-        stage.setScene(deadScene);
-        stage.setTitle("Défaite");
-        stage.setResizable(false);
-        stage.show();
-        //setting the buttons
-        quit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.exit(0);
-            }
-        });
-        //TODO Hall of Fame button
-        menuButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                stage.close();
-                primaryStage.close();
-                //TODO il faut trouver comment faire ça : main(null);
-                menu();
-            }
-        });
-        restartButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                stage.close();
-                primaryStage.close();
-                avant_commencer(joueurs,fini,dif);
-            }
-        });
+        paramScene(deadwindow, deadText, restartButton, menuButton, HallOfFame, quit, stage, deadScene, primaryStage, joueurs, fini, dif, "Défaite");
     }
 
     private void victory(Stage primaryStage,boolean joueurs,boolean fini,int dif){
@@ -583,23 +713,27 @@ public class IHM extends Application {
         Button menuButton=new Button("Retourner au menu");
         Button HallOfFame=new Button("Hall of Fame");
         Button quit=new Button("QUITTER");
-        //deadScene.setFill(Color.GREEN);
-        victoryWindow.setAlignment(Pos.CENTER);
-        winText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, this.l_case));
-        winText.setWrappingWidth(this.l_case*this.nb_case);
-        winText.setTextAlignment(TextAlignment.CENTER);
+        paramScene(victoryWindow, winText, restartButton, menuButton, HallOfFame, quit, stage, victoryScene, primaryStage, joueurs, fini, dif, "Victoire");
+
+    }
+
+    private void paramScene(GridPane window, Text text, Button restartButton, Button menuButton, Button HallOfFame, Button quit, Stage stage, Scene scene, Stage primaryStage, Boolean joueurs, Boolean fini, Integer dif, String title) {
+        window.setAlignment(Pos.CENTER);
+        text.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, this.l_case));
+        text.setWrappingWidth(this.l_case*this.nb_case);
+        text.setTextAlignment(TextAlignment.CENTER);
         restartButton.setTextAlignment(TextAlignment.CENTER);
-        victoryWindow.add(winText, 0, 0,1,1);
-        victoryWindow.add(restartButton, 0, 1);
-        victoryWindow.add(menuButton,0,2);
-        victoryWindow.add(HallOfFame,0,3);
-        victoryWindow.add(quit,0,4);
+        window.add(text, 0, 0,1,1);
+        window.add(restartButton, 0, 1);
+        window.add(menuButton,0,2);
+        window.add(HallOfFame,0,3);
+        window.add(quit,0,4);
         GridPane.setHalignment(restartButton,HPos.CENTER);
         GridPane.setHalignment(menuButton,HPos.CENTER);
         GridPane.setHalignment(HallOfFame,HPos.CENTER);
         GridPane.setHalignment(quit,HPos.CENTER);
-        stage.setScene(victoryScene);
-        stage.setTitle("Victoire");
+        stage.setScene(scene);
+        stage.setTitle(title);
         stage.setResizable(false);
         stage.show();
         //setting the buttons
@@ -615,193 +749,18 @@ public class IHM extends Application {
             public void handle(ActionEvent event) {
                 stage.close();
                 primaryStage.close();
-                //TODO il faut trouver comment faire ça : main(null);
                 menu();
+                //TODO il faut trouver comment faire ça : main(null);
             }
         });
         restartButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                stage.close();
                 primaryStage.close();
+                stage.close();
                 avant_commencer(joueurs,fini,dif);
             }
         });
-
-
-    }
-
-    private void menu(){
-        Stage primaryStage=new Stage();
-        // Premières choses
-        Menu frogger = new Menu("frogger");
-        MenuItem infos = new MenuItem("Informations");
-        MenuItem quit = new MenuItem("Quitter");
-        SeparatorMenuItem separator1= new SeparatorMenuItem();
-        frogger.getItems().addAll(infos,separator1,quit);
-        Menu aide = new Menu("Aide");
-        MenuItem joueurs=new Menu("Nombre de joueurs");
-        MenuItem diff=new Menu("Difficulté");
-        MenuItem mode=new Menu("Mode de jeu");
-        SeparatorMenuItem separator2= new SeparatorMenuItem();
-        aide.getItems().addAll(joueurs,separator2,diff,mode);
-        MenuBar menuBar=new MenuBar(frogger,aide);
-
-        //actions du menu
-        infos.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Label explication = new Label("Ce projet a été réalisé par des étudiants en 2ème année à l'ENSTA Bretagne," +
-                        "de spécialité SNS et SOIA. Il a pour objectif de montrer que nous avons une certaine maîtrise du langage " +
-                        "de programmation JAVA et notemment du module JavaFX. \n \n" +
-                        "Nous avons donc créé un jeu 'frogger' dont le but est simple : vous êtes la grenouille et devez vous rendre" +
-                        "en haut de l'écran sans vous faire écraser par une voiture ni tomber dans l'eau. Les rondins vous porteront pour " +
-                        "traverser la rivière. \n" +
-                        "BONNE CHANCE !!");
-                helpInfo(explication);
-            }
-        });
-        quit.setAccelerator(KeyCombination.keyCombination("Ctrl+X"));
-        quit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                primaryStage.close();
-            }
-        });
-        joueurs.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Label explication = new Label("Ce jeu vous permet de jouer à un ou deux joueurs. \n" +
-                        "Le mode à un joueur se joue simplement avec les flèches directionnelles.\n" +
-                        "Le mode multijoueur vera s'affronter deux joueurs, un dont l'écran sera à gauche et qui utilisera QZSD" +
-                        " et l'autre qui utilisera les flèches directionnelles à droite.");
-                helpInfo(explication);
-            }
-        });
-        diff.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Label explication = new Label("Ce jeu vous permet de jouer avec plusieurs niveaux de difficulté : \n" +
-                        "1. Le mode débutant dans lequel les cars et rondins ne vont pas très vite \n" +
-                        "2. Le mode intermédiaire dans lequel ils se déplacent plus vite \n" +
-                        "3. Le mode expert dans lequel ils n'iront jamais ausis vite !!  \n");
-                helpInfo(explication);
-            }
-        });
-        mode.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Label explication = new Label("Ce jeu vous permet de jouer de deux façons différentes : \n" +
-                        "1. Le mode FINI se termine dès que vous arrivez en haut de l'écran. \n" +
-                        "2. Le mode INFINI ne se termine que lorsque votre grenouille meurt.");
-                helpInfo(explication);
-            }
-        });
-
-
-        // création de la gridpane
-        GridPane gridPane=new GridPane();
-        // Pour contrôler les écarts à partir d'en haut/gauche/droite/bas
-        //gridPane.setPadding(new javafx.geometry.Insets(0,0,0,1));
-        //Pour fixer la largeur d'une colonne
-        //gridPane.getColumnConstraints().add(new ColumnConstraints(100));
-        gridPane.setHgap(6);
-        gridPane.setVgap(4);
-        gridPane.setAlignment(Pos.CENTER);
-        Label n_joueur = new Label("Nombre de joueurs");
-        ChoiceBox<Integer> choix_joueurs = new ChoiceBox<>();
-        choix_joueurs.getItems().addAll(1,2);
-        Label mode1 = new Label("Mode de jeu");
-        ChoiceBox<String> choix_mode = new ChoiceBox<>();
-        choix_mode.getItems().addAll("Fini", "Infini");
-        Label diffi = new Label("Difficulté");
-        ChoiceBox<String> choix_diff= new ChoiceBox<>();
-        choix_diff.getItems().addAll("Débutant","Intermédiaire","Expert");
-        Button play=new Button("PLAY");
-        play.setTextFill(Color.RED);
-        play.setFont(Font.font ("Calibri",80));
-        Label copyright = new Label(" © Williams HOARAU, Louis JOGUET, Aurélien PARAIRE & Stéphane PERRIN \n" +
-                "Promotion ENSTA Bretagne 2021");
-        copyright.setWrapText(true);
-        copyright.setAlignment(Pos.BOTTOM_CENTER);
-
-        //TODO faire le PLAY Bouton ^^
-        play.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                primaryStage.close();
-                boolean test;
-                try {
-                    test=choix_joueurs.getValue().equals(2);
-                } catch (Exception e) {
-                    test = false;
-                }
-                boolean deux_joueurs=test;
-                boolean fini_test;
-                try{
-                    fini_test = (choix_mode.getValue().equals("Fini"));
-                } catch (Exception e) {
-                    fini_test = true;
-                }
-                boolean fini=fini_test;
-
-                String dif="";
-                try {
-                    if (choix_diff.getValue()==null){
-                        dif="Débutant";
-                    } else {
-                        dif = choix_diff.getValue();
-                    }
-                } catch (Exception e) {
-                    dif="Débutant";
-                }
-                int dif_i;
-                switch (dif){
-                    case "Débutant":
-                        dif_i=1;
-                        break;
-                    case "Intermédiaire":
-                        dif_i=2;
-                        break;
-                    case "Expert" :
-                        dif_i=3;
-                        break;
-                    default:
-                        dif_i=1;
-                        break;
-                }
-                avant_commencer(deux_joueurs,fini,dif_i);
-            }
-        });
-
-        // ajout sur la gridpane
-        gridPane.add(n_joueur,1,1);
-        GridPane.setHalignment(n_joueur,HPos.RIGHT);
-        gridPane.add(choix_joueurs,2,1);
-        GridPane.setHalignment(choix_joueurs, HPos.LEFT);
-        gridPane.add(mode1,1,3);
-        GridPane.setHalignment(mode1,HPos.RIGHT);
-        gridPane.add(choix_mode,2,3);
-        GridPane.setHalignment(choix_mode, HPos.LEFT);
-        gridPane.add(diffi,1,5);
-        GridPane.setHalignment(diffi,HPos.RIGHT);
-        gridPane.add(choix_diff,2,5);
-        GridPane.setHalignment(choix_diff, HPos.LEFT);
-        gridPane.add(play,0,7,3,1);
-        GridPane.setHalignment(play, HPos.CENTER);
-        gridPane.add(copyright,1,8,2,1);
-
-        //ajout du menu
-        //gridPane.getChildren().add(menuBar);
-        gridPane.add(menuBar,0,0,3,1);
-        //gridPane.add(menuBar1,1,1);
-        // setting the scene
-        Scene scene = new Scene(gridPane,275,337);
-        scene.setFill(Color.BLUE);
-        primaryStage.setTitle("frogger");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
     }
 }
 

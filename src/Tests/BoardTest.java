@@ -2,6 +2,7 @@ package Tests;
 import frogger.Board;
 import frogger.Lane;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import junit.framework.TestCase;
 
