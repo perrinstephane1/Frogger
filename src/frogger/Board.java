@@ -17,20 +17,18 @@ import java.util.ArrayList;
  *
  */
 public class Board extends ArrayList<frogger.Lane> {
-    /** Group */
-    private Group root;
     /** Number of Lanes */
-    protected int nb_case;
+    protected final int nb_case;
     /** Length of a single square */
     protected double l_case;
     /** Length of a Lane */
-    protected double l_lane;
+    protected final double l_lane;
     /** GridPane */
-    public GridPane gridPane = new GridPane();
+    public final GridPane gridPane = new GridPane();
     /** Not in use yet */
-    protected int cnt_decalage = (int)this.l_case;
+    protected int cnt_decalage = (int) this.l_case;
     /** Chronometer */
-    public frogger.Chrono chrono = new frogger.Chrono();
+    public final frogger.Chrono chrono = new frogger.Chrono();
 
     /**
      * This method is the constructor
@@ -39,7 +37,7 @@ public class Board extends ArrayList<frogger.Lane> {
      * @param l_case This int corresponds to the length in pixels of a square on the game windows
      */
     public Board(Group root, int nb_case, double l_case) {
-        this.root = root;
+        /** Group */
         this.nb_case = nb_case;
         this.l_case = l_case;
         this.l_lane = this.l_case*this.nb_case;
@@ -63,9 +61,8 @@ public class Board extends ArrayList<frogger.Lane> {
      * @return the time for which the player has been playing
      */
     public Text getChrono() {
-        Long time = this.chrono.getElapsedCenti();
-        Text text_chrono = new Text("Time : "+time/100+","+time%100+" s");
-        return text_chrono;
+        long time = this.chrono.getElapsedCenti();
+        return new Text("Time : "+time/100+","+time%100+" s");
     }
 
     /**
@@ -108,8 +105,8 @@ public class Board extends ArrayList<frogger.Lane> {
 
         int n = this.size();
         this.gridPane.getChildren().clear();
-        for (int ii=0; ii<n; ii++) {
-            this.gridPane.addColumn(0, this.get(ii).getImageView());
+        for (Lane value : this) {
+            this.gridPane.addColumn(0, value.getImageView());
         }
     }
     /**
@@ -135,7 +132,7 @@ public class Board extends ArrayList<frogger.Lane> {
      * This method inverts the order of the Lanes in the Board
      */
     public void invert() {
-        ArrayList<Lane> temp = new ArrayList<Lane>();
+        ArrayList<Lane> temp = new ArrayList<>();
         int n  = this.size();
         for (int ii=n-1; ii>=0; ii--) {
             temp.add(this.get(ii));
