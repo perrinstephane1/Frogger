@@ -749,7 +749,6 @@ public class IHM extends Application {
                 stage.close();
                 primaryStage.close();
                 menu();
-                //TODO il faut trouver comment faire ça : main(null);
             }
         });
         restartButton.setOnAction(new EventHandler<ActionEvent>() {

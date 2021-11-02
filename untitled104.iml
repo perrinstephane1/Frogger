@@ -17,7 +17,6 @@
         <jarDirectory url="file://C:/Program Files/JetBrains/javafx-sdk-17.0.0.1/lib" recursive="false" />
       </library>
     </orderEntry>
-<<<<<<< Updated upstream
     <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="module-library">
       <library>
@@ -45,7 +44,5 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="java" level="project" />
-=======
->>>>>>> Stashed changes
   </component>
 </module>
