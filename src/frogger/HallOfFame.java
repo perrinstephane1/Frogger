@@ -84,7 +84,7 @@ public class HallOfFame extends ArrayList<Score> {
         } catch (IOException e) {
             System.out.println("Impossible de lire les données");
         } finally {
-            try {
+            try {   
                 if (br != null)
                     br.close();
             } catch (IOException e) {
