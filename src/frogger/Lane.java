@@ -8,7 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 /**
- * This class represents the human-machine interface
+ * This class represents a lane in the game
  * @author Williams HOARAU
  * @author Louis JOGUET
  * @author Aurelien PARAIRE
