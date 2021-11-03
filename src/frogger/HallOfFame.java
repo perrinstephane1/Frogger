@@ -1,5 +1,6 @@
 package frogger;
 
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -110,6 +111,7 @@ public class HallOfFame extends ArrayList<Score> {
             gridPane.add(name,0,i+1);
             gridPane.add(time,1,i+1);
         }
+        gridPane.setAlignment(Pos.CENTER);
         stage.setScene(new Scene(gridPane,200,300));
         stage.setTitle("Hall of Fame");
         stage.show();
