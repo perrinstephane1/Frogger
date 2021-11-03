@@ -641,7 +641,13 @@ public class IHM extends Application {
 
         paramScene(deadwindow, deadText, restartButton, menuButton, HallOfFame, quit, stage, deadScene, primaryStage, joueurs, fini, dif, "Défaite");
     }
-
+    /**
+     * this method launches the victory window and propose some actions
+     * @param primaryStage game window to shut down
+     * @param joueurs parameters to memorize to relaunch the game
+     * @param fini parameters to memorize to relaunch the game
+     * @param dif parameters to memorize to relaunch the game
+     */
     private void victory(Stage primaryStage,boolean joueurs,boolean fini,int dif){
         Stage stage=new Stage();
         GridPane victoryWindow = new GridPane();
@@ -656,13 +662,7 @@ public class IHM extends Application {
         paramScene(victoryWindow, winText, restartButton, menuButton, HallOfFame, quit, stage, victoryScene, primaryStage, joueurs, fini, dif, "Victoire");
 
     }
-    /**
-     * this method launches the victory window and propose some actions
-     * @param primaryStage game window to shut down
-     * @param joueurs parameters to memorize to relaunch the game
-     * @param fini parameters to memorize to relaunch the game
-     * @param dif parameters to memorize to relaunch the game
-     */
+
     private void paramScene(GridPane window, Text text, Button restartButton, Button menuButton, Button HallOfFame, Button quit, Stage stage, Scene scene, Stage primaryStage, Boolean joueurs, Boolean fini, Integer dif, String title) {
 
         window.setAlignment(Pos.CENTER);
