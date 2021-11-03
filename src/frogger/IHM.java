@@ -9,6 +9,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
@@ -66,7 +68,7 @@ public class IHM extends Application {
      * The menu also proposes a help on how to use the game and gives information about the developers
      */
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws InterruptedException {
         menu();
     }
 
@@ -140,7 +142,7 @@ public class IHM extends Application {
                             //primaryStage.setScene(deadScene());
                             death(primaryStage,joueurs,true,dif);
                         }
-                        if (joueurs) {
+                        else if (joueurs) {
                             if (cars[i].intersects(frog) || cars[i].intersects(frog2)) {
                                 timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                                 timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
@@ -162,13 +164,13 @@ public class IHM extends Application {
                             //primaryStage.setScene(victoryScene());
                             victory(primaryStage,joueurs,true,dif);
                         }
-                        if ((board.get(numero_lane).type_lane == 1 && !(frog.isOnLog())) || (board.get(numero_lane2).type_lane == 1 && !(frog2.isOnLog()))) { // if the frog is on the river and not on a log
+                        else if ((board.get(numero_lane).type_lane == 1 && !(frog.isOnLog())) || (board.get(numero_lane2).type_lane == 1 && !(frog2.isOnLog()))) { // if the frog is on the river and not on a log
                             timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                             timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                             //primaryStage.setScene(deadScene());
                             death(primaryStage,joueurs,true,dif);
                         }
-                        if ((frog.getX() < -l_case || frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) || (frog2.getX() < -l_case || frog2.getX() > l_case * nb_case || frog2.getY() < 0 || frog2.getY() > l_case * nb_case)) { //if the frig is out of map
+                        else if ((frog.getX() < -l_case || frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) || (frog2.getX() < -l_case || frog2.getX() > l_case * nb_case || frog2.getY() < 0 || frog2.getY() > l_case * nb_case)) { //if the frig is out of map
                             timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                             timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                             //primaryStage.setScene(deadScene());
@@ -185,13 +187,13 @@ public class IHM extends Application {
                             //primaryStage.setScene(victoryScene());
                             victory(primaryStage,joueurs,true,dif);
                         }
-                        if (board.get(numero_lane).type_lane == 1 && !(frog.isOnLog())){ // if the frog is on the river and not on a log
+                        else if (board.get(numero_lane).type_lane == 1 && !(frog.isOnLog())){ // if the frog is on the river and not on a log
                             timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                             timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                             //primaryStage.setScene(deadScene());
                             death(primaryStage,joueurs,true,dif);
                         }
-                        if (frog.getX() < -l_case|| frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) { //if the frig is out of map
+                        else if (frog.getX() < -l_case|| frog.getX() > l_case * nb_case || frog.getY() < 0 || frog.getY() > l_case * nb_case) { //if the frig is out of map
                             timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                             timer.purge();   // Removes all cancelled tasks from this timer's task queue.                                µ
                             //primaryStage.setScene(deadScene());
@@ -282,12 +284,12 @@ public class IHM extends Application {
     /**
      * this method launches the first menu of the game
      */
-    public void menu(){
+    public void menu() throws InterruptedException {
         this.hallOfFame.load("Scores.txt");
 
         Stage primaryStage=new Stage();
         // Premières choses
-        Menu frogger = new Menu("frogger");
+        Menu frogger = new Menu("Frogger");
         MenuItem infos = new MenuItem("Informations");
         MenuItem quit = new MenuItem("Quitter");
         SeparatorMenuItem separator1= new SeparatorMenuItem();
@@ -429,10 +431,11 @@ public class IHM extends Application {
         // setting the scene
         Scene scene = new Scene(gridPane,275,337);
         scene.setFill(Color.BLUE);
-        primaryStage.setTitle("frogger");
+        primaryStage.setTitle("Frogger");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
+        //primaryStage.getIcons().add(new Image("frog8bit.png"));
     }
 
     /**
@@ -527,7 +530,7 @@ public class IHM extends Application {
         Label exp_1 = new Label("Ce joueur jouera avec les flèches directionnelles");
         Label pseudo2 = new Label("Pseudo 2");
         TextField nom2 = new TextField("Joueur 2");
-        Label exp_2 = new Label("Ce joueur jouera avec les touches QWSD");
+        Label exp_2 = new Label("Ce joueur jouera avec les touches QZSD");
         Button play = new Button("START PLAYING");
         ChoiceBox<Integer> n_r = new ChoiceBox<>();
         ChoiceBox<Integer> l_r = new ChoiceBox<>();
@@ -564,7 +567,7 @@ public class IHM extends Application {
             gridPane.add(l_r,4,3);
 
         }
-        gridPane.add(play,2,8,1,1);
+        gridPane.add(play,1,8,3,1);
         GridPane.setHalignment(play,HPos.CENTER);
         Stage stage = new Stage();
         play.setOnAction(event -> {
@@ -682,12 +685,14 @@ public class IHM extends Application {
         stage.show();
         //setting the buttons
         quit.setOnAction(event -> System.exit(0));
-        //TODO Hall of Fame button
         menuButton.setOnAction(event -> {
             stage.close();
             primaryStage.close();
-            menu();
-            //TODO il faut trouver comment faire ça : main(null);
+            try {
+                menu();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         });
         restartButton.setOnAction(event -> {
             primaryStage.close();
