@@ -20,7 +20,7 @@ import java.util.Comparator;
 public class HallOfFame extends ArrayList<Score> {
 
     /**
-     * This method
+     * This method adds the score of the player if it is good enough
      * @param pseudo This String is the pseudo chosen by the player.
      * @param time This float corresponds to the time it took the player to finish the game
      */
