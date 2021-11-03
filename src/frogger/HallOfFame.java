@@ -70,6 +70,7 @@ public class HallOfFame extends ArrayList<Score> {
      * This method loads the file that contains the times the players took to finish the game
      * @param file This String is the name of the text file used to store the times the players took to finish the game
      */
+
     public void load(String file) {
         BufferedReader br = null;
         try {

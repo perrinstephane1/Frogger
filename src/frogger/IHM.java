@@ -279,6 +279,9 @@ public class IHM extends Application {
         }
     }
 
+    /**
+     * this method launches the first menu of the game
+     */
     public void menu(){
         this.hallOfFame.load("Scores.txt");
 
@@ -302,7 +305,7 @@ public class IHM extends Application {
             Label explication = new Label("Ce projet a été réalisé par des étudiants en 2ème année à l'ENSTA Bretagne," +
                     "de spécialité SNS et SOIA. Il a pour objectif de montrer que nous avons une certaine maîtrise du langage " +
                     "de programmation JAVA et notemment du module JavaFX. \n \n" +
-                    "Nous avons donc créé un jeu 'frogger' dont le but est simple : vous êtes la grenouille et devez vous rendre" +
+                    "Nous avons donc créé un jeu 'frogger' dont le but est simple : vous êtes la grenouille et devez vous rendre " +
                     "en haut de l'écran sans vous faire écraser par une voiture ni tomber dans l'eau. Les rondins vous porteront pour " +
                     "traverser la rivière. \n" +
                     "BONNE CHANCE !!");
@@ -608,6 +611,13 @@ public class IHM extends Application {
         stage.show();
     }
 
+    /**
+     * this method launches the death window and propose some actions
+     * @param primaryStage game window to shut down
+     * @param joueurs parameters to memorize to relaunch the game
+     * @param fini parameters to memorize to relaunch the game
+     * @param dif parameters to memorize to relaunch the game
+     */
     private void death(Stage primaryStage,boolean joueurs,boolean fini,int dif) {
         Stage stage=new Stage();
 
@@ -636,7 +646,13 @@ public class IHM extends Application {
         paramScene(victoryWindow, winText, restartButton, menuButton, HallOfFame, quit, stage, victoryScene, primaryStage, joueurs, fini, dif, "Victoire");
 
     }
-
+    /**
+     * this method launches the victory window and propose some actions
+     * @param primaryStage game window to shut down
+     * @param joueurs parameters to memorize to relaunch the game
+     * @param fini parameters to memorize to relaunch the game
+     * @param dif parameters to memorize to relaunch the game
+     */
     private void paramScene(GridPane window, Text text, Button restartButton, Button menuButton, Button HallOfFame, Button quit, Stage stage, Scene scene, Stage primaryStage, Boolean joueurs, Boolean fini, Integer dif, String title) {
 
         window.setAlignment(Pos.CENTER);
