@@ -1,5 +1,5 @@
-Joueur 1: 3.33s
-Joueur 1: 3.33s
-Joueur 1: 3.33s
-Joueur 1: 3.33s
-Joueur 1: 3.34s
+Raul: 1.03s
+Hiba: 1.38s
+Stephane: 14.33s
+Louis: 22.33s
+Boby : 102.28s
